@@ -1,0 +1,81 @@
+name: Deploy Sphinx documentation to Pages
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - "docs/sphinx_doc/**/*"
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    env:
+      PROJECT: ${{ github.event.repository.name }}
+      REPO_OWNER: ${{ github.repository_owner }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - name: Fetch Data-Juicer Sphinx Template
+        run: |
+          set -e
+          echo "Cloning sphinx template..."
+          git clone --depth=1 https://github.com/datajuicer/data-juicer-sphinx.git /tmp/template
+          uv pip install --system -e /tmp/template
+          if [ -d "docs/sphinx_doc/source" ]; then
+            echo "Backing up custom files..."
+            mkdir -p /tmp/custom_files
+            cp -r docs/sphinx_doc/source /tmp/custom_files
+          fi
+          echo "Applying template..."
+          rm -rf docs/sphinx_doc
+          mkdir -p docs
+          cp -r /tmp/template/docs/sphinx_doc docs/
+          echo "Restoring custom files..."
+          cp -rf /tmp/custom_files/source/* docs/sphinx_doc/source
+          echo "Done!"
+      - name: Get git tags
+        run: |
+          git fetch --all --tags
+          git branch -a
+          git tag
+      - id: build
+        name: Build Documentation
+        run: |
+          cd docs/sphinx_doc
+          python build_versions.py --tags -A
+      - name: Redirect index.html
+        run: |
+          REPOSITORY_OWNER="${GITHUB_REPOSITORY_OWNER}"
+          cd docs/sphinx_doc
+          cp ./redirect.html build/index.html
+          sed -i "s/\[REPOSITORY_OWNER\]/${REPOSITORY_OWNER}/g" build/index.html
+          sed -i "s/\[PROJECT\]/${PROJECT}/g" build/index.html
+          cp build/index.html build/404.html
+      - name: Upload Documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: SphinxDoc
+          path: "docs/sphinx_doc/build"
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "docs/sphinx_doc/build"
