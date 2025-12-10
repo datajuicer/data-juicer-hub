@@ -4,24 +4,25 @@
 - 📣📣📣 社区贡献者可提PR添加自定义的数据菜谱，促进传播、复用和相关技术演进。我们非常欢迎共建，并会高亮[致谢](https://github.com/datajuicer/data-juicer?tab=readme-ov-file#acknowledgement)！
 
 目录
-- [1. Data-Juicer最小示例菜谱](#1-data-juicer最小示例菜谱)
-- [2. 复现开源文本数据集](#2-复现开源文本数据集)
-- [3. 改良开源文本预训练数据集](#3-改良开源文本预训练数据集)
-- [4. 改良开源文本后处理数据集](#4-改良开源文本后处理数据集)
-- [5. 合成对比学习图文数据集](#5-合成对比学习图文数据集)
-- [6. 改良开源图文数据集](#6-改良开源图文数据集)
-  - [6.1. 评测验证](#61-评测验证)
-- [7. 面向视频数据的基础实例菜谱](#7-面向视频数据的基础实例菜谱)
-- [8. 合成以人为中心的视频评测集](#8-合成以人为中心的视频评测集)
-- [9. 改良现有开源视频数据集](#9-改良现有开源视频数据集)
-  - [9.1. 评测验证](#91-评测验证)
+- [数据菜谱Gallery](#数据菜谱gallery)
+  - [1. Data-Juicer最小示例菜谱](#1-data-juicer最小示例菜谱)
+  - [2. 复现开源文本数据集](#2-复现开源文本数据集)
+  - [3. 改良开源文本预训练数据集](#3-改良开源文本预训练数据集)
+  - [4. 改良开源文本后处理数据集](#4-改良开源文本后处理数据集)
+  - [5. 合成对比学习图文数据集](#5-合成对比学习图文数据集)
+  - [6. 改良开源图文数据集](#6-改良开源图文数据集)
+    - [6.1. 评测验证](#61-评测验证)
+  - [7. 面向视频数据的基础实例菜谱](#7-面向视频数据的基础实例菜谱)
+  - [8. 合成以人为中心的视频评测集](#8-合成以人为中心的视频评测集)
+  - [9. 改良现有开源视频数据集](#9-改良现有开源视频数据集)
+    - [9.1. 评测验证](#91-评测验证)
 
 ## 1. Data-Juicer最小示例菜谱
 [Data-Juicer-Hub](https://github.com/datajuicer/data-juicer-hub/tree/main/demo)中放置了一些基础配置文件，用于帮助用户快速熟悉 Data-Juicer 的基本功能，请参阅以获取详细说明。
 
 ## 2. 复现开源文本数据集
-- 我们复现了部分 Redpajama 数据集的处理流程，请参阅 [reproduced_redpajama](https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs_index/docs/RedPajama_ZH.html) 文件夹以获取详细说明。
-- 我们重现了部分 BLOOM 数据集的处理流程，请参阅 [reproduced_bloom](https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs_index/docs/BLOOM_ZH.html) 文件夹以获取详细说明。
+- 我们复现了部分 Redpajama 数据集的处理流程，请参阅 [reproduced_redpajama](https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/RedPajama_ZH.html) 文件夹以获取详细说明。
+- 我们重现了部分 BLOOM 数据集的处理流程，请参阅 [reproduced_bloom](https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/BLOOM_ZH.html) 文件夹以获取详细说明。
 
 ## 3. 改良开源文本预训练数据集
 

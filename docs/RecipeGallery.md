@@ -4,25 +4,26 @@
 - 📣📣📣 Community contributors can submit PRs to add customized data recipes to promote dissemination, reuse and related technology evolution. We welcome co-construction and will highlight [acknowledgements](https://github.com/datajuicer/data-juicer?tab=readme-ov-file#acknowledgement)!
 
 Table of Contents
-- [1. Data-Juicer Minimal Example Recipe](#1-data-juicer-minimal-example-recipe)
-- [2. Reproduce Open Source Text Datasets](#2-reproduce-open-source-text-datasets)
-- [3. Improved Open Source Pre-training Text Datasets](#3-improved-open-source-pre-training-text-datasets)
-- [4. Improved Open Source Post-tuning Text Dataset](#4-improved-open-source-post-tuning-text-dataset)
-- [5. Synthetic Contrastive Learning Image-text datasets](#5-synthetic-contrastive-learning-image-text-datasets)
-- [6. Improved Open Source Image-text datasets](#6-improved-open-source-image-text-datasets)
-  - [6.1. Evaluation and Verification](#61-evaluation-and-verification)
-- [7. Basic Example Recipes for Video Data](#7-basic-example-recipes-for-video-data)
-- [8. Synthesize Human-centric Video Benchmarks](#8-synthesize-human-centric-video-benchmarks)
-- [9. Improve Existing Open Source Video Datasets](#9-improve-existing-open-source-video-datasets)
-  - [9.1. Evaluation and Verification](#91-evaluation-and-verification)
+- [Data Recipe Gallery](#data-recipe-gallery)
+  - [1. Data-Juicer Minimal Example Recipe](#1-data-juicer-minimal-example-recipe)
+  - [2. Reproduce Open Source Text Datasets](#2-reproduce-open-source-text-datasets)
+  - [3. Improved Open Source Pre-training Text Datasets](#3-improved-open-source-pre-training-text-datasets)
+  - [4. Improved Open Source Post-tuning Text Dataset](#4-improved-open-source-post-tuning-text-dataset)
+  - [5. Synthetic Contrastive Learning Image-text datasets](#5-synthetic-contrastive-learning-image-text-datasets)
+  - [6. Improved Open Source Image-text datasets](#6-improved-open-source-image-text-datasets)
+    - [6.1. Evaluation and Verification](#61-evaluation-and-verification)
+  - [7. Basic Example Recipes for Video Data](#7-basic-example-recipes-for-video-data)
+  - [8. Synthesize Human-centric Video Benchmarks](#8-synthesize-human-centric-video-benchmarks)
+  - [9. Improve Existing Open Source Video Datasets](#9-improve-existing-open-source-video-datasets)
+    - [9.1. Evaluation and Verification](#91-evaluation-and-verification)
 
 
 ## 1. Data-Juicer Minimal Example Recipe
 Some basic configuration files are placed in the [Data-Juicer-Hub](https://github.com/datajuicer/data-juicer-hub/tree/main/demo) to help users quickly familiarize themselves with the basic functions of Data-Juicer. Please refer to the folder for detailed description.
 
 ## 2. Reproduce Open Source Text Datasets
-- We reproduced the processing flow of part of the Redpajama dataset. Please refer to the [reproduced_redpajama](https://datajuicer.github.io/data-juicer-hub/en/main/docs_index/docs/RedPajama.html) folder for detailed description.
-- We reproduced the processing flow of part of the BLOOM dataset. Please refer to the [reproduced_bloom](https://datajuicer.github.io/data-juicer-hub/en/main/docs_index/docs/BLOOM.html) folder for detailed description.
+- We reproduced the processing flow of part of the Redpajama dataset. Please refer to the [reproduced_redpajama](https://datajuicer.github.io/data-juicer-hub/en/main/docs/RedPajama.html) folder for detailed description.
+- We reproduced the processing flow of part of the BLOOM dataset. Please refer to the [reproduced_bloom](https://datajuicer.github.io/data-juicer-hub/en/main/docs/BLOOM.html) folder for detailed description.
 
 ## 3. Improved Open Source Pre-training Text Datasets
 

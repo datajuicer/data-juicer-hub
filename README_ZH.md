@@ -4,9 +4,7 @@
 
 ## 文档
 
-文档主页请访问 [这里](https://datajuicer.github.io/data-juicer-hub/en/main/)。
-
-详细配方说明请访问 [这里](https://datajuicer.github.io/data-juicer-hub/en/main/docs_index/docs/RecipeGallery.html)。
+详细配方说明请访问 [这里](https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/RecipeGallery_CN.html)。
 
 ## 快速开始
 

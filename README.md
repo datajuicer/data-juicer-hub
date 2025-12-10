@@ -4,9 +4,7 @@ Community-driven data-juicer recipes and best practices for various pre-training
 
 ## Documentation
 
-Documentation homepage can be found [here](https://datajuicer.github.io/data-juicer-hub/en/main/).
-
-Detail documentation about the recipes can be found [here](https://datajuicer.github.io/data-juicer-hub/en/main/docs_index/docs/RecipeGallery.html).
+Detail documentation about the recipes can be found [here](https://datajuicer.github.io/data-juicer-hub/en/main/docs/RecipeGallery.html).
 
 ## Quick Start
 
