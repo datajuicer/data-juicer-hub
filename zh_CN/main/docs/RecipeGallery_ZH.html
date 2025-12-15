@@ -1,0 +1,1114 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>数据菜谱Gallery &#8212; Data Juicer Hub</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=b26f9bd0" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=91bfbbb6"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/translations.js?v=beaddf03"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/RecipeGallery_ZH';</script>
+    <script src="../_static/sidebar.js?v=9ff78125"></script>
+    <link rel="icon" href="../_static/icon.png"/>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Alpaca-CoT 完善配置文件" href="AlpacaCOT_ZH.html" />
+    <link rel="prev" title="文档" href="../docs_index_ZH.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search docs..."
+         aria-label="Search docs..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index_ZH.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/icon.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/icon.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Data Juicer Hub</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../docs_index_ZH.html">
+    文档
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer/zh_CN/main/">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-sandbox/zh_CN/main/">
+    Sandbox
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-agents/zh_CN/main/">
+    Agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/datajuicer/data-juicer-hub" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="亮色"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="暗色"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><div class="navbar-switcher-container">
+  
+  <div class="navbar-dropdown">
+    <div class="navbar-dropdown-trigger">
+      <span class="dropdown-label">
+        🌐 zh-CN
+      </span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+    <div class="navbar-dropdown-panel">
+      <div class="dropdown-content">
+        
+        <a href="../../../en/main/docs/RecipeGallery.html"
+           class="dropdown-item ">
+          English
+        </a>
+        
+        <a href="../../../zh_CN/main/docs/RecipeGallery_ZH.html"
+           class="dropdown-item ">
+          简体中文
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div class="navbar-dropdown">
+    <div class="navbar-dropdown-trigger">
+      <span class="dropdown-label">
+        📦 main
+      </span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+    <div class="navbar-dropdown-panel">
+      <div class="dropdown-content version-list">
+        
+        <a href="../../main/docs/RecipeGallery_ZH.html"
+           class="dropdown-item active">
+          main
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../docs_index_ZH.html">
+    文档
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer/zh_CN/main/">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-sandbox/zh_CN/main/">
+    Sandbox
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-agents/zh_CN/main/">
+    Agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/datajuicer/data-juicer-hub" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="亮色"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="暗色"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><div class="navbar-switcher-container">
+  
+  <div class="navbar-dropdown">
+    <div class="navbar-dropdown-trigger">
+      <span class="dropdown-label">
+        🌐 zh-CN
+      </span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+    <div class="navbar-dropdown-panel">
+      <div class="dropdown-content">
+        
+        <a href="../../../en/main/docs/RecipeGallery.html"
+           class="dropdown-item ">
+          English
+        </a>
+        
+        <a href="../../../zh_CN/main/docs/RecipeGallery_ZH.html"
+           class="dropdown-item ">
+          简体中文
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div class="navbar-dropdown">
+    <div class="navbar-dropdown-trigger">
+      <span class="dropdown-label">
+        📦 main
+      </span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+    <div class="navbar-dropdown-panel">
+      <div class="dropdown-content version-list">
+        
+        <a href="../../main/docs/RecipeGallery_ZH.html"
+           class="dropdown-item active">
+          main
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="章节导航">
+  <p class="bd-links__title" role="heading" aria-level="1">章节导航</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">数据菜谱Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AlpacaCOT_ZH.html">Alpaca-CoT 完善配置文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AnnotationNotificationSystem.html">Notification System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BLOOM_ZH.html">BLOOM 配置文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RedPajama_ZH.html">Redpajama 配置文件</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index_ZH.html" class="nav-link" aria-label="初始页面">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../docs_index_ZH.html" class="nav-link">文档</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">数据菜谱Gallery</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="gallery">
+<h1>数据菜谱Gallery<a class="headerlink" href="#gallery" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub">Data-Juicer-Hub</a>中包含丰富的Data-Juicer数据菜谱的示例文件，帮助用户轻松理解、复用、扩展各种功能场景下的配置。</p></li>
+<li><p>📣📣📣 社区贡献者可提PR添加自定义的数据菜谱，促进传播、复用和相关技术演进。我们非常欢迎共建，并会高亮<a class="reference external" href="https://github.com/datajuicer/data-juicer?tab=readme-ov-file#acknowledgement">致谢</a>！</p></li>
+</ul>
+<p>目录</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#gallery">数据菜谱Gallery</a></p>
+<ul>
+<li><p><a class="reference internal" href="#data-juicer">1. Data-Juicer最小示例菜谱</a></p></li>
+<li><p><a class="reference internal" href="#id1">2. 复现开源文本数据集</a></p></li>
+<li><p><a class="reference internal" href="#id2">3. 改良开源文本预训练数据集</a></p></li>
+<li><p><a class="reference internal" href="#id3">4. 改良开源文本后处理数据集</a></p></li>
+<li><p><a class="reference internal" href="#id4">5. 合成对比学习图文数据集</a></p></li>
+<li><p><a class="reference internal" href="#id5">6. 改良开源图文数据集</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id6">6.1. 评测验证</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#id7">7. 面向视频数据的基础实例菜谱</a></p></li>
+<li><p><a class="reference internal" href="#id8">8. 合成以人为中心的视频评测集</a></p></li>
+<li><p><a class="reference internal" href="#id9">9. 改良现有开源视频数据集</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id10">9.1. 评测验证</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<section id="data-juicer">
+<h2>1. Data-Juicer最小示例菜谱<a class="headerlink" href="#data-juicer" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/demo">Data-Juicer-Hub</a>中放置了一些基础配置文件，用于帮助用户快速熟悉 Data-Juicer 的基本功能，请参阅以获取详细说明。</p>
+</section>
+<section id="id1">
+<h2>2. 复现开源文本数据集<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>我们复现了部分 Redpajama 数据集的处理流程，请参阅 <a class="reference external" href="https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/RedPajama_ZH.html">reproduced_redpajama</a> 文件夹以获取详细说明。</p></li>
+<li><p>我们重现了部分 BLOOM 数据集的处理流程，请参阅 <a class="reference external" href="https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/BLOOM_ZH.html">reproduced_bloom</a> 文件夹以获取详细说明。</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>3. 改良开源文本预训练数据集<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>我们发现在现有的已经处理过的数据集（如 Redpajama、The Pile 等）中仍然存在一些“脏”数据样本。所以我们使用我们的 Data-Juicer 来完善这些数据集，并尝试将它们提供给 LLM 以获得更好的性能。</p>
+<p>我们使用简单的 3-σ 规则来设置每个数据处理菜谱中的算子的超参数。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>数据子集</p></th>
+<th class="head text-center"><p>完善前的样本数目</p></th>
+<th class="head text-center"><p>完善后的样本数目</p></th>
+<th class="head text-center"><p>样本保留率</p></th>
+<th class="head"><p>配置链接</p></th>
+<th class="head"><p>数据链接</p></th>
+<th class="head"><p>来源</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>arXiv</p></td>
+<td class="text-center"><p>1,724,497</p></td>
+<td class="text-center"><p>1,655,259</p></td>
+<td class="text-center"><p>95.99%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-arxiv-refine.yaml">redpajama-arxiv-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-arxiv-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-arxiv-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-arxiv-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-odd"><td><p>Books</p></td>
+<td class="text-center"><p>205,182</p></td>
+<td class="text-center"><p>195,983</p></td>
+<td class="text-center"><p>95.51%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-book-refine.yaml">redpajama-book-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-book-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-book-refined-by-data-juicer/summary">ModelScope</a>   <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-book-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-even"><td><p>Wikipedia</p></td>
+<td class="text-center"><p>29,834,171</p></td>
+<td class="text-center"><p>26,990,659</p></td>
+<td class="text-center"><p>90.47%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-wiki-refine.yaml">redpajama-wiki-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-wiki-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-wiki-refined-by-data-juicer/summary">ModelScope</a>   <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-wiki-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-odd"><td><p>C4</p></td>
+<td class="text-center"><p>364,868,892</p></td>
+<td class="text-center"><p>344,491,171</p></td>
+<td class="text-center"><p>94.42%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-c4-refine.yaml">redpajama-c4-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-c4-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-c4-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-c4-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-even"><td><p>Common Crawl 2019-30</p></td>
+<td class="text-center"><p>81,085,420</p></td>
+<td class="text-center"><p>36,557,283</p></td>
+<td class="text-center"><p>45.08%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-cc-2019-30-refine.yaml">redpajama-cc-2019-30-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-cc-refine-results/redpajama-cc-2019-30-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-cc-2019-30-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-cc-2019-30-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-odd"><td><p>Common Crawl 2020-05</p></td>
+<td class="text-center"><p>90,850,492</p></td>
+<td class="text-center"><p>42,612,596</p></td>
+<td class="text-center"><p>46.90%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-cc-2020-05-refine.yaml">redpajama-cc-2020-05-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-cc-refine-results/redpajama-cc-2020-05-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-cc-2020-05-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-cc-2020-05-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-even"><td><p>Common Crawl 2021-04</p></td>
+<td class="text-center"><p>98,878,523</p></td>
+<td class="text-center"><p>44,724,752</p></td>
+<td class="text-center"><p>45.23%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-cc-2021-04-refine.yaml">redpajama-cc-2021-04-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-cc-refine-results/redpajama-cc-2021-04-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-cc-2021-04-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-cc-2021-04-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-odd"><td><p>Common Crawl 2022-05</p></td>
+<td class="text-center"><p>94,058,868</p></td>
+<td class="text-center"><p>42,648,496</p></td>
+<td class="text-center"><p>45.34%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-cc-2022-05-refine.yaml">redpajama-cc-2022-05-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-cc-refine-results/redpajama-cc-2022-05-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-cc-2022-05-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-cc-2022-05-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-even"><td><p>Common Crawl 2023-06</p></td>
+<td class="text-center"><p>111,402,716</p></td>
+<td class="text-center"><p>50,643,699</p></td>
+<td class="text-center"><p>45.46%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-cc-2023-06-refine.yaml">redpajama-cc-2023-06-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-cc-refine-results/redpajama-cc-2023-06-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-cc-2023-06-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-cc-2023-06-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama</p></td>
+</tr>
+<tr class="row-odd"><td><p>Github Code</p></td>
+<td class="text-center"><p>73,208,524 <br>+ 21,387,703</p></td>
+<td class="text-center"><p>49,279,344</p></td>
+<td class="text-center"><p>52.09%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/github_code/redpajama-code-refine.yaml">redpajama-code-refine.yaml</a><br><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/github_code/stack-code-refine.yaml">stack-code-refine.yaml</a><br><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/github_code/redpajama-stack-code-deduplicate.yaml">redpajama-stack-code-deduplicate.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-stack-code-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-stack-code-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-stack-code-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama<br>The Stack</p></td>
+</tr>
+<tr class="row-even"><td><p>StackExchange</p></td>
+<td class="text-center"><p>45,447,328</p></td>
+<td class="text-center"><p>26,309,203</p></td>
+<td class="text-center"><p>57.89%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/redpajama-pile-stackexchange-refine.yaml">redpajama-pile-stackexchange-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/redpajama-pile-stackexchange-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/redpajama-pile-stackexchange-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/redpajama-pile-stackexchange-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>Redpajama<br>The Pile</p></td>
+</tr>
+<tr class="row-odd"><td><p>EuroParl</p></td>
+<td class="text-center"><p>69,814</p></td>
+<td class="text-center"><p>61,601</p></td>
+<td class="text-center"><p>88.23%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/pile-europarl-refine.yaml">pile-europarl-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/the-pile-europarl-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/the-pile-europarl-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/the-pile-europarl-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>The Pile</p></td>
+</tr>
+<tr class="row-even"><td><p>FreeLaw</p></td>
+<td class="text-center"><p>3,562,015</p></td>
+<td class="text-center"><p>2,942,612</p></td>
+<td class="text-center"><p>82.61%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/pile-freelaw-refine.yaml">pile-freelaw-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/the-pile-freelaw-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/the-pile-freelaw-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/the-pile-freelaw-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>The Pile</p></td>
+</tr>
+<tr class="row-odd"><td><p>HackerNews</p></td>
+<td class="text-center"><p>373,027</p></td>
+<td class="text-center"><p>371,331</p></td>
+<td class="text-center"><p>99.55%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/pile-hackernews-refine.yaml">pile-hackernews-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/the-pile-hackernews-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/the-pile-hackernews-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/the-pile-hackernews-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>The Pile</p></td>
+</tr>
+<tr class="row-even"><td><p>NIH ExPorter</p></td>
+<td class="text-center"><p>939,661</p></td>
+<td class="text-center"><p>858,492</p></td>
+<td class="text-center"><p>91.36%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/pile-nih-refine.yaml">pile-nih-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/the-pile-hin-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/the-pile-nih-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/the-pile-nih-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>The Pile</p></td>
+</tr>
+<tr class="row-odd"><td><p>PhilPapers</p></td>
+<td class="text-center"><p>32,782</p></td>
+<td class="text-center"><p>29,117</p></td>
+<td class="text-center"><p>88.82%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/pile-philpaper-refine.yaml">pile-philpaper-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/the-pile-philpaper-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/the-pile-philpaper-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/the-pile-philpaper-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>The Pile</p></td>
+</tr>
+<tr class="row-even"><td><p>PubMed Abstracts</p></td>
+<td class="text-center"><p>15,518,009</p></td>
+<td class="text-center"><p>15,009,325</p></td>
+<td class="text-center"><p>96.72%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/pile-pubmed-abstract-refine.yaml">pile-pubmed-abstract-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/the-pile-pubmed-abstract-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/the-pile-pubmed-abstracts-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/the-pile-pubmed-abstracts-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>The Pile</p></td>
+</tr>
+<tr class="row-odd"><td><p>PubMed Central</p></td>
+<td class="text-center"><p>3,098,930</p></td>
+<td class="text-center"><p>2,694,860</p></td>
+<td class="text-center"><p>86.96%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/pile-pubmed-central-refine.yaml">pile-pubmed-central-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/the-pile-pubmed-central-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/the-pile-pubmed-central-refined-by-data-juicer/summary">ModelScope</a> <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/the-pile-pubmed-central-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>The Pile</p></td>
+</tr>
+<tr class="row-even"><td><p>USPTO</p></td>
+<td class="text-center"><p>5,883,024</p></td>
+<td class="text-center"><p>4,516,283</p></td>
+<td class="text-center"><p>76.77%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/pretrain/pile-uspto-refine.yaml">pile-uspto-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/pretraining/the-pile-uspto-refine-result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/the-pile-uspto-refined-by-data-juicer/summary">ModelScope</a> <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/the-pile-uspto-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p>The Pile</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id3">
+<h2>4. 改良开源文本后处理数据集<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>以Alpaca-CoT数据集为例：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>数据子集</p></th>
+<th class="head text-center"><p>完善前的样本数目</p></th>
+<th class="head text-center"><p>完善后的样本数目</p></th>
+<th class="head text-center"><p>样本保留率</p></th>
+<th class="head"><p>配置链接</p></th>
+<th class="head"><p>数据链接</p></th>
+<th class="head"><p>来源</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Alpaca-Cot EN</p></td>
+<td class="text-center"><p>136,219,879</p></td>
+<td class="text-center"><p>72,855,345</p></td>
+<td class="text-center"><p>54.48%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/alpaca_cot/alpaca-cot-en-refine.yaml">alpaca-cot-en-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/CFT/alpaca-cot-en-refine_result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/alpaca-cot-en-refined-by-data-juicer/summary">ModelScope</a> <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/alpaca-cot-en-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/AlpacaCOT_ZH.md#%E5%AE%8C%E5%96%84%E7%9A%84-alpaca-cot-%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%83%E4%BF%A1%E6%81%AF">来自Alpaca-CoT的39个子集</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Alpaca-Cot ZH</p></td>
+<td class="text-center"><p>21,197,246</p></td>
+<td class="text-center"><p>9,873,214</p></td>
+<td class="text-center"><p>46.58%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/alpaca_cot/alpaca-cot-zh-refine.yaml">alpaca-cot-zh-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/LLM_data/our_refined_datasets/CFT/alpaca-cot-zh-refine_result.jsonl">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/alpaca-cot-zh-refined-by-data-juicer/summary">ModelScope</a> <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/alpaca-cot-zh-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/AlpacaCOT_ZH.md#%E5%AE%8C%E5%96%84%E7%9A%84-alpaca-cot-%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%83%E4%BF%A1%E6%81%AF">来自Alpaca-CoT的28个子集</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id4">
+<h2>5. 合成对比学习图文数据集<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>Data-Juicer内置了丰富的算子来支持图片多模态数据合成，譬如Img-Diff数据集。该合成数据在MMVP基准上带来了12个性能点的模型提升。更多细节参见Img-Diff<a class="reference external" href="https://arxiv.org/abs/2408.04594">论文</a>，对应菜谱实现可参考<a class="reference external" href="https://github.com/datajuicer/data-juicer/tree/ImgDiff">ImgDiff-Dev</a>.</p>
+</section>
+<section id="id5">
+<h2>6. 改良开源图文数据集<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>数据子集</p></th>
+<th class="head text-center"><p>完善前的样本数目</p></th>
+<th class="head text-center"><p>完善后的样本数目</p></th>
+<th class="head text-center"><p>样本保留率</p></th>
+<th class="head"><p>配置链接</p></th>
+<th class="head"><p>数据链接</p></th>
+<th class="head"><p>来源</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>LLaVA pretrain (LCS-558k)</p></td>
+<td class="text-center"><p>558,128</p></td>
+<td class="text-center"><p>500,380</p></td>
+<td class="text-center"><p>89.65%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/image/llava-pretrain-refine.yaml">llava-pretrain-refine.yaml</a></p></td>
+<td><p><a class="reference external" href="https://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/MM_data/our_refined_data/LLaVA-1.5/public/llava-pretrain-refine-result.json">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/llava-pretrain-refined-by-data-juicer/summary">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/llava-pretrain-refined-by-data-juicer">HuggingFace</a></p></td>
+<td><p><a class="reference external" href="https://github.com/haotian-liu/LLaVA">LLaVA-1.5</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id6">
+<h3>6.1. 评测验证<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>LLaVA pretrain (LCS-558k): 使用<strong>完善后的预训练数据集</strong>预训练并使用原始的指令数据集微调后的模型在12个评测集上有10个超过了基线模型LLaVA-1.5-13B。</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>模型</p></th>
+<th class="head"><p>VQAv2</p></th>
+<th class="head"><p>GQA</p></th>
+<th class="head"><p>VizWiz</p></th>
+<th class="head"><p>SQA</p></th>
+<th class="head"><p>TextVQA</p></th>
+<th class="head"><p>POPE</p></th>
+<th class="head"><p>MME</p></th>
+<th class="head"><p>MM-Bench</p></th>
+<th class="head"><p>MM-Bench-CN</p></th>
+<th class="head"><p>SEED</p></th>
+<th class="head"><p>LLaVA-Bench-Wild</p></th>
+<th class="head"><p>MM-Vet</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>LLaVA-1.5-13B <br> (基线)</p></td>
+<td><p><strong>80.0</strong></p></td>
+<td><p>63.3</p></td>
+<td><p>53.6</p></td>
+<td><p>71.6</p></td>
+<td><p><strong>61.3</strong></p></td>
+<td><p>85.9</p></td>
+<td><p>1531.3</p></td>
+<td><p>67.7</p></td>
+<td><p>63.6</p></td>
+<td><p>61.6</p></td>
+<td><p>72.5</p></td>
+<td><p>36.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>LLaVA-1.5-13B <br> (完善后的预训练数据集)</p></td>
+<td><p>79.94</p></td>
+<td><p><strong>63.5</strong></p></td>
+<td><p><strong>54.09</strong></p></td>
+<td><p><strong>74.20</strong></p></td>
+<td><p>60.82</p></td>
+<td><p><strong>86.67</strong></p></td>
+<td><p><strong>1565.53</strong></p></td>
+<td><p><strong>68.2</strong></p></td>
+<td><p><strong>63.9</strong></p></td>
+<td><p><strong>61.8</strong></p></td>
+<td><p><strong>75.9</strong></p></td>
+<td><p><strong>37.4</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>7. 面向视频数据的基础实例菜谱<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>我们为用户提供了一个视频数据集处理菜谱样例以协助更好地使用视频相关的算子： <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/video/general-video-refine-example.yaml">general-video-refine-example.yaml</a> 。这里我们应用了三种类型的算子：</p>
+<ul class="simple">
+<li><p>仅文本：根据视频描述提高数据集质量</p></li>
+<li><p>仅视频：根据视频性质提高数据集质量</p></li>
+<li><p>文本-视频：根据文本和视频间的对齐提高数据集质量
+用户可以基于这个菜谱开始他们的视频数据集处理流程。</p></li>
+</ul>
+</section>
+<section id="id8">
+<h2>8. 合成以人为中心的视频评测集<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>Data-Juicer还可以支持视频评测集合成，如<a class="reference external" href="https://arxiv.org/abs/2412.17574">HumanVBench</a>，其将in-the-wild视频转化为以人为中心的视频评测集），对应的数据菜谱和构造流程可参考<a class="reference external" href="https://github.com/datajuicer/data-juicer/tree/HumanVBench">HumanVBench-dev</a>。</p>
+</section>
+<section id="id9">
+<h2>9. 改良现有开源视频数据集<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>数据子集</p></th>
+<th class="head text-center"><p>完善前的样本数目</p></th>
+<th class="head text-center"><p>完善后的样本数目</p></th>
+<th class="head text-center"><p>样本保留率</p></th>
+<th class="head"><p>配置链接</p></th>
+<th class="head"><p>数据链接</p></th>
+<th class="head"><p>来源</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Data-Juicer (T2V, 147k)</p></td>
+<td class="text-center"><p>1,217,346</p></td>
+<td class="text-center"><p>147,176</p></td>
+<td class="text-center"><p>12.09%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/video/data-juicer-sandbox-optimal.yaml">data-juicer-sandbox-optimal.yaml</a></p></td>
+<td><p><a class="reference external" href="http://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/MM_data/our_refined_data/Data-Juicer-T2V/data_juicer_t2v_optimal_data_pool.zip">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/data-juicer-t2v-optimal-data-pool">ModelScope</a>  <br> <a class="reference external" href="https://huggingface.co/datasets/datajuicer/data-juicer-t2v-optimal-data-pool">HuggingFace</a></p></td>
+<td><p><a class="reference external" href="https://github.com/OpenGVLab/InternVideo/tree/main/Data/InternVid">InternVid (606k)</a> <br> <a class="reference external" href="https://github.com/snap-research/Panda-70M">Panda-70M (605k)</a> <br> <a class="reference external" href="https://www.microsoft.com/en-us/research/publication/msr-vtt-a-large-video-description-dataset-for-bridging-video-and-language/">MSR-VTT (6k)</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Data-Juicer (DJ, 228k)</p></td>
+<td class="text-center"><p>3,408,553</p></td>
+<td class="text-center"><p>227,867</p></td>
+<td class="text-center"><p>8.15%</p></td>
+<td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/video/data-juicer-sandbox-self-evolution.yaml">data-juicer-sandbox-self-evolution.yaml</a></p></td>
+<td><p><a class="reference external" href="http://dail-wlcb.oss-cn-wulanchabu.aliyuncs.com/MM_data/our_refined_data/Data-Juicer-T2V/data_juicer_t2v_optimal_data_pool_s2.zip">Aliyun</a> <br> <a class="reference external" href="https://modelscope.cn/datasets/Data-Juicer/data-juicer-t2v-evolution-data-pool">ModelScope</a></p></td>
+<td><p><a class="reference external" href="https://github.com/OpenGVLab/InternVideo/tree/main/Data/InternVid">InternVid (606k)</a> <br> <a class="reference external" href="https://github.com/snap-research/Panda-70M">Panda-70M (2,599k)</a> <br> <a class="reference external" href="https://github.com/cj-mills/pexels-dataset">Pexels (198k)</a> <br> <a class="reference external" href="https://www.microsoft.com/en-us/research/publication/msr-vtt-a-large-video-description-dataset-for-bridging-video-and-language/">MSR-VTT (6k)</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="id10">
+<h3>9.1. 评测验证<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Data-Juicer (T2V, 147k) 和 Data-Juicer (DJ, 228k): 使用<strong>完善后的数据集</strong>在 <a class="reference external" href="https://huggingface.co/spaces/Vchitect/VBench_Leaderboard">VBench</a> 全面超过基线模型 <a class="reference external" href="https://github.com/Ji4chenLi/t2v-turbo">T2V-Turbo</a>。这里 T2V-Turbo 是 Data-Juicer (T2V, 147k) 的teacher模型，Data-Juicer (T2V, 147k) 是 Data-Juicer (DJ, 228k) 的teacher模型，详情请参考<a class="reference internal" href="#./Sandbox-ZH.md"><span class="xref myst">沙盒实验室</span></a>。</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>model</p></th>
+<th class="head"><p>Total Score</p></th>
+<th class="head"><p>Quality Score</p></th>
+<th class="head"><p>Semantic Score</p></th>
+<th class="head"><p>subject consistency</p></th>
+<th class="head"><p>background consistency</p></th>
+<th class="head"><p>temporal flickering</p></th>
+<th class="head"><p>motion smoothness</p></th>
+<th class="head"><p>dynamic degree</p></th>
+<th class="head"><p>aesthetic quality</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>T2V-Turbo</p></td>
+<td><p>81.01</p></td>
+<td><p>82.57</p></td>
+<td><p>74.76</p></td>
+<td><p>96.28</p></td>
+<td><p>97.02</p></td>
+<td><p>97.48</p></td>
+<td><p>97.34</p></td>
+<td><p>49.17</p></td>
+<td><p>63.04</p></td>
+</tr>
+<tr class="row-odd"><td><p>Data-Juicer (T2V, 147k)</p></td>
+<td><p>82.10</p></td>
+<td><p>83.14</p></td>
+<td><p>77.93</p></td>
+<td><p>97.32</p></td>
+<td><p>99.03</p></td>
+<td><p>96.60</p></td>
+<td><p>96.51</p></td>
+<td><p><strong>51.67</strong></p></td>
+<td><p><strong>68.92</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Data-Juicer (DJ, 228k)</p></td>
+<td><p><strong>82.53</strong></p></td>
+<td><p><strong>83.38</strong></p></td>
+<td><p><strong>79.13</strong></p></td>
+<td><p><strong>97.92</strong></p></td>
+<td><p><strong>99.27</strong></p></td>
+<td><p><strong>98.14</strong></p></td>
+<td><p><strong>97.77</strong></p></td>
+<td><p>38.89</p></td>
+<td><p>67.39</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>model</p></th>
+<th class="head"><p>imaging quality</p></th>
+<th class="head"><p>object class</p></th>
+<th class="head"><p>multiple objects</p></th>
+<th class="head"><p>human action</p></th>
+<th class="head"><p>color</p></th>
+<th class="head"><p>spatial relationship</p></th>
+<th class="head"><p>scene</p></th>
+<th class="head"><p>appearance style</p></th>
+<th class="head"><p>temporal style</p></th>
+<th class="head"><p>overall consistency</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>T2V-Turbo</p></td>
+<td><p><strong>72.49</strong></p></td>
+<td><p>93.96</p></td>
+<td><p>54.65</p></td>
+<td><p>95.20</p></td>
+<td><p>89.90</p></td>
+<td><p>38.67</p></td>
+<td><p>55.58</p></td>
+<td><p>24.42</p></td>
+<td><p>25.51</p></td>
+<td><p>28.16</p></td>
+</tr>
+<tr class="row-odd"><td><p>Data-Juicer (T2V, 147k)</p></td>
+<td><p>70.42</p></td>
+<td><p>95.85</p></td>
+<td><p>61.63</p></td>
+<td><p><strong>95.60</strong></p></td>
+<td><p>94.06</p></td>
+<td><p>46.95</p></td>
+<td><p><strong>57.57</strong></p></td>
+<td><p>24.42</p></td>
+<td><p>26.34</p></td>
+<td><p>28.90</p></td>
+</tr>
+<tr class="row-even"><td><p>Data-Juicer (DJ, 228k)</p></td>
+<td><p>70.41</p></td>
+<td><p><strong>96.44</strong></p></td>
+<td><p><strong>64.51</strong></p></td>
+<td><p>95.40</p></td>
+<td><p><strong>95.51</strong></p></td>
+<td><p><strong>47.17</strong></p></td>
+<td><p>57.30</p></td>
+<td><p><strong>25.55</strong></p></td>
+<td><p><strong>26.82</strong></p></td>
+<td><p><strong>29.25</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../docs_index_ZH.html"
+       title="上一页">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">文档</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="AlpacaCOT_ZH.html"
+       title="下一页">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">Alpaca-CoT 完善配置文件</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 当前页面
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-juicer">1. Data-Juicer最小示例菜谱</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2. 复现开源文本数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3. 改良开源文本预训练数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">4. 改良开源文本后处理数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">5. 合成对比学习图文数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">6. 改良开源图文数据集</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">6.1. 评测验证</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">7. 面向视频数据的基础实例菜谱</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">8. 合成以人为中心的视频评测集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">9. 改良现有开源视频数据集</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">9.1. 评测验证</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/docs/RecipeGallery_ZH.md.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Data-Juicer Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3创建。
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  使用 <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1构建.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

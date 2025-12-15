@@ -1,0 +1,1107 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Refine Alpaca-CoT Config Files &#8212; Data Juicer Hub</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=b26f9bd0" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=8a448e45"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/AlpacaCOT';</script>
+    <script src="../_static/sidebar.js?v=9ff78125"></script>
+    <link rel="icon" href="../_static/icon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Notification System" href="AnnotationNotificationSystem.html" />
+    <link rel="prev" title="Data Recipe Gallery" href="RecipeGallery.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search docs..."
+         aria-label="Search docs..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/icon.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/icon.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Data Juicer Hub</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../docs_index.html">
+    DOCS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer/en/main/">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-sandbox/en/main/">
+    Sandbox
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-agents/en/main/">
+    Agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/datajuicer/data-juicer-hub" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><div class="navbar-switcher-container">
+  
+  <div class="navbar-dropdown">
+    <div class="navbar-dropdown-trigger">
+      <span class="dropdown-label">
+        🌐 en
+      </span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+    <div class="navbar-dropdown-panel">
+      <div class="dropdown-content">
+        
+        <a href="../../../en/main/docs/AlpacaCOT.html"
+           class="dropdown-item active">
+          English
+        </a>
+        
+        <a href="../../../zh_CN/main/docs/AlpacaCOT_ZH.html"
+           class="dropdown-item ">
+          简体中文
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div class="navbar-dropdown">
+    <div class="navbar-dropdown-trigger">
+      <span class="dropdown-label">
+        📦 main
+      </span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+    <div class="navbar-dropdown-panel">
+      <div class="dropdown-content version-list">
+        
+        <a href="../../main/docs/AlpacaCOT.html"
+           class="dropdown-item active">
+          main
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../docs_index.html">
+    DOCS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer/en/main/">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-sandbox/en/main/">
+    Sandbox
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-agents/en/main/">
+    Agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/datajuicer/data-juicer-hub" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><div class="navbar-switcher-container">
+  
+  <div class="navbar-dropdown">
+    <div class="navbar-dropdown-trigger">
+      <span class="dropdown-label">
+        🌐 en
+      </span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+    <div class="navbar-dropdown-panel">
+      <div class="dropdown-content">
+        
+        <a href="../../../en/main/docs/AlpacaCOT.html"
+           class="dropdown-item active">
+          English
+        </a>
+        
+        <a href="../../../zh_CN/main/docs/AlpacaCOT_ZH.html"
+           class="dropdown-item ">
+          简体中文
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div class="navbar-dropdown">
+    <div class="navbar-dropdown-trigger">
+      <span class="dropdown-label">
+        📦 main
+      </span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+    <div class="navbar-dropdown-panel">
+      <div class="dropdown-content version-list">
+        
+        <a href="../../main/docs/AlpacaCOT.html"
+           class="dropdown-item active">
+          main
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="RecipeGallery.html">Data Recipe Gallery</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Refine Alpaca-CoT Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AnnotationNotificationSystem.html">Notification System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BLOOM.html">BLOOM Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RedPajama.html">Redpajama Config Files</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../docs_index.html" class="nav-link">DOCS</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Refine Alpaca-CoT Config Files</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="refine-alpaca-cot-config-files">
+<h1>Refine Alpaca-CoT Config Files<a class="headerlink" href="#refine-alpaca-cot-config-files" title="Link to this heading">#</a></h1>
+<p>The <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/alpaca_cot">folder</a> in Data-Juicer-Hub contains some configuration files to allow users to easily and quickly refine <a class="reference external" href="https://huggingface.co/datasets/QingyiSi/Alpaca-CoT">Alpaca-CoT</a>.</p>
+<p>Before starting, please clone the <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub">data-juicer-hub</a> to local, which contains lots of data processing recipes.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/datajuicer/data-juicer-hub.git
+</pre></div>
+</div>
+<section id="preprocess">
+<h2>Preprocess<a class="headerlink" href="#preprocess" title="Link to this heading">#</a></h2>
+<p>The raw data files can be downloaded from <a class="reference external" href="https://huggingface.co/datasets/QingyiSi/Alpaca-CoT">Alpaca-CoT</a> on HuggingFace.</p>
+<section id="convert-raw-alpaca-cot-data-to-jsonl">
+<h3>Convert raw Alpaca-CoT data to jsonl<a class="headerlink" href="#convert-raw-alpaca-cot-data-to-jsonl" title="Link to this heading">#</a></h3>
+<p>Use <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/../tools/preprocess/raw_alpaca_cot_merge_add_meta.py">raw_alpaca_cot_merge_add_meta.py</a> to select <code class="docutils literal notranslate"><span class="pre">instruction</span></code>, <code class="docutils literal notranslate"><span class="pre">input</span></code> and <code class="docutils literal notranslate"><span class="pre">output</span></code> columns and merge them to <code class="docutils literal notranslate"><span class="pre">text</span></code> field with a space, and add extra [ META ](<a class="github reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/">datajuicer/data-juicer-hub</a> #meta_info) info to dataset:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/preprocess/raw_alpaca_cot_merge_add_meta.py<span class="w">    </span><span class="se">\</span>
+<span class="w">    </span>--src_dir<span class="w">             </span>&lt;Alpaca-CoT_src_dir&gt;<span class="w">              </span><span class="se">\</span>
+<span class="w">    </span>--target_dir<span class="w">          </span>&lt;target_dir&gt;<span class="w">                      </span><span class="se">\</span>
+<span class="w">    </span>--num_proc<span class="w">            </span>&lt;num_proc&gt;
+</pre></div>
+</div>
+</section>
+<section id="split-datasets-to-sub-datasets-by-language">
+<h3>Split datasets to sub-datasets by language<a class="headerlink" href="#split-datasets-to-sub-datasets-by-language" title="Link to this heading">#</a></h3>
+<p>Use <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/../tools/preprocess/dataset_split_by_language.py">dataset_split_by_language.py</a> to split the dataset to EN and ZH sub-datasets:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/preprocess/dataset_split_by_language.py<span class="w">    </span><span class="se">\</span>
+<span class="w">    </span>--src_dir<span class="w">             </span>&lt;src_dir&gt;<span class="w">                     </span><span class="se">\</span>
+<span class="w">    </span>--target_dir<span class="w">          </span>&lt;target_dir&gt;<span class="w">                  </span><span class="se">\</span>
+<span class="w">    </span>--suffixes<span class="w">            </span>jsonl<span class="w">                         </span><span class="se">\</span>
+<span class="w">    </span>--num_proc<span class="w">            </span>&lt;num_proc&gt;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="process">
+<h2>Process<a class="headerlink" href="#process" title="Link to this heading">#</a></h2>
+<p>After preprocess, modify the dataset path in <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/alpaca_cot/alpaca-cot-en-refine.yaml">alpaca-cot-en-refine.yaml</a> and <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/refined_recipes/alpaca_cot/alpaca-cot-zh-refine.yaml">alpaca-cot-zh-refine.yaml</a>, and then execute the following command to reproduce the processing flow of refined Alpaca-CoT.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># refine English dataset</span>
+python<span class="w"> </span>tools/process_data.py<span class="w"> </span>--config<span class="w"> </span>&lt;path-to-data-juicer-hub&gt;/refined_recipes/alpaca_cot/alpaca-cot-en-refine.yaml
+
+<span class="c1"># refine Chinese dataset</span>
+python<span class="w"> </span>tools/process_data.py<span class="w"> </span>--config<span class="w"> </span>&lt;path-to-data-juicer-hub&gt;/refined_recipes/alpaca_cot/alpaca-cot-zh-refine.yaml
+</pre></div>
+</div>
+<section id="meta-info">
+<h3>Meta Info <a name="meta_info"/><a class="headerlink" href="#meta-info" title="Link to this heading">#</a></h3>
+<p>Each sample in refined data of Alpaca-CoT contains meta info listed as below:</p>
+<section id="alpaca-cot-original-meta-info">
+<h4>Alpaca-CoT original meta info<a class="headerlink" href="#alpaca-cot-original-meta-info" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Language Tags:</p>
+<ul>
+<li><p>EN: Instruction datasets in English</p></li>
+<li><p>CN: Instruction datasets in Chinese</p></li>
+<li><p>ML: [Multi-lingual] Instruction datasets in multiple languages</p></li>
+</ul>
+</li>
+<li><p>Task Tags</p>
+<ul>
+<li><p>MT: [Multi-task] Datasets containing multiple tasks</p></li>
+<li><p>TS: [Task-specific] Datasets tailored for specific tasks</p></li>
+</ul>
+</li>
+<li><p>Generation-method:</p>
+<ul>
+<li><p>HG: [Human Generated Dataset] Datasets created by humans</p></li>
+<li><p>SI: [Self-Instruct] Datasets generated using self-instruct methods</p></li>
+<li><p>MIX: [Mixed Dataset] Dataset contains both human and machine generated data</p></li>
+<li><p>COL: [Collection of Dataset] Dataset made from a collection of other datasets</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="data-juicer-meta-info">
+<h4>Data-Juicer Meta info<a class="headerlink" href="#data-juicer-meta-info" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Dataset</span></code>: dataset name in Alpaca-CoT</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">origin_path</span></code>: original file path in Alpaca-CoT</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">IFT</span></code>: tagged as Instruct Fine-Tuning datasets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CFT</span></code>: tagged as Chat Fine-Tuning datasets</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">CFT-SR</span></code>: tagged as Single-round Dialog datasets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CFT-MR</span></code>: tagged as Multi-round Dialog datasets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CFT-P</span></code>: tagged as Preference datasets</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="refined-alpaca-cot-dataset-meta-info">
+<h4>Refined Alpaca-CoT dataset Meta info<a class="headerlink" href="#refined-alpaca-cot-dataset-meta-info" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Task</p></th>
+<th class="head"><p>Gen</p></th>
+<th class="head"><p>Lang</p></th>
+<th class="head"><p>Dataset</p></th>
+<th class="head"><p>IFT</p></th>
+<th class="head"><p>CFT-SR</p></th>
+<th class="head"><p>CFT-MR</p></th>
+<th class="head"><p>CFT-P</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Chain-of-Thought</p></td>
+<td><p>MT</p></td>
+<td><p>HG</p></td>
+<td><p>EN/CN</p></td>
+<td><p>Chain-of-Thought</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>GPT4all</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>EN</p></td>
+<td><p>GPT4all</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>GPTeacher</p></td>
+<td><p>MT</p></td>
+<td><p>SI</p></td>
+<td><p>EN</p></td>
+<td><p>GPTeacher</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Guanaco</p></td>
+<td><p>MT</p></td>
+<td><p>SI</p></td>
+<td><p>ML</p></td>
+<td><p>Guanaco</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>HC3</p></td>
+<td><p>TS</p></td>
+<td><p>MIX</p></td>
+<td><p>EN/CN</p></td>
+<td><p>HC3</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>alpaca</p></td>
+<td><p>MT</p></td>
+<td><p>SI</p></td>
+<td><p>EN</p></td>
+<td><p>alpaca</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Natural-Instructions</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>ML</p></td>
+<td><p>Natural-Instructions</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>belle_cn</p></td>
+<td><p>TS/MT</p></td>
+<td><p>SI</p></td>
+<td><p>CN</p></td>
+<td><p>belle_cn</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>instinwild</p></td>
+<td><p>MT</p></td>
+<td><p>SI</p></td>
+<td><p>EN/CN</p></td>
+<td><p>instinwild</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>prosocial-dialog</p></td>
+<td><p>TS</p></td>
+<td><p>MIX</p></td>
+<td><p>EN</p></td>
+<td><p>prosocial-dialog</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>finance</p></td>
+<td><p>TS</p></td>
+<td><p>COL</p></td>
+<td><p>EN</p></td>
+<td><p>finance</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>xP3</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>ML</p></td>
+<td><p>xP3</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>firefly</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>CN</p></td>
+<td><p>firefly</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>instruct</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>EN</p></td>
+<td><p>instruct</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>CodeAlpaca</p></td>
+<td><p>TS</p></td>
+<td><p>SI</p></td>
+<td><p>EN</p></td>
+<td><p>CodeAlpaca</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>alpacaGPT4</p></td>
+<td><p>MT</p></td>
+<td><p>SI</p></td>
+<td><p>EN/CN</p></td>
+<td><p>alpacaGPT4</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>webGPT</p></td>
+<td><p>TS</p></td>
+<td><p>MIX</p></td>
+<td><p>EN</p></td>
+<td><p>webGPT</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>dolly</p></td>
+<td><p>TS</p></td>
+<td><p>HG</p></td>
+<td><p>EN</p></td>
+<td><p>dolly</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>baize</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>EN</p></td>
+<td><p>baize</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>hh-rlhf</p></td>
+<td><p>TS</p></td>
+<td><p>MIX</p></td>
+<td><p>EN</p></td>
+<td><p>hh-rlhf</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>OIG</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>EN</p></td>
+<td><p>OIG</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>GAOKAO</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>CN</p></td>
+<td><p>GAOKAO</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>camel</p></td>
+<td><p>MT</p></td>
+<td><p>SI</p></td>
+<td><p>EN</p></td>
+<td><p>camel</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>FLAN-Muffin</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>EN</p></td>
+<td><p>FLAN-Muffin</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>COIG</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>CN</p></td>
+<td><p>COIG</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>gpt4tools</p></td>
+<td><p>MT</p></td>
+<td><p>SI</p></td>
+<td><p>EN</p></td>
+<td><p>gpt4tools</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>ShareGPT</p></td>
+<td><p>MT</p></td>
+<td><p>MIX</p></td>
+<td><p>EN</p></td>
+<td><p>ShareGPT</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Auto-CoT</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>EN</p></td>
+<td><p>Auto-CoT</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>MOSS</p></td>
+<td><p>TS</p></td>
+<td><p>SI</p></td>
+<td><p>EN/CN</p></td>
+<td><p>MOSS</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>ultrachat</p></td>
+<td><p>TS</p></td>
+<td><p>SI</p></td>
+<td><p>EN</p></td>
+<td><p>ultrachat</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Chinese-medical</p></td>
+<td><p>TS</p></td>
+<td><p>COL</p></td>
+<td><p>CN</p></td>
+<td><p>Chinese-medical</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>CSL</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>CN</p></td>
+<td><p>CSL</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>pCLUE</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>CN</p></td>
+<td><p>pCLUE</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>news_commentary</p></td>
+<td><p>TS</p></td>
+<td><p>COL</p></td>
+<td><p>CN</p></td>
+<td><p>news_commentary</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>StackExchange</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>EN</p></td>
+<td><p>StackExchange</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>ConvAI2</p></td>
+<td><p>TS</p></td>
+<td><p>HG</p></td>
+<td><p>EN</p></td>
+<td><p>ConvAI2</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>FastChat</p></td>
+<td><p>MT</p></td>
+<td><p>SI</p></td>
+<td><p>EN</p></td>
+<td><p>FastChat</p></td>
+<td><p></p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Tabular-LLM-Data</p></td>
+<td><p>MT</p></td>
+<td><p>COL</p></td>
+<td><p>EN/CN</p></td>
+<td><p>Tabular-LLM-Data</p></td>
+<td><p>✅</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="RecipeGallery.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data Recipe Gallery</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="AnnotationNotificationSystem.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Notification System</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocess">Preprocess</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-raw-alpaca-cot-data-to-jsonl">Convert raw Alpaca-CoT data to jsonl</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#split-datasets-to-sub-datasets-by-language">Split datasets to sub-datasets by language</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process">Process</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meta-info">Meta Info <a name="meta_info"></a></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#alpaca-cot-original-meta-info">Alpaca-CoT original meta info</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-juicer-meta-info">Data-Juicer Meta info</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#refined-alpaca-cot-dataset-meta-info">Refined Alpaca-CoT dataset Meta info</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/docs/AlpacaCOT.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Data-Juicer Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
