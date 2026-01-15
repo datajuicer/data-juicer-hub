@@ -1,16 +1,15 @@
-/* Container for navbar switch elements, aligned horizontally with spacing */
+/* ==================== Navbar Switcher Base Styles ==================== */
+
 .navbar-switcher-container {
     display: flex;
     gap: 0.75rem;
     align-items: center;
 }
 
-/* Dropdown wrapper with relative positioning for absolute panel placement */
 .navbar-dropdown {
     position: relative;
 }
 
-/* Styling for dropdown trigger button */
 .navbar-dropdown-trigger {
     display: flex;
     align-items: center;
@@ -20,145 +19,178 @@
     font-size: 0.875rem;
     color: var(--pst-color-text-base);
     background: transparent;
+    border: none;
     border-radius: 6px;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease;
     user-select: none;
+    white-space: nowrap;
 }
 
-/* Hover effect for dropdown trigger */
 .navbar-dropdown-trigger:hover {
     background: var(--pst-color-surface);
     color: var(--pst-color-primary);
 }
 
-/* Dropdown icon animation */
-.navbar-dropdown-trigger .dropdown-icon {
+.switcher-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.switcher-text {
+    font-weight: 500;
+    line-height: 1;
+}
+
+.dropdown-icon {
     font-size: 0.7rem;
     transition: transform 0.2s ease;
+    flex-shrink: 0;
 }
 
-/* Dropdown panel: hidden by default, positioned below trigger */
+.navbar-dropdown.active .dropdown-icon {
+    transform: rotate(180deg);
+}
+
 .navbar-dropdown-panel {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 0.5rem);
     right: 0;
     min-width: 160px;
-    margin-top: 0.25rem;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-8px);
-    transition: all 0.2s ease;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
     z-index: 1000;
-    padding-top: 0.25rem;
 }
 
-/* Show dropdown panel on hover */
-.navbar-dropdown:hover .navbar-dropdown-panel {
+/* Desktop: hover to open */
+@media (hover: hover) and (pointer: fine) and (min-width: 768px) {
+    .navbar-dropdown:hover .navbar-dropdown-panel {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .navbar-dropdown:hover .dropdown-icon {
+        transform: rotate(180deg);
+    }
+}
+
+/* Mobile/Touch: click to open */
+.navbar-dropdown.active .navbar-dropdown-panel {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-/* Dropdown content: styled popup with border, shadow, and scroll support */
 .dropdown-content {
     background: var(--pst-color-background);
     border: 1px solid var(--pst-color-border);
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 0.5rem;
-    overflow: hidden;
-}
-
-/* Version list scroll enhancements */
-.dropdown-content.version-list {
     max-height: 320px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--pst-color-border) transparent;
 }
 
-/* WebKit scrollbar styling for version list */
-.dropdown-content.version-list::-webkit-scrollbar {
+.dropdown-content::-webkit-scrollbar {
     width: 6px;
 }
 
-.dropdown-content.version-list::-webkit-scrollbar-track {
+.dropdown-content::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.dropdown-content.version-list::-webkit-scrollbar-thumb {
+.dropdown-content::-webkit-scrollbar-thumb {
     background: var(--pst-color-border);
     border-radius: 3px;
 }
 
-.dropdown-content.version-list::-webkit-scrollbar-thumb:hover {
+.dropdown-content::-webkit-scrollbar-thumb:hover {
     background: var(--pst-color-text-muted);
 }
 
-/* Individual dropdown menu items */
 .dropdown-item {
     display: block;
     padding: 0.5rem 0.75rem;
     color: var(--pst-color-text-base);
     text-decoration: none;
     border-radius: 4px;
-    transition: all 0.15s ease;
+    transition: background 0.15s ease, color 0.15s ease;
     font-size: 0.875rem;
     white-space: nowrap;
 }
 
-/* Hover state for dropdown items */
 .dropdown-item:hover {
     background: var(--pst-color-surface);
     color: var(--pst-color-primary);
 }
 
-/* Active state for selected item */
 .dropdown-item.active {
     background: var(--pst-color-primary);
     color: white;
     font-weight: 600;
 }
 
-/* Primary sidebar with responsive width */
-.bd-sidebar-primary {
-    max-width: 20%;
-    transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ==================== Responsive Switchers ==================== */
+
+@media (min-width: 768px) and (max-width: 959px) {
+    .navbar-dropdown-trigger {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.813rem;
+    }
+    
+    .dropdown-icon {
+        display: none;
+    }
+    
+    .switcher-icon {
+        font-size: 1rem;
+    }
 }
 
-/* Hide sidebar when collapsed */
-body.sidebar-collapsed .bd-sidebar-primary {
-    max-width: 0 !important;
-    transform: translateX(-100%);
-    visibility: hidden;
-    opacity: 0;
+@media (max-width: 767px) {
+    .switcher-text {
+        display: none;
+    }
+    
+    .dropdown-icon {
+        display: none;
+    }
+    
+    .navbar-dropdown-trigger {
+        padding: 0.5rem;
+        min-width: 40px;
+        height: 40px;
+        justify-content: center;
+    }
+    
+    .switcher-icon {
+        font-size: 1.25rem;
+    }
+    
+    .navbar-switcher-container {
+        gap: 0.25rem;
+    }
+    
+    /* Mobile: center dropdown */
+    .navbar-dropdown-panel {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(-10px);
+        min-width: 200px;
+        max-width: 90vw;
+    }
+    
+    .navbar-dropdown.active .navbar-dropdown-panel {
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
-/* Main content container with fluid max-width */
-.bd-main .bd-content .bd-article-container {
-    max-width: 100%;
-    transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Expand article width when sidebar is collapsed */
-body.sidebar-collapsed .bd-main .bd-content .bd-article-container,
-body.sidebar-collapsed .bd-content,
-body.sidebar-collapsed .bd-article {
-    max-width: 100% !important;
-}
-
-/* Main layout transition */
-.bd-main {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Grid layout transition for container */
-.bd-container__inner {
-    transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* ==================== Sidebar Collapse ==================== */
 
 /* Align toggle button and breadcrumb in header */
 .header-article-items__start {
@@ -222,76 +254,105 @@ body.sidebar-collapsed .sidebar-collapse-toggle i {
     flex-wrap: wrap;
 }
 
-/* Responsive layout for desktop */
+/* Desktop styles */
 @media (min-width: 960px) {
-    .bd-container__inner {
-        display: grid;
-        grid-template-columns: var(--pst-sidebar-primary-width, 17rem) 1fr;
-        gap: 1rem;
+    /* Primary sidebar with responsive width */
+    .bd-sidebar-primary {
+        max-width: 20%;
+        transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                    visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Collapse sidebar column */
+    /* Hide sidebar when collapsed */
+    body.sidebar-collapsed .bd-sidebar-primary {
+        max-width: 0 !important;
+        transform: translateX(-100%);
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Main content container with fluid max-width */
+    .bd-main .bd-content .bd-article-container {
+        max-width: 100%;
+        transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Expand article width when sidebar is collapsed */
+    body.sidebar-collapsed .bd-main .bd-content .bd-article-container,
+    body.sidebar-collapsed .bd-content,
+    body.sidebar-collapsed .bd-article {
+        max-width: 100% !important;
+    }
+
+    /* Main layout transition */
+    .bd-main {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Grid layout transition for container */
+    .bd-container__inner {
+        transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     body.sidebar-collapsed .bd-container__inner {
         grid-template-columns: 0 1fr !important;
-        gap: 0;
     }
 
-    /* Full-width main content when collapsed */
     body.sidebar-collapsed .bd-main {
         max-width: 100% !important;
-        grid-column: 1 / -1;
     }
 
-    body.sidebar-collapsed .bd-content {
-        max-width: 100% !important;
-        display: grid;
-        grid-template-columns: 1fr auto;
-    }
-
-    body.sidebar-collapsed .bd-article-container {
-        max-width: 100% !important;
+    /* Only show toggle when primary sidebar exists and is not hidden */
+    body:has(.bd-sidebar-primary:not(.hide-on-wide)) .sidebar-collapse-toggle {
+        display: inline-flex;
     }
 }
 
-/* Dark mode hover styling */
-html[data-theme="dark"] .sidebar-collapse-toggle:hover,
-html[data-mode="dark"] .sidebar-collapse-toggle:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--pst-color-primary, #4dabf7);
-}
-
-/* Hide toggle on mobile and print */
-@media (max-width: 959px),
-      (max-width: 768px),
-      print {
+/* Mobile styles */
+@media (max-width: 959px) {
+    /* Burger menu hidden under narrow screen */
     .sidebar-collapse-toggle {
         display: none !important;
     }
 }
 
-/* Mobile navbar adjustments */
-@media (max-width: 768px) {
-    .navbar-nav {
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.5rem;
-    }
 
-    .navbar-switcher-container {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+/* ==================== Dark Mode ==================== */
 
-    /* Center dropdown panel on mobile */
-    .navbar-dropdown-panel {
-        position: fixed;
-        left: 50%;
-        transform: translateX(-50%) translateY(-8px);
-        right: auto;
-    }
+html[data-theme="dark"] .dropdown-content,
+html[data-mode="dark"] .dropdown-content {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
-    .navbar-dropdown:hover .navbar-dropdown-panel {
-        transform: translateX(-50%) translateY(0);
+/* ==================== Accessibility ==================== */
+
+.navbar-dropdown-trigger:focus-visible,
+.sidebar-collapse-toggle:focus-visible {
+    outline: 2px solid var(--pst-color-primary);
+    outline-offset: 2px;
+}
+
+.dropdown-item:focus-visible {
+    outline: 2px solid var(--pst-color-primary);
+    outline-offset: -2px;
+}
+
+/* ==================== Print ==================== */
+
+@media print {
+    .navbar-switcher-container,
+    .sidebar-collapse-toggle {
+        display: none !important;
+    }
+}
+
+/* ==================== Reduced Motion ==================== */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition-duration: 0.01ms !important;
     }
 }
