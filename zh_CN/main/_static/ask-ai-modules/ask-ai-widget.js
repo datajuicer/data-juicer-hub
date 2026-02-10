@@ -193,37 +193,61 @@ class AskAIWidget {
 
   /**
    * Load conversation history from API
+   * Merges consecutive assistant messages into single messages
    */
   async loadConversationHistory() {
     const messages = await this.api.loadConversationHistory();
 
     if (messages && messages.length > 0) {
-      messages.forEach(msg => {
-        if (msg.content && typeof msg.content === 'string') {
-          const isUser = msg.role === 'user';
-          const content = msg.content.trim();
-
-          // Skip JSON array messages (tool calls) - use try-catch for more robust detection
-          let isJsonArray = false;
-          try {
-            const parsed = JSON.parse(content);
-            isJsonArray = Array.isArray(parsed);
-          } catch (e) {
-            // Not valid JSON, treat as regular content
-          }
-          
-          if (!isJsonArray) {
-            if (content) {
-              const messageId = msg.id || `history_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-              // For assistant messages from history, add helpSuffix
-              const contentWithSuffix = isUser ? content : content + (this.i18n.helpSuffix || '');
-              this.ui.addMessage(contentWithSuffix, isUser ? 'user' : 'assistant', messageId);
-            }
-          }
+      // Group messages by conversation turn
+      const turns = [];
+      let currentTurn = null;
+      
+      for (let i = 0; i < messages.length; i++) {
+        const msg = messages[i];
+        
+        if (!msg.content || typeof msg.content !== 'string') continue;
+        
+        const content = msg.content.trim();
+        if (!content) continue;
+        
+        // Skip JSON array messages (tool calls - not rendered in history)
+        let isJsonArray = false;
+        try {
+          const parsed = JSON.parse(content);
+          isJsonArray = Array.isArray(parsed);
+        } catch (e) {
+          // Not valid JSON
+        }
+        if (isJsonArray) continue;
+        
+        if (msg.role === 'user') {
+          currentTurn = {
+            user: { content: content, id: msg.id },
+            assistantTexts: []
+          };
+          turns.push(currentTurn);
+        } else if (msg.role === 'assistant' && currentTurn) {
+          currentTurn.assistantTexts.push(content);
+        }
+      }
+      
+      // Render each turn
+      turns.forEach(turn => {
+        // Render user message
+        const userMessageId = turn.user.id || 'history_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        this.ui.addMessage(turn.user.content, 'user', userMessageId);
+        
+        // Render merged assistant message
+        if (turn.assistantTexts.length > 0) {
+          const mergedText = turn.assistantTexts.join('\n\n');
+          const assistantMessageId = 'history_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+          const contentWithSuffix = mergedText + (this.i18n.helpSuffix || '');
+          this.ui.addMessage(contentWithSuffix, 'assistant', assistantMessageId);
         }
       });
 
-      if (messages.length > 0) {
+      if (turns.length > 0) {
         this.ui.scrollToBottom();
       }
     }

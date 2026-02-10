@@ -186,7 +186,7 @@ var AskAIWidget = (function () {
           session_id: this.sessionId,
           user_id: this.sessionId,
         };
-        
+
         console.log('Fetching memory for session:', this.sessionId);
 
         const response = await fetch(`${this.getApiBaseUrl()}/memory`, {
@@ -201,7 +201,7 @@ var AskAIWidget = (function () {
           const data = await response.json();
           const messages = data.messages || [];
           console.log('Memory fetched:', messages.length, 'messages');
-          
+
           // Return latest messages if limit is specified
           return limit > 0 ? messages.slice(-limit) : messages;
         } else {
@@ -348,17 +348,14 @@ var AskAIWidget = (function () {
               // Handle tool use
               if (data.object === "message" && data.type === "plugin_call") {
                 if (Array.isArray(data.content)) {
-                  // Use Array.find() for more robust parsing instead of relying on array order
-                  const toolCallIdData = data.content.find(item => item?.type === "data" && item.data?.call_id);
-                  const toolCallArgsData = data.content.find(item => item?.type === "data" && item.data?.name);
-                  
-                  const toolCallWithId = toolCallIdData?.data || null;
-                  const toolCall = toolCallArgsData?.data || null;
-                  
+                  const toolCallWithId = data.content[0]?.type === "data" ? data.content[0].data : null;
+                  const toolCallWithArgs = data.content.length > 1 ? data.content[1] : data.content[0];
+                  const toolCall = toolCallWithArgs?.type === "data" ? toolCallWithArgs.data : null;
+
                   if (toolCall && onToolUse) {
                     const toolName = toolCall.name || 'Unknown Tool';
                     let toolArgs = toolCall.arguments || {};
-                    
+
                     if (typeof toolArgs === 'string') {
                       try {
                         toolArgs = JSON.parse(toolArgs);
@@ -367,7 +364,7 @@ var AskAIWidget = (function () {
                         toolArgs = {};
                       }
                     }
-                    
+
                     const callId = toolCallWithId?.call_id || null;
                     console.log('Tool call detected:', { toolName, toolArgs, callId });
                     onToolUse(toolName, toolArgs, callId);
@@ -381,7 +378,7 @@ var AskAIWidget = (function () {
                   const outputData = data.content.find(item => item.type === "data")?.data;
                   const callId = outputData?.call_id || null;
                   const output = outputData?.output;
-                  
+
                   if (output && callId && onToolComplete) {
                     console.log('Tool output received for call_id:', callId);
                     onToolComplete(callId);
@@ -417,7 +414,7 @@ var AskAIWidget = (function () {
                   .filter(c => c.type === "text")
                   .map(c => c.text)
                   .join('');
-                
+
                 if (fullText && !hasReceivedContent) {
                   currentStreamContent = fullText;
                   hasReceivedContent = true;
@@ -445,50 +442,66 @@ var AskAIWidget = (function () {
 
         // ✨ Fetch from memory to get verified messages with complete metadata
         console.log('Stream ended, fetching latest messages from memory...');
-        const recentMessages = await this.getMemory(2); // Get last 2 messages (user + assistant)
-        
-        if (recentMessages.length >= 2) {
-          const userMessage = recentMessages[recentMessages.length - 2];
-          const assistantMessage = recentMessages[recentMessages.length - 1];
-          
-          // Validate these are the messages we expect
-          if (userMessage.role === 'user' && assistantMessage.role === 'assistant') {
-            console.log('✓ Memory sync successful');
-            console.log('  User message ID:', userMessage.id);
-            console.log('  Assistant message ID:', assistantMessage.id);
-            
-            // Extract assistant content
-            let verifiedContent = '';
-            if (Array.isArray(assistantMessage.content)) {
-              verifiedContent = assistantMessage.content
-                .filter(c => c.type === "text")
-                .map(c => c.text)
-                .join('');
-            }
-            
-            // Use verified content if stream was incomplete or network was unstable
-            if (verifiedContent && (!streamCompletedSuccessfully || verifiedContent !== currentStreamContent)) {
-              console.log('⚠ Stream content differs from server, using server version');
-              currentStreamContent = verifiedContent;
-              // Update UI with correct content
-              if (onContentUpdate) {
-                onContentUpdate(currentStreamContent);
-              }
-            }
-            
-            if (onComplete) {
-              onComplete(userMessage, assistantMessage);
-            }
-            return;
+        const recentMessages = await this.getMemory(10); // Get more messages to debug
+
+        // Find the last user message and last assistant message
+        const extractText = (content) => {
+          if (Array.isArray(content)) {
+            return content.filter(c => c.type === 'text').map(c => c.text).join('').trim();
           }
+          return (content || '').trim();
+        };
+
+        // Get the last user message and last assistant message from memory
+        let lastUserMessage = null;
+        let lastAssistantMessage = null;
+
+        for (let i = recentMessages.length - 1; i >= 0; i--) {
+          const msg = recentMessages[i];
+          if (!lastAssistantMessage && msg.role === 'assistant') {
+            lastAssistantMessage = msg;
+          }
+          if (!lastUserMessage && msg.role === 'user') {
+            lastUserMessage = msg;
+          }
+          if (lastUserMessage && lastAssistantMessage) break;
         }
-        
+
+        const expectedContent = message.trim();
+        const lastUserContent = lastUserMessage ? extractText(lastUserMessage.content) : '';
+
+        if (lastUserMessage && lastAssistantMessage && lastUserContent === expectedContent) {
+          const assistantContent = extractText(lastAssistantMessage.content);
+
+          console.log('✓ Memory sync successful');
+          console.log('  User message ID:', lastUserMessage.id);
+          console.log('  Assistant message ID:', lastAssistantMessage.id);
+
+          // Use server content if stream was incomplete or content differs
+          if (assistantContent && (!streamCompletedSuccessfully)) {
+            console.log('⚠ Stream content differs from server, using server version');
+            currentStreamContent = assistantContent;
+            if (onContentUpdate) {
+              onContentUpdate(currentStreamContent);
+            }
+          }
+
+          if (onComplete) {
+            onComplete(lastUserMessage, lastAssistantMessage);
+          }
+          return;
+        } else {
+          console.warn('⚠ Could not verify messages from memory');
+          console.log('  Expected user content:', expectedContent.substring(0, 50));
+          console.log('  Found user content:', lastUserContent.substring(0, 50));
+        }
+
         // Fallback: memory sync failed, use stream data
         console.warn('⚠ Could not verify messages from memory, using stream data');
         if (onComplete) {
           // Create message objects from stream data
           const fallbackUserMessage = {
-            id: `user_${streamMessageId}`,
+            id: 'user_' + streamMessageId,
             role: 'user',
             content: [{ type: 'text', text: message.trim() }]
           };
@@ -874,63 +887,147 @@ var AskAIWidget = (function () {
 
     /**
      * Update message content while preserving tool calls and feedback buttons
+     * Content is organized in segments: each tool call creates a new segment
      * @param {HTMLElement} messageDiv - Message element
-     * @param {string} content - New content
+     * @param {string} content - New content (cumulative from stream)
      * @param {boolean} addSuffix - Whether to add helpSuffix (default: false, used during streaming)
      */
     updateMessageContent(messageDiv, content, addSuffix = false) {
       if (!messageDiv) return;
 
-      const messageId = messageDiv.getAttribute('data-message-id');
+      // Remove typing indicator if present
+      const typingIndicator = messageDiv.querySelector('.typing-indicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
       
       // Only append helpSuffix when explicitly requested (at the end of response)
       const contentToRender = addSuffix ? content + (this.i18n.helpSuffix || '') : content;
       
-      // Check if there's a tool calls container or feedback buttons
-      const toolContainer = messageDiv.querySelector('.tool-calls-inline');
-      const feedbackContainer = messageDiv.querySelector('.ask-ai-feedback');
+      // Get all tool containers to find the last one
+      const toolContainers = messageDiv.querySelectorAll('.tool-calls-inline');
+      const lastToolContainer = toolContainers.length > 0 ? toolContainers[toolContainers.length - 1] : null;
       
-      if (toolContainer || feedbackContainer) {
-        // Find or create content wrapper
-        let contentWrapper = messageDiv.querySelector('.message-content');
+      if (lastToolContainer) {
+        // There are tool calls - find or create content wrapper AFTER the last tool container
+        let contentWrapper = lastToolContainer.nextElementSibling;
+        if (!contentWrapper || !contentWrapper.classList.contains('message-content-segment')) {
+          contentWrapper = document.createElement('div');
+          contentWrapper.className = 'message-content-segment';
+          lastToolContainer.after(contentWrapper);
+        }
+        
+        // Calculate what content belongs to this segment
+        // We need to extract only the NEW content after the last tool call
+        const segmentContent = this.extractContentAfterTools(messageDiv, content);
+        contentWrapper.innerHTML = this.renderMarkdown(segmentContent);
+      } else {
+        // No tool calls yet - find or create the first content segment
+        let contentWrapper = messageDiv.querySelector('.message-content-segment');
         if (!contentWrapper) {
           contentWrapper = document.createElement('div');
-          contentWrapper.className = 'message-content';
-          // Insert before tool container or feedback buttons
-          if (toolContainer) {
-            messageDiv.insertBefore(contentWrapper, toolContainer.nextSibling);
-          } else if (feedbackContainer) {
-            messageDiv.insertBefore(contentWrapper, feedbackContainer);
-          } else {
-            messageDiv.appendChild(contentWrapper);
-          }
+          contentWrapper.className = 'message-content-segment';
+          messageDiv.appendChild(contentWrapper);
         }
-        // Update only the content part
         contentWrapper.innerHTML = this.renderMarkdown(contentToRender);
-      } else {
-        // No tool calls or feedback, replace innerHTML and add feedback buttons
-        messageDiv.innerHTML = this.renderMarkdown(contentToRender);
-        if (messageId) {
-          this.addFeedbackButtons(messageDiv, messageId, content);
-        }
       }
       
-      // Update stored content for copying
-      if (feedbackContainer) {
-        feedbackContainer.setAttribute('data-content', content);
-      }
+      // Store full content for copying
+      messageDiv.setAttribute('data-full-content', content);
       
       this.scrollToBottom();
     }
 
     /**
-     * Finalize message content by adding helpSuffix
-     * Called when response is complete
+     * Extract content that should appear after the last tool call
+     * This handles the cumulative content from streaming
      * @param {HTMLElement} messageDiv - Message element
-     * @param {string} content - Final content
+     * @param {string} fullContent - Full cumulative content
+     * @returns {string} Content for the current segment
+     */
+    extractContentAfterTools(messageDiv, fullContent) {
+      // Get the content length that was rendered before the last tool call
+      const lastRenderedLength = parseInt(messageDiv.getAttribute('data-content-before-last-tool') || '0', 10);
+      
+      // Return only the new content after the last tool call
+      if (lastRenderedLength > 0 && lastRenderedLength < fullContent.length) {
+        return fullContent.substring(lastRenderedLength);
+      }
+      
+      // If no previous content recorded, return full content
+      return fullContent;
+    }
+
+    /**
+     * Finalize message content by adding helpSuffix
+     * Called when response is complete - just adds helpSuffix to the last content segment
+     * The content segments are already correctly rendered during streaming
+     * @param {HTMLElement} messageDiv - Message element
+     * @param {string} content - Final content (may be just the last segment from server)
      */
     finalizeMessage(messageDiv, content) {
-      this.updateMessageContent(messageDiv, content, true);
+      if (!messageDiv) return;
+      
+      const messageId = messageDiv.getAttribute('data-message-id');
+      
+      // Get all tool containers
+      const toolContainers = messageDiv.querySelectorAll('.tool-calls-inline');
+      
+      if (toolContainers.length === 0) {
+        // No tool calls - simple case, just render all content with suffix
+        let contentWrapper = messageDiv.querySelector('.message-content-segment');
+        if (!contentWrapper) {
+          contentWrapper = document.createElement('div');
+          contentWrapper.className = 'message-content-segment';
+          messageDiv.appendChild(contentWrapper);
+        }
+        contentWrapper.innerHTML = this.renderMarkdown(content + (this.i18n.helpSuffix || ''));
+      } else {
+        // Has tool calls - find the last content segment and just add helpSuffix
+        const lastToolContainer = toolContainers[toolContainers.length - 1];
+        let lastContentSegment = lastToolContainer.nextElementSibling;
+        
+        if (lastContentSegment && lastContentSegment.classList.contains('message-content-segment')) {
+          // Get the current content from the segment (already rendered during streaming)
+          // Just re-render with helpSuffix added
+          lastContentSegment.textContent || '';
+          // Use the stored full content to get the correct segment content
+          const fullContent = messageDiv.getAttribute('data-full-content') || content;
+          const contentBeforeLastTool = parseInt(messageDiv.getAttribute('data-content-before-last-tool') || '0', 10);
+          const segmentContent = contentBeforeLastTool > 0 && contentBeforeLastTool < fullContent.length 
+            ? fullContent.substring(contentBeforeLastTool) 
+            : fullContent;
+          lastContentSegment.innerHTML = this.renderMarkdown(segmentContent + (this.i18n.helpSuffix || ''));
+        } else {
+          // No content segment after last tool - check if there should be one
+          const fullContent = messageDiv.getAttribute('data-full-content') || content;
+          const contentBeforeLastTool = parseInt(messageDiv.getAttribute('data-content-before-last-tool') || '0', 10);
+          const segmentContent = contentBeforeLastTool > 0 && contentBeforeLastTool < fullContent.length 
+            ? fullContent.substring(contentBeforeLastTool) 
+            : '';
+          
+          if (segmentContent.trim()) {
+            lastContentSegment = document.createElement('div');
+            lastContentSegment.className = 'message-content-segment';
+            lastContentSegment.innerHTML = this.renderMarkdown(segmentContent + (this.i18n.helpSuffix || ''));
+            lastToolContainer.after(lastContentSegment);
+          }
+        }
+      }
+      
+      // Store full content for copying (use existing if available)
+      const existingFullContent = messageDiv.getAttribute('data-full-content');
+      if (!existingFullContent) {
+        messageDiv.setAttribute('data-full-content', content);
+      }
+      
+      // Add feedback buttons
+      if (messageId) {
+        const fullContent = messageDiv.getAttribute('data-full-content') || content;
+        this.addFeedbackButtons(messageDiv, messageId, fullContent);
+      }
+      
+      this.scrollToBottom();
     }
 
     /**
@@ -973,6 +1070,8 @@ var AskAIWidget = (function () {
 
     /**
      * Add tool call info inside message bubble
+     * Consecutive tool calls go into the same tool container
+     * A new tool container is only created when there's text content between tool calls
      * @param {string} toolName - Name of the tool being used
      * @param {Object} toolArgs - Tool arguments
      * @param {HTMLElement} messageDiv - Message element to add tool info to
@@ -980,9 +1079,21 @@ var AskAIWidget = (function () {
     addToolCall(toolName, toolArgs, messageDiv) {
       if (!messageDiv) return;
 
-      // Find or create tool calls container inside message
-      let toolContainer = messageDiv.querySelector('.tool-calls-inline');
-      if (!toolContainer) {
+      // Record current content length before adding tool call
+      // This is used by updateMessageContent to know where to split content
+      const currentFullContent = messageDiv.getAttribute('data-full-content') || '';
+      messageDiv.setAttribute('data-content-before-last-tool', currentFullContent.length.toString());
+
+      // Check if we should reuse the last tool container or create a new one
+      // Reuse if: the last child is a tool container (no text content in between)
+      let toolContainer = null;
+      const lastChild = messageDiv.lastElementChild;
+      
+      if (lastChild && lastChild.classList.contains('tool-calls-inline')) {
+        // Reuse existing tool container (consecutive tool calls)
+        toolContainer = lastChild;
+      } else {
+        // Create a new tool container (first tool call or there's text content before this)
         toolContainer = document.createElement('div');
         toolContainer.className = 'tool-calls-inline';
         
@@ -996,25 +1107,27 @@ var AskAIWidget = (function () {
         toolContainer.appendChild(header);
         
         // Add content container
-        const content = document.createElement('div');
-        content.className = 'tool-calls-inline-content';
-        toolContainer.appendChild(content);
+        const toolContentDiv = document.createElement('div');
+        toolContentDiv.className = 'tool-calls-inline-content';
+        toolContainer.appendChild(toolContentDiv);
         
-        messageDiv.insertBefore(toolContainer, messageDiv.firstChild);
+        // Append tool container at the end of messageDiv
+        messageDiv.appendChild(toolContainer);
         
         // Add toggle functionality
         const toggleBtn = header.querySelector('.tool-calls-inline-toggle');
         toggleBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          const isCollapsed = content.style.display === 'none';
-          content.style.display = isCollapsed ? 'block' : 'none';
+          const contentDiv = toolContainer.querySelector('.tool-calls-inline-content');
+          const isCollapsed = contentDiv.style.display === 'none';
+          contentDiv.style.display = isCollapsed ? 'block' : 'none';
           toggleBtn.textContent = isCollapsed ? '▼' : '▶';
           toolContainer.classList.toggle('collapsed', !isCollapsed);
         });
       }
-
-      // Get content container
-      const content = toolContainer.querySelector('.tool-calls-inline-content');
+      
+      // Get the content container from the tool container
+      const toolContent = toolContainer.querySelector('.tool-calls-inline-content');
 
       // Create tool call item
       const toolId = `tool_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -1042,7 +1155,7 @@ var AskAIWidget = (function () {
       ${argsPreview}
     `;
 
-      content.appendChild(toolItem);
+      toolContent.appendChild(toolItem);
       this.scrollToBottom();
 
       return toolId;
@@ -1406,37 +1519,61 @@ var AskAIWidget = (function () {
 
     /**
      * Load conversation history from API
+     * Merges consecutive assistant messages into single messages
      */
     async loadConversationHistory() {
       const messages = await this.api.loadConversationHistory();
 
       if (messages && messages.length > 0) {
-        messages.forEach(msg => {
-          if (msg.content && typeof msg.content === 'string') {
-            const isUser = msg.role === 'user';
-            const content = msg.content.trim();
-
-            // Skip JSON array messages (tool calls) - use try-catch for more robust detection
-            let isJsonArray = false;
-            try {
-              const parsed = JSON.parse(content);
-              isJsonArray = Array.isArray(parsed);
-            } catch (e) {
-              // Not valid JSON, treat as regular content
-            }
-            
-            if (!isJsonArray) {
-              if (content) {
-                const messageId = msg.id || `history_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-                // For assistant messages from history, add helpSuffix
-                const contentWithSuffix = isUser ? content : content + (this.i18n.helpSuffix || '');
-                this.ui.addMessage(contentWithSuffix, isUser ? 'user' : 'assistant', messageId);
-              }
-            }
+        // Group messages by conversation turn
+        const turns = [];
+        let currentTurn = null;
+        
+        for (let i = 0; i < messages.length; i++) {
+          const msg = messages[i];
+          
+          if (!msg.content || typeof msg.content !== 'string') continue;
+          
+          const content = msg.content.trim();
+          if (!content) continue;
+          
+          // Skip JSON array messages (tool calls - not rendered in history)
+          let isJsonArray = false;
+          try {
+            const parsed = JSON.parse(content);
+            isJsonArray = Array.isArray(parsed);
+          } catch (e) {
+            // Not valid JSON
+          }
+          if (isJsonArray) continue;
+          
+          if (msg.role === 'user') {
+            currentTurn = {
+              user: { content: content, id: msg.id },
+              assistantTexts: []
+            };
+            turns.push(currentTurn);
+          } else if (msg.role === 'assistant' && currentTurn) {
+            currentTurn.assistantTexts.push(content);
+          }
+        }
+        
+        // Render each turn
+        turns.forEach(turn => {
+          // Render user message
+          const userMessageId = turn.user.id || 'history_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+          this.ui.addMessage(turn.user.content, 'user', userMessageId);
+          
+          // Render merged assistant message
+          if (turn.assistantTexts.length > 0) {
+            const mergedText = turn.assistantTexts.join('\n\n');
+            const assistantMessageId = 'history_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const contentWithSuffix = mergedText + (this.i18n.helpSuffix || '');
+            this.ui.addMessage(contentWithSuffix, 'assistant', assistantMessageId);
           }
         });
 
-        if (messages.length > 0) {
+        if (turns.length > 0) {
           this.ui.scrollToBottom();
         }
       }

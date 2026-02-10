@@ -12,7 +12,7 @@ git clone https://github.com/datajuicer/data-juicer-hub.git
 The raw data files can be downloaded from [Alpaca-CoT](https://huggingface.co/datasets/QingyiSi/Alpaca-CoT) on HuggingFace.
 
 ### Convert raw Alpaca-CoT data to jsonl
-Use [raw_alpaca_cot_merge_add_meta.py](../../tools/preprocess/raw_alpaca_cot_merge_add_meta.py) to select `instruction`, `input` and `output` columns and merge them to `text` field with a space, and add extra [ META ]( #meta_info) info to dataset:
+Use [raw_alpaca_cot_merge_add_meta.py](https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_alpaca_cot_merge_add_meta.py) to select `instruction`, `input` and `output` columns and merge them to `text` field with a space, and add extra [ META ]( #meta_info) info to dataset:
 
 ```shell
 python tools/preprocess/raw_alpaca_cot_merge_add_meta.py    \
@@ -22,7 +22,7 @@ python tools/preprocess/raw_alpaca_cot_merge_add_meta.py    \
 ```
 
 ### Split datasets to sub-datasets by language
-Use [dataset_split_by_language.py](../../tools/preprocess/dataset_split_by_language.py) to split the dataset to EN and ZH sub-datasets:
+Use [dataset_split_by_language.py](https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/dataset_split_by_language.py) to split the dataset to EN and ZH sub-datasets:
 
 ```shell
 python tools/preprocess/dataset_split_by_language.py    \

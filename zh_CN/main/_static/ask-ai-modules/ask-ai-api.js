@@ -71,7 +71,7 @@ export class AskAIApi {
         session_id: this.sessionId,
         user_id: this.sessionId,
       };
-      
+
       console.log('Fetching memory for session:', this.sessionId);
 
       const response = await fetch(`${this.getApiBaseUrl()}/memory`, {
@@ -86,7 +86,7 @@ export class AskAIApi {
         const data = await response.json();
         const messages = data.messages || [];
         console.log('Memory fetched:', messages.length, 'messages');
-        
+
         // Return latest messages if limit is specified
         return limit > 0 ? messages.slice(-limit) : messages;
       } else {
@@ -233,17 +233,14 @@ export class AskAIApi {
             // Handle tool use
             if (data.object === "message" && data.type === "plugin_call") {
               if (Array.isArray(data.content)) {
-                // Use Array.find() for more robust parsing instead of relying on array order
-                const toolCallIdData = data.content.find(item => item?.type === "data" && item.data?.call_id);
-                const toolCallArgsData = data.content.find(item => item?.type === "data" && item.data?.name);
-                
-                const toolCallWithId = toolCallIdData?.data || null;
-                const toolCall = toolCallArgsData?.data || null;
-                
+                const toolCallWithId = data.content[0]?.type === "data" ? data.content[0].data : null;
+                const toolCallWithArgs = data.content.length > 1 ? data.content[1] : data.content[0];
+                const toolCall = toolCallWithArgs?.type === "data" ? toolCallWithArgs.data : null;
+
                 if (toolCall && onToolUse) {
                   const toolName = toolCall.name || 'Unknown Tool';
                   let toolArgs = toolCall.arguments || {};
-                  
+
                   if (typeof toolArgs === 'string') {
                     try {
                       toolArgs = JSON.parse(toolArgs);
@@ -252,7 +249,7 @@ export class AskAIApi {
                       toolArgs = {};
                     }
                   }
-                  
+
                   const callId = toolCallWithId?.call_id || null;
                   console.log('Tool call detected:', { toolName, toolArgs, callId });
                   onToolUse(toolName, toolArgs, callId);
@@ -266,7 +263,7 @@ export class AskAIApi {
                 const outputData = data.content.find(item => item.type === "data")?.data;
                 const callId = outputData?.call_id || null;
                 const output = outputData?.output;
-                
+
                 if (output && callId && onToolComplete) {
                   console.log('Tool output received for call_id:', callId);
                   onToolComplete(callId);
@@ -302,7 +299,7 @@ export class AskAIApi {
                 .filter(c => c.type === "text")
                 .map(c => c.text)
                 .join('');
-              
+
               if (fullText && !hasReceivedContent) {
                 currentStreamContent = fullText;
                 hasReceivedContent = true;
@@ -330,50 +327,66 @@ export class AskAIApi {
 
       // ✨ Fetch from memory to get verified messages with complete metadata
       console.log('Stream ended, fetching latest messages from memory...');
-      const recentMessages = await this.getMemory(2); // Get last 2 messages (user + assistant)
-      
-      if (recentMessages.length >= 2) {
-        const userMessage = recentMessages[recentMessages.length - 2];
-        const assistantMessage = recentMessages[recentMessages.length - 1];
-        
-        // Validate these are the messages we expect
-        if (userMessage.role === 'user' && assistantMessage.role === 'assistant') {
-          console.log('✓ Memory sync successful');
-          console.log('  User message ID:', userMessage.id);
-          console.log('  Assistant message ID:', assistantMessage.id);
-          
-          // Extract assistant content
-          let verifiedContent = '';
-          if (Array.isArray(assistantMessage.content)) {
-            verifiedContent = assistantMessage.content
-              .filter(c => c.type === "text")
-              .map(c => c.text)
-              .join('');
-          }
-          
-          // Use verified content if stream was incomplete or network was unstable
-          if (verifiedContent && (!streamCompletedSuccessfully || verifiedContent !== currentStreamContent)) {
-            console.log('⚠ Stream content differs from server, using server version');
-            currentStreamContent = verifiedContent;
-            // Update UI with correct content
-            if (onContentUpdate) {
-              onContentUpdate(currentStreamContent);
-            }
-          }
-          
-          if (onComplete) {
-            onComplete(userMessage, assistantMessage);
-          }
-          return;
+      const recentMessages = await this.getMemory(10); // Get more messages to debug
+
+      // Find the last user message and last assistant message
+      const extractText = (content) => {
+        if (Array.isArray(content)) {
+          return content.filter(c => c.type === 'text').map(c => c.text).join('').trim();
         }
+        return (content || '').trim();
+      };
+
+      // Get the last user message and last assistant message from memory
+      let lastUserMessage = null;
+      let lastAssistantMessage = null;
+
+      for (let i = recentMessages.length - 1; i >= 0; i--) {
+        const msg = recentMessages[i];
+        if (!lastAssistantMessage && msg.role === 'assistant') {
+          lastAssistantMessage = msg;
+        }
+        if (!lastUserMessage && msg.role === 'user') {
+          lastUserMessage = msg;
+        }
+        if (lastUserMessage && lastAssistantMessage) break;
       }
-      
+
+      const expectedContent = message.trim();
+      const lastUserContent = lastUserMessage ? extractText(lastUserMessage.content) : '';
+
+      if (lastUserMessage && lastAssistantMessage && lastUserContent === expectedContent) {
+        const assistantContent = extractText(lastAssistantMessage.content);
+
+        console.log('✓ Memory sync successful');
+        console.log('  User message ID:', lastUserMessage.id);
+        console.log('  Assistant message ID:', lastAssistantMessage.id);
+
+        // Use server content if stream was incomplete or content differs
+        if (assistantContent && (!streamCompletedSuccessfully)) {
+          console.log('⚠ Stream content differs from server, using server version');
+          currentStreamContent = assistantContent;
+          if (onContentUpdate) {
+            onContentUpdate(currentStreamContent);
+          }
+        }
+
+        if (onComplete) {
+          onComplete(lastUserMessage, lastAssistantMessage);
+        }
+        return;
+      } else {
+        console.warn('⚠ Could not verify messages from memory');
+        console.log('  Expected user content:', expectedContent.substring(0, 50));
+        console.log('  Found user content:', lastUserContent.substring(0, 50));
+      }
+
       // Fallback: memory sync failed, use stream data
       console.warn('⚠ Could not verify messages from memory, using stream data');
       if (onComplete) {
         // Create message objects from stream data
         const fallbackUserMessage = {
-          id: `user_${streamMessageId}`,
+          id: 'user_' + streamMessageId,
           role: 'user',
           content: [{ type: 'text', text: message.trim() }]
         };

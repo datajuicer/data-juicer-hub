@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=34d13042" />
-    <link rel="stylesheet" type="text/css" href="../_static/ask-ai-widget.css?v=a8aa5a20" />
+    <link rel="stylesheet" type="text/css" href="../_static/ask-ai-widget.css?v=62e39679" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -43,16 +43,16 @@
 
     <script>window.JUICER_API_URL = 'https://datajuicer.online:443';</script>
     <script src="../_static/documentation_options.js?v=91bfbbb6"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/translations.js?v=540d3cec"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/RedPajama_ZH';</script>
     <script src="../_static/sidebar.js?v=3fc1065c"></script>
     <script src="../_static/switcher-mobile.js?v=07875724"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="../_static/ask-ai-widget.js?v=ed755f82"></script>
+    <script src="../_static/ask-ai-widget.js?v=fab4d2ee"></script>
     <link rel="icon" href="../_static/icon.png"/>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
@@ -522,16 +522,16 @@
                 <article class="bd-article">
                   
   <section id="redpajama">
-<h1>Redpajama 配置文件<a class="headerlink" href="#redpajama" title="Link to this heading">#</a></h1>
+<h1>Redpajama 配置文件<a class="headerlink" href="#redpajama" title="链接到此标题。">#</a></h1>
 <p>Data-Juicer-Hub 中的<a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/reproduced_redpajama">文件夹</a>包含的配置文件用于轻松复现 <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep">Redpajama</a> 的处理流程。</p>
 <p>在开始前，请将 <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub">data-juicer-hub</a> 仓库克隆到本地，其已经包含了大量的数据处理菜谱。</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/datajuicer/data-juicer-hub.git
 </pre></div>
 </div>
 <section id="arxiv">
-<h2>arXiv<a class="headerlink" href="#arxiv" title="Link to this heading">#</a></h2>
+<h2>arXiv<a class="headerlink" href="#arxiv" title="链接到此标题。">#</a></h2>
 <p>原始数据文件从 <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/arxiv">Redpajama/arXiv</a> 中相同的 AWS 链接下载。</p>
-<p>下载完成后，使用 <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/../tools/preprocess/raw_arxiv_to_jsonl.py">raw_arxiv_to_jsonl.py</a> 将原始格式转换为 Data-Juicer 易于处理的格式：</p>
+<p>下载完成后，使用 <a class="reference external" href="https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_arxiv_to_jsonl.py">raw_arxiv_to_jsonl.py</a> 将原始格式转换为 Data-Juicer 易于处理的格式：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/preprocess/raw_arxiv_to_jsonl.py<span class="w">           </span><span class="se">\</span>
 <span class="w">    </span>--arxiv_src_dir<span class="w">       </span>&lt;arxiv_src_dir&gt;<span class="w">    </span><span class="se">\</span>
 <span class="w">    </span>--target_dir<span class="w">          </span>&lt;target_dir&gt;<span class="w">       </span><span class="se">\</span>
@@ -544,7 +544,7 @@
 </pre></div>
 </div>
 <section id="id1">
-<h3>指标对比<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<h3>指标对比<a class="headerlink" href="#id1" title="链接到此标题。">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -573,14 +573,14 @@
 </section>
 </section>
 <section id="books">
-<h2>Books<a class="headerlink" href="#books" title="Link to this heading">#</a></h2>
+<h2>Books<a class="headerlink" href="#books" title="链接到此标题。">#</a></h2>
 <p>原始数据文件从 <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/book">Redpajama/Books</a> 中相同的 HuggingFace 链接下载。</p>
 <p>下载完成后，修改 <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/reproduced_redpajama/redpajama-books.yaml">redpajama-books.yaml</a> 中的数据路径，执行以下命令复现 RedPajama 的处理流程：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/process_data.py<span class="w"> </span>--config<span class="w"> </span>&lt;path-to-data-juicer-hub&gt;/reproduced_redpajama/redpajama-books.yaml
 </pre></div>
 </div>
 <section id="id2">
-<h3>指标对比<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<h3>指标对比<a class="headerlink" href="#id2" title="链接到此标题。">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -609,7 +609,7 @@
 </section>
 </section>
 <section id="code">
-<h2>Code<a class="headerlink" href="#code" title="Link to this heading">#</a></h2>
+<h2>Code<a class="headerlink" href="#code" title="链接到此标题。">#</a></h2>
 <p>原始数据文件从 <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/github">Redpajama/Code</a> 中相同的 Google BigQuery 获取。</p>
 <p>下载完成后，解压缩并删除扩展名不在以下白名单中的其他文件：</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.asm, .bat, .cmd, .c, .h, .cs, .cpp, .hpp, .c++, .h++, .cc, .hh, .C, .H, .cmake, .css, .dockerfile, .f90, .f, .f03, .f08, .f77, .f95, .for, .fpp, .go, .hs, .html, .java, .js, .jl, .lua, .md, .markdown, .php, .php3, .php4, .php5, .phps, .phpt, .pl, .pm, .pod, .perl,  ps1, .psd1, .psm1, .py, .rb, .rs, .sql, .scala, .sh, .bash, .command, .zsh, .ts, .tsx, .tex, .vb, Dockerfile, Makefile, .xml, .rst, .m, .smali
@@ -620,7 +620,7 @@
 </pre></div>
 </div>
 <section id="id3">
-<h3>指标对比<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<h3>指标对比<a class="headerlink" href="#id3" title="链接到此标题。">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -649,9 +649,9 @@
 </section>
 </section>
 <section id="stackexchange">
-<h2>StackExchange<a class="headerlink" href="#stackexchange" title="Link to this heading">#</a></h2>
+<h2>StackExchange<a class="headerlink" href="#stackexchange" title="链接到此标题。">#</a></h2>
 <p>原始数据文件从 <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/stack_exchange">Redpajama/Stack_exchange</a> 中相同的 Archive 链接获取。</p>
-<p>下载完成后，使用 <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/../tools/preprocess/raw_stackexchange_to_jsonl.py">raw_stackexchange_to_jsonl.py</a> 将原始格式转换为 Data-Juicer 易于处理的格式：</p>
+<p>下载完成后，使用 <a class="reference external" href="https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_stackexchange_to_jsonl.py">raw_stackexchange_to_jsonl.py</a> 将原始格式转换为 Data-Juicer 易于处理的格式：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/preprocess/raw_arxiv_stackexchange_to_jsonl.py<span class="w">           </span><span class="se">\</span>
 <span class="w">    </span>--src_dir<span class="w">       </span>&lt;src_dir&gt;<span class="w">      </span><span class="se">\</span>
 <span class="w">    </span>--target_dir<span class="w">    </span>&lt;target_dir&gt;<span class="w">   </span><span class="se">\</span>
@@ -664,7 +664,7 @@
 </pre></div>
 </div>
 <section id="id4">
-<h3>指标对比<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<h3>指标对比<a class="headerlink" href="#id4" title="链接到此标题。">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -800,7 +800,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3创建。
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4创建。
     <br/>
   </p>
 </div>

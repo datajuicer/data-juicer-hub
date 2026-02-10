@@ -157,6 +157,8 @@
   font-size: 14px;
   line-height: 1.4;
   position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .ask-ai-message> :last-child {

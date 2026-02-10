@@ -11,7 +11,7 @@ git clone https://github.com/datajuicer/data-juicer-hub.git
 
 原始数据文件从 [Redpajama/arXiv](https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/arxiv) 中相同的 AWS 链接下载。
 
-下载完成后，使用 [raw_arxiv_to_jsonl.py](../../tools/preprocess/raw_arxiv_to_jsonl.py) 将原始格式转换为 Data-Juicer 易于处理的格式：
+下载完成后，使用 [raw_arxiv_to_jsonl.py](https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_arxiv_to_jsonl.py) 将原始格式转换为 Data-Juicer 易于处理的格式：
 
 ```shell
 python tools/preprocess/raw_arxiv_to_jsonl.py           \
@@ -78,7 +78,7 @@ python tools/process_data.py --config <path-to-data-juicer-hub>/reproduced_redpa
 
 原始数据文件从 [Redpajama/Stack_exchange](https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/stack_exchange) 中相同的 Archive 链接获取。
 
-下载完成后，使用 [raw_stackexchange_to_jsonl.py](../../tools/preprocess/raw_stackexchange_to_jsonl.py) 将原始格式转换为 Data-Juicer 易于处理的格式：
+下载完成后，使用 [raw_stackexchange_to_jsonl.py](https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_stackexchange_to_jsonl.py) 将原始格式转换为 Data-Juicer 易于处理的格式：
 
 ```shell
 python tools/preprocess/raw_arxiv_stackexchange_to_jsonl.py           \

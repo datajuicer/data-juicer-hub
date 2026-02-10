@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=34d13042" />
-    <link rel="stylesheet" type="text/css" href="../_static/ask-ai-widget.css?v=a8aa5a20" />
+    <link rel="stylesheet" type="text/css" href="../_static/ask-ai-widget.css?v=62e39679" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -43,15 +43,15 @@
 
     <script>window.JUICER_API_URL = 'https://datajuicer.online:443';</script>
     <script src="../_static/documentation_options.js?v=8a448e45"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/RedPajama';</script>
     <script src="../_static/sidebar.js?v=3fc1065c"></script>
     <script src="../_static/switcher-mobile.js?v=07875724"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="../_static/ask-ai-widget.js?v=ed755f82"></script>
+    <script src="../_static/ask-ai-widget.js?v=fab4d2ee"></script>
     <link rel="icon" href="../_static/icon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -530,7 +530,7 @@
 <section id="arxiv">
 <h2>arXiv<a class="headerlink" href="#arxiv" title="Link to this heading">#</a></h2>
 <p>The raw data files can be downloaded from the same AWS link as in <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/arxiv">Redpajama/arXiv</a>.</p>
-<p>Once downloaded, use <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/../tools/preprocess/raw_arxiv_to_jsonl.py">raw_arxiv_to_jsonl.py</a> to convert from the original format to <code class="docutils literal notranslate"><span class="pre">jsonl</span></code> that Data-Juicer can handle easily:</p>
+<p>Once downloaded, use <a class="reference external" href="https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_arxiv_to_jsonl.py">raw_arxiv_to_jsonl.py</a> to convert from the original format to <code class="docutils literal notranslate"><span class="pre">jsonl</span></code> that Data-Juicer can handle easily:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/preprocess/raw_arxiv_to_jsonl.py<span class="w">           </span><span class="se">\</span>
 <span class="w">    </span>--arxiv_src_dir<span class="w">       </span>&lt;arxiv_src_dir&gt;<span class="w">    </span><span class="se">\</span>
 <span class="w">    </span>--target_dir<span class="w">          </span>&lt;target_dir&gt;<span class="w">       </span><span class="se">\</span>
@@ -650,7 +650,7 @@
 <section id="stackexchange">
 <h2>StackExchange<a class="headerlink" href="#stackexchange" title="Link to this heading">#</a></h2>
 <p>The raw data files can be downloaded from the same Archive link as in <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/stack_exchange">Redpajama/Stack_exchange</a>.</p>
-<p>Once downloaded, use <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/../tools/preprocess/raw_stackexchange_to_jsonl.py">raw_stackexchange_to_jsonl.py</a> to convert from the original format to <code class="docutils literal notranslate"><span class="pre">jsonl</span></code> that Data-Juicer can handle easily:</p>
+<p>Once downloaded, use <a class="reference external" href="https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_stackexchange_to_jsonl.py">raw_stackexchange_to_jsonl.py</a> to convert from the original format to <code class="docutils literal notranslate"><span class="pre">jsonl</span></code> that Data-Juicer can handle easily:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/preprocess/raw_arxiv_stackexchange_to_jsonl.py<span class="w">           </span><span class="se">\</span>
 <span class="w">    </span>--src_dir<span class="w">       </span>&lt;src_dir&gt;<span class="w">      </span><span class="se">\</span>
 <span class="w">    </span>--target_dir<span class="w">    </span>&lt;target_dir&gt;<span class="w">   </span><span class="se">\</span>
@@ -799,7 +799,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
     <br/>
   </p>
 </div>

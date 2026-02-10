@@ -10,7 +10,7 @@ git clone https://github.com/datajuicer/data-juicer-hub.git
 ## arXiv
 The raw data files can be downloaded from the same AWS link as in [Redpajama/arXiv](https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/arxiv).
 
-Once downloaded, use [raw_arxiv_to_jsonl.py](../../tools/preprocess/raw_arxiv_to_jsonl.py) to convert from the original format to `jsonl` that Data-Juicer can handle easily:
+Once downloaded, use [raw_arxiv_to_jsonl.py](https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_arxiv_to_jsonl.py) to convert from the original format to `jsonl` that Data-Juicer can handle easily:
 
 ```shell
 python tools/preprocess/raw_arxiv_to_jsonl.py           \
@@ -77,7 +77,7 @@ python tools/process_data.py --config <path-to-data-juicer-hub>/reproduced_redpa
 
 The raw data files can be downloaded from the same Archive link as in [Redpajama/Stack_exchange](https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/stack_exchange).
 
-Once downloaded, use [raw_stackexchange_to_jsonl.py](../../tools/preprocess/raw_stackexchange_to_jsonl.py) to convert from the original format to `jsonl` that Data-Juicer can handle easily:
+Once downloaded, use [raw_stackexchange_to_jsonl.py](https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_stackexchange_to_jsonl.py) to convert from the original format to `jsonl` that Data-Juicer can handle easily:
 
 ```shell
 python tools/preprocess/raw_arxiv_stackexchange_to_jsonl.py           \
