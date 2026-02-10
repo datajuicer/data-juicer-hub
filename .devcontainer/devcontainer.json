@@ -11,10 +11,10 @@
         "ms-python.python"
       ],
       "settings": {
-        "jupyter.notebookFileRoot": "${workspaceFolder}/notebooks/"
+        "jupyter.notebookFileRoot": "${workspaceFolder}"
       }
     }
   },
-  "postCreateCommand": "",
+  "postCreateCommand": "curl -LsSf https://astral.sh/uv/install.sh | sh",
   "postAttachCommand": "uv venv"
 }
