@@ -1,6 +1,6 @@
 # Notebooks 教程
 
-欢迎来到 Data Juicer Hub 的 Notebooks 教程库！本文件夹包含了一系列 Jupyter notebooks，帮助你快速上手 Data Juicer。
+欢迎来到 Data Juicer Hub 的 Notebooks 教程库！[本分支](https://github.com/datajuicer/data-juicer-hub/tree/notebook)包含了一系列 Jupyter notebooks，帮助你快速上手 Data Juicer。
 
 ## 🚀 快速开始
 

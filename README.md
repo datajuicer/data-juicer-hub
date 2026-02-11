@@ -1,6 +1,6 @@
 # Notebooks Tutorial
 
-Welcome to the Notebooks Tutorial Library of Data Juicer Hub! This folder contains a series of Jupyter notebooks to help you get started with Data Juicer quickly.
+Welcome to the Notebooks Tutorial Library of Data Juicer Hub! [This branch]((https://github.com/datajuicer/data-juicer-hub/tree/notebook)) contains a series of Jupyter notebooks to help you get started with Data Juicer quickly.
 
 ## 🚀 Quick Start
 
