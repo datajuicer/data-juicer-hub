@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Notification System &#8212; Data Juicer Hub</title>
+    <title>Notebooks 教程 &#8212; Data Juicer Hub</title>
   
   
   
@@ -48,7 +48,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/translations.js?v=540d3cec"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/AnnotationNotificationSystem';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/NotebooksTutorial_ZH';</script>
     <script src="../_static/sidebar.js?v=3fc1065c"></script>
     <script src="../_static/switcher-mobile.js?v=07875724"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -56,8 +56,8 @@
     <link rel="icon" href="../_static/icon.png"/>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
-    <link rel="next" title="BLOOM 配置文件" href="BLOOM_ZH.html" />
-    <link rel="prev" title="Alpaca-CoT 完善配置文件" href="AlpacaCOT_ZH.html" />
+    <link rel="next" title="Alpaca-CoT 完善配置文件" href="AlpacaCOT_ZH.html" />
+    <link rel="prev" title="数据菜谱Gallery" href="RecipeGallery_ZH.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="zh-CN"/>
   <meta name="docsearch:version" content="" />
@@ -229,7 +229,7 @@
         
           
           
-          <a href="../../../en/main/docs/AnnotationNotificationSystem.html"
+          <a href="../../../en/main/docs/NotebooksTutorial.html"
              class="dropdown-item "
              role="menuitem"
              >
@@ -238,7 +238,7 @@
         
           
           
-          <a href="../../../zh_CN/main/docs/AnnotationNotificationSystem.html"
+          <a href="../../../zh_CN/main/docs/NotebooksTutorial_ZH.html"
              class="dropdown-item active"
              role="menuitem"
              aria-current="true">
@@ -264,7 +264,7 @@
     <div class="navbar-dropdown-panel" role="menu">
       <div class="dropdown-content">
         
-        <a href="../../main/docs/AnnotationNotificationSystem.html"
+        <a href="../../main/docs/NotebooksTutorial_ZH.html"
            class="dropdown-item active"
            role="menuitem"
            aria-current="true">
@@ -399,7 +399,7 @@
         
           
           
-          <a href="../../../en/main/docs/AnnotationNotificationSystem.html"
+          <a href="../../../en/main/docs/NotebooksTutorial.html"
              class="dropdown-item "
              role="menuitem"
              >
@@ -408,7 +408,7 @@
         
           
           
-          <a href="../../../zh_CN/main/docs/AnnotationNotificationSystem.html"
+          <a href="../../../zh_CN/main/docs/NotebooksTutorial_ZH.html"
              class="dropdown-item active"
              role="menuitem"
              aria-current="true">
@@ -434,7 +434,7 @@
     <div class="navbar-dropdown-panel" role="menu">
       <div class="dropdown-content">
         
-        <a href="../../main/docs/AnnotationNotificationSystem.html"
+        <a href="../../main/docs/NotebooksTutorial_ZH.html"
            class="dropdown-item active"
            role="menuitem"
            aria-current="true">
@@ -458,10 +458,10 @@
   <p class="bd-links__title" role="heading" aria-level="1">章节导航</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="RecipeGallery_ZH.html">数据菜谱Gallery</a></li>
-<li class="toctree-l1"><a class="reference internal" href="NotebooksTutorial_ZH.html">Notebooks 教程</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Notebooks 教程</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="AlpacaCOT_ZH.html">Alpaca-CoT 完善配置文件</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Notification System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AnnotationNotificationSystem.html">Notification System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="BLOOM_ZH.html">BLOOM 配置文件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="RedPajama_ZH.html">Redpajama 配置文件</a></li>
 </ul>
@@ -507,7 +507,7 @@
     
     <li class="breadcrumb-item"><a href="../docs_index_ZH.html" class="nav-link">文档</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Notification System</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Notebooks 教程</span></li>
   </ul>
 </nav>
 </div>
@@ -524,137 +524,128 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="notification-system">
-<h1>Notification System<a class="headerlink" href="#notification-system" title="链接到此标题。">#</a></h1>
-<p>Data Juicer supports notifications for operators that inherit from the <code class="docutils literal notranslate"><span class="pre">NotificationMixin</span></code> class. Each operator defines its own notification configuration, which can include email, Slack, and DingTalk notifications.</p>
-<section id="basic-configuration">
-<h2>Basic Configuration<a class="headerlink" href="#basic-configuration" title="链接到此标题。">#</a></h2>
-<p>To enable notifications for an operator:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">human_preference_annotation_mapper</span><span class="p">:</span>
-<span class="w">    </span><span class="c1"># Enable notifications for this operator</span>
-<span class="w">    </span><span class="nt">notification_config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Master switch for notifications</span>
-<span class="w">      </span>
-<span class="w">      </span><span class="c1"># Email channel configuration</span>
-<span class="w">      </span><span class="nt">email</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Enable email notifications</span>
-<span class="w">        </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.example.com&quot;</span>
-<span class="w">        </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">587</span>
-<span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-email@example.com&quot;</span>
-<span class="w">        </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-email@example.com&quot;</span>
-<span class="w">        </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient1@example.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;recipient2@example.com&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">        </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Notification</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">Data</span><span class="nv"> </span><span class="s">Juicer&quot;</span>
-<span class="w">      </span>
-<span class="w">      </span><span class="c1"># Slack channel configuration (optional)</span>
-<span class="w">      </span><span class="nt">slack</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># Disable Slack notifications</span>
-</pre></div>
-</div>
-</section>
-<section id="channel-specific-settings">
-<h2>Channel-Specific Settings<a class="headerlink" href="#channel-specific-settings" title="链接到此标题。">#</a></h2>
-<p>Each notification channel (email, Slack, DingTalk) can be independently enabled or disabled:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">notification_config</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Master switch for notifications</span>
-<span class="w">  </span>
-<span class="w">  </span><span class="nt">email</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Enable email notifications</span>
-<span class="w">    </span><span class="c1"># Email settings...</span>
-<span class="w">  </span>
-<span class="w">  </span><span class="nt">slack</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># Disable Slack notifications</span>
-<span class="w">    </span><span class="c1"># Slack settings (won&#39;t be used since disabled)</span>
-<span class="w">  </span>
-<span class="w">  </span><span class="nt">dingtalk</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Enable DingTalk notifications</span>
-<span class="w">    </span><span class="c1"># DingTalk settings...</span>
-</pre></div>
-</div>
-</section>
-<section id="email-configuration">
-<h2>Email Configuration<a class="headerlink" href="#email-configuration" title="链接到此标题。">#</a></h2>
-<p>Email notifications support various server configurations:</p>
-<section id="standard-smtp-with-starttls">
-<h3>Standard SMTP with STARTTLS:<a class="headerlink" href="#standard-smtp-with-starttls" title="链接到此标题。">#</a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">email</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.example.com&quot;</span>
-<span class="w">  </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">587</span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@example.com&quot;</span>
-<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@example.com&quot;</span>
-<span class="w">  </span><span class="nt">sender_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Your</span><span class="nv"> </span><span class="s">Name&quot;</span><span class="w">  </span><span class="c1"># Optional</span>
-<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient1@example.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;recipient2@example.com&quot;</span><span class="p p-Indicator">]</span>
-</pre></div>
-</div>
-</section>
-<section id="direct-ssl-connection-e-g-gmail">
-<h3>Direct SSL Connection (e.g., Gmail):<a class="headerlink" href="#direct-ssl-connection-e-g-gmail" title="链接到此标题。">#</a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">email</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.gmail.com&quot;</span>
-<span class="w">  </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">465</span>
-<span class="w">  </span><span class="nt">use_ssl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@gmail.com&quot;</span>
-<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@gmail.com&quot;</span>
-<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient1@example.com&quot;</span><span class="p p-Indicator">]</span>
-</pre></div>
-</div>
-</section>
-<section id="alibaba-email-server">
-<h3>Alibaba Email Server:<a class="headerlink" href="#alibaba-email-server" title="链接到此标题。">#</a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">email</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.alibaba-inc.com&quot;</span>
-<span class="w">  </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">465</span>
-<span class="w">  </span><span class="nt">use_ssl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">include_port_in_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Include port in server address</span>
-<span class="w">  </span><span class="nt">use_mime_multipart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">      </span><span class="c1"># Use simple MIMEText</span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@alibaba-inc.com&quot;</span>
-<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@alibaba-inc.com&quot;</span>
-<span class="w">  </span><span class="nt">recipient_separator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w">       </span><span class="c1"># Use semicolons for recipients</span>
-<span class="w">  </span><span class="nt">add_message_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">           </span><span class="c1"># Add Message-ID header</span>
-<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient1@example.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;recipient2@example.com&quot;</span><span class="p p-Indicator">]</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="secure-password-handling">
-<h2>Secure Password Handling<a class="headerlink" href="#secure-password-handling" title="链接到此标题。">#</a></h2>
-<p>For security, passwords should be provided via environment variables:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># General email password</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_EMAIL_PASSWORD</span><span class="o">=</span><span class="s2">&quot;your_password&quot;</span>
-
-<span class="c1"># Server-specific passwords (preferred)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SMTP_GMAIL_COM_PASSWORD</span><span class="o">=</span><span class="s2">&quot;your_gmail_password&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SMTP_ALIBABA_INC_COM_PASSWORD</span><span class="o">=</span><span class="s2">&quot;your_alibaba_password&quot;</span>
-
-<span class="c1"># Slack webhook</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SLACK_WEBHOOK</span><span class="o">=</span><span class="s2">&quot;your_slack_webhook_url&quot;</span>
-</pre></div>
-</div>
-</section>
-<section id="certificate-authentication">
-<h2>Certificate Authentication<a class="headerlink" href="#certificate-authentication" title="链接到此标题。">#</a></h2>
-<p>For enhanced security, you can use TLS client certificates:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">email</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">use_cert_auth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">client_cert_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/client.crt&quot;</span>
-<span class="w">  </span><span class="nt">client_key_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/client.key&quot;</span>
-<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.example.com&quot;</span>
-<span class="w">  </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">587</span>
-<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;notifications@example.com&quot;</span>
-<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient@example.com&quot;</span><span class="p p-Indicator">]</span>
-</pre></div>
-</div>
-</section>
-<section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="链接到此标题。">#</a></h2>
-<p>See these example configuration files:</p>
+  <section id="notebooks">
+<h1>Notebooks 教程<a class="headerlink" href="#notebooks" title="链接到此标题。">#</a></h1>
+<p>欢迎来到 Data Juicer Hub 的 Notebooks 教程库！<a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/notebook">本分支</a>包含了一系列 Jupyter notebooks，帮助你快速上手 Data Juicer。</p>
+<section id="id1">
+<h2>🚀 快速开始<a class="headerlink" href="#id1" title="链接到此标题。">#</a></h2>
+<p>除下述方法外，您也可以尝试 <a class="reference external" href="http://8.138.149.181/">JupyterLab Playground with Tutorials</a>。</p>
+<section id="github-codespace">
+<h3>方式一：Github Codespace<a class="headerlink" href="#github-codespace" title="链接到此标题。">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>启动 Codespace</strong></p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/annotation_config/annotation_with_notifications.yaml"><code class="docutils literal notranslate"><span class="pre">annotation_with_notifications.yaml</span></code></a>: Shows how to use notifications with annotation operations.</p></li>
-<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notification_alibaba_email.yaml"><code class="docutils literal notranslate"><span class="pre">notification_alibaba_email.yaml</span></code></a>: Demonstrates Alibaba email server configuration.</p></li>
+<li><p>点击本仓库的 <code class="docutils literal notranslate"><span class="pre">Code</span></code> 按钮，选择 <code class="docutils literal notranslate"><span class="pre">Codespaces</span></code> 标签</p></li>
+<li><p>点击 <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">codespace</span> <span class="pre">on</span> <span class="pre">notebook</span></code>（<code class="docutils literal notranslate"><span class="pre">+</span></code>号） 启动环境</p></li>
+<li><p>稍等片刻，你将看到 VSCode Web 界面</p></li>
 </ul>
+</li>
+<li><p><strong>选择并运行 Notebook</strong></p>
+<ul class="simple">
+<li><p>在左侧文件目录中找到 <code class="docutils literal notranslate"><span class="pre">notebooks</span></code> 文件夹</p></li>
+<li><p>点击你感兴趣的 notebook 文件</p></li>
+<li><p>点击右上角的内核选择器，选择 <strong><code class="docutils literal notranslate"><span class="pre">data-juicer-hub</span></code></strong> 环境（位于 <code class="docutils literal notranslate"><span class="pre">.venv</span></code> 目录）</p></li>
+<li><p>开始运行！</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="google-colab">
+<h3>方式二：Google Colab<a class="headerlink" href="#google-colab" title="链接到此标题。">#</a></h3>
+<p>点击下方链接，即可在 Google Colab 中在线运行教程：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>章节</p></th>
+<th class="head"><p>标题</p></th>
+<th class="head"><p>Colab 链接</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>01</p></td>
+<td><p>快速入门</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/01_Getting_Started.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>02</p></td>
+<td><p>构建 Recipes</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/02_Building_Recipes.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>03</p></td>
+<td><p>数据格式与加载</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/03_Data_Formats_and_Loading.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>04</p></td>
+<td><p>DJ Dataset API</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/04_DJ_Dataset_API.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>05</p></td>
+<td><p>算子使用详解</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/05_Operators_Usage.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>06</p></td>
+<td><p>分析与可视化</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/06_Analysis_and_Visualization.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>07</p></td>
+<td><p>Ray 分布式处理</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/07_Distributed_Processing_with_Ray.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>08</p></td>
+<td><p>数据预处理</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/08_Preprocessing.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>09</p></td>
+<td><p>多模态数据处理</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/09_Multimodal_Data_Processing.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>高级数据集配置</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/10_Advanced_Dataset_Configuration.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</section>
+<section id="id2">
+<h1>📝 教程内容概览<a class="headerlink" href="#id2" title="链接到此标题。">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/01_Getting_Started.ipynb"><strong>01_Getting_Started</strong></a> - Data Juicer 核心概念与快速入门</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/02_Building_Recipes.ipynb"><strong>02_Building_Recipes</strong></a> - 数据处理配方的设计与构建</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/03_Data_Formats_and_Loading.ipynb"><strong>03_Data_Formats_and_Loading</strong></a> - 数据格式支持与加载方法详解</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/04_DJ_Dataset_API.ipynb"><strong>04_DJ_Dataset_API</strong></a> - Dataset API 完整指南</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/05_Operators_Usage.ipynb"><strong>05_Operators_Usage</strong></a> - 数据处理算子详解（YAML与Python两种模式）</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/06_Analysis_and_Visualization.ipynb"><strong>06_Analysis_and_Visualization</strong></a> - 数据分析与可视化工具</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/07_Distributed_Processing_with_Ray.ipynb"><strong>07_Distributed_Processing_with_Ray</strong></a> - Ray 分布式处理框架集成</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/08_Preprocessing.ipynb"><strong>08_Preprocessing</strong></a> - 数据预处理脚本</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/09_Multimodal_Data_Processing.ipynb"><strong>09_Multimodal_Data_Processing</strong></a> - 多模态数据处理能力</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/10_Advanced_Dataset_Configuration.ipynb"><strong>10_Advanced_Dataset_Configuration</strong></a> - Dataset 高级配置选项</p></li>
+</ul>
+<section id="id3">
+<h2>💡 推荐学习路径<a class="headerlink" href="#id3" title="链接到此标题。">#</a></h2>
+<p><strong>快速上手</strong></p>
+<blockquote>
+<div><p>01 → 02 → 05 → 06 → 07</p>
+<p>适合：想快速了解与使用 Data Juicer 核心能力的学习者</p>
+</div></blockquote>
+<p><strong>数据对接</strong></p>
+<blockquote>
+<div><p>03 → 08、09、10</p>
+<p>适合：已经了解 Data Juicer 核心能力，需要将自有数据接入处理流程的开发者</p>
+</div></blockquote>
+<p><strong>编程构建</strong></p>
+<blockquote>
+<div><p>01 → 03 → 04 → 05 → 07</p>
+<p>适合：希望用代码灵活定制数据处理管道的工程师</p>
+</div></blockquote>
+</section>
+<section id="id4">
+<h2>📚 更多资源<a class="headerlink" href="#id4" title="链接到此标题。">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://datajuicer.github.io/data-juicer/en/main/">Data Juicer 官方文档</a></p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub">Data Juicer Hub</a></p></li>
+</ul>
+<p>Happy Learning! 🎉</p>
 </section>
 </section>
 
@@ -669,20 +660,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="AlpacaCOT_ZH.html"
+       href="RecipeGallery_ZH.html"
        title="上一页">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">上一页</p>
-        <p class="prev-next-title">Alpaca-CoT 完善配置文件</p>
+        <p class="prev-next-title">数据菜谱Gallery</p>
       </div>
     </a>
     <a class="right-next"
-       href="BLOOM_ZH.html"
+       href="AlpacaCOT_ZH.html"
        title="下一页">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">下一页</p>
-        <p class="prev-next-title">BLOOM 配置文件</p>
+        <p class="prev-next-title">Alpaca-CoT 完善配置文件</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -704,26 +695,29 @@
     <i class="fa-solid fa-list"></i> 当前页面
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-configuration">Basic Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#channel-specific-settings">Channel-Specific Settings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#email-configuration">Email Configuration</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-smtp-with-starttls">Standard SMTP with STARTTLS:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-ssl-connection-e-g-gmail">Direct SSL Connection (e.g., Gmail):</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alibaba-email-server">Alibaba Email Server:</a></li>
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Notebooks 教程</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🚀 快速开始</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#github-codespace">方式一：Github Codespace</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#google-colab">方式二：Google Colab</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#secure-password-handling">Secure Password Handling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#certificate-authentication">Certificate Authentication</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">📝 教程内容概览</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">💡 推荐学习路径</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">📚 更多资源</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
   <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
     <h3>本页</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/docs/AnnotationNotificationSystem.md.txt"
+      <li><a href="../_sources/docs/NotebooksTutorial_ZH.md.txt"
             rel="nofollow">显示源代码</a></li>
     </ul>
    </div></div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Redpajama Config Files &#8212; Data Juicer Hub</title>
+    <title>Notebooks Tutorial &#8212; Data Juicer Hub</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/RedPajama';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/NotebooksTutorial';</script>
     <script src="../_static/sidebar.js?v=3fc1065c"></script>
     <script src="../_static/switcher-mobile.js?v=07875724"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -55,7 +55,8 @@
     <link rel="icon" href="../_static/icon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="BLOOM Config Files" href="BLOOM.html" />
+    <link rel="next" title="Refine Alpaca-CoT Config Files" href="AlpacaCOT.html" />
+    <link rel="prev" title="Data Recipe Gallery" href="RecipeGallery.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -227,7 +228,7 @@
         
           
           
-          <a href="../../../en/main/docs/RedPajama.html"
+          <a href="../../../en/main/docs/NotebooksTutorial.html"
              class="dropdown-item active"
              role="menuitem"
              aria-current="true">
@@ -236,7 +237,7 @@
         
           
           
-          <a href="../../../zh_CN/main/docs/RedPajama_ZH.html"
+          <a href="../../../zh_CN/main/docs/NotebooksTutorial_ZH.html"
              class="dropdown-item "
              role="menuitem"
              >
@@ -262,7 +263,7 @@
     <div class="navbar-dropdown-panel" role="menu">
       <div class="dropdown-content">
         
-        <a href="../../main/docs/RedPajama.html"
+        <a href="../../main/docs/NotebooksTutorial.html"
            class="dropdown-item active"
            role="menuitem"
            aria-current="true">
@@ -397,7 +398,7 @@
         
           
           
-          <a href="../../../en/main/docs/RedPajama.html"
+          <a href="../../../en/main/docs/NotebooksTutorial.html"
              class="dropdown-item active"
              role="menuitem"
              aria-current="true">
@@ -406,7 +407,7 @@
         
           
           
-          <a href="../../../zh_CN/main/docs/RedPajama_ZH.html"
+          <a href="../../../zh_CN/main/docs/NotebooksTutorial_ZH.html"
              class="dropdown-item "
              role="menuitem"
              >
@@ -432,7 +433,7 @@
     <div class="navbar-dropdown-panel" role="menu">
       <div class="dropdown-content">
         
-        <a href="../../main/docs/RedPajama.html"
+        <a href="../../main/docs/NotebooksTutorial.html"
            class="dropdown-item active"
            role="menuitem"
            aria-current="true">
@@ -456,12 +457,12 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="RecipeGallery.html">Data Recipe Gallery</a></li>
-<li class="toctree-l1"><a class="reference internal" href="NotebooksTutorial.html">Notebooks Tutorial</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Notebooks Tutorial</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="AlpacaCOT.html">Refine Alpaca-CoT Config Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="AnnotationNotificationSystem.html">Notification System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="BLOOM.html">BLOOM Config Files</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Redpajama Config Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RedPajama.html">Redpajama Config Files</a></li>
 </ul>
 </div>
 </nav></div>
@@ -505,7 +506,7 @@
     
     <li class="breadcrumb-item"><a href="../docs_index.html" class="nav-link">DOCS</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Redpajama Config Files</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Notebooks Tutorial</span></li>
   </ul>
 </nav>
 </div>
@@ -522,176 +523,128 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="redpajama-config-files">
-<h1>Redpajama Config Files<a class="headerlink" href="#redpajama-config-files" title="Link to this heading">#</a></h1>
-<p>The <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/reproduced_redpajama">folder</a> in Data-Juicer-Hub contains example configuration files to easily and quickly reproduce the processing flow of <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep">Redpajama</a>.</p>
-<p>Before starting, please clone the <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub">data-juicer-hub</a> to local, which contains lots of data processing recipes.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/datajuicer/data-juicer-hub.git
-</pre></div>
-</div>
-<section id="arxiv">
-<h2>arXiv<a class="headerlink" href="#arxiv" title="Link to this heading">#</a></h2>
-<p>The raw data files can be downloaded from the same AWS link as in <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/arxiv">Redpajama/arXiv</a>.</p>
-<p>Once downloaded, use <a class="reference external" href="https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_arxiv_to_jsonl.py">raw_arxiv_to_jsonl.py</a> to convert from the original format to <code class="docutils literal notranslate"><span class="pre">jsonl</span></code> that Data-Juicer can handle easily:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/preprocess/raw_arxiv_to_jsonl.py<span class="w">           </span><span class="se">\</span>
-<span class="w">    </span>--arxiv_src_dir<span class="w">       </span>&lt;arxiv_src_dir&gt;<span class="w">    </span><span class="se">\</span>
-<span class="w">    </span>--target_dir<span class="w">          </span>&lt;target_dir&gt;<span class="w">       </span><span class="se">\</span>
-<span class="w">    </span>--temp_dir<span class="w">            </span>&lt;temp_dir&gt;<span class="w">         </span><span class="se">\</span>
-<span class="w">    </span>--num_proc<span class="w">            </span>&lt;num_proc&gt;
-</pre></div>
-</div>
-<p>After conversion, modify the path configurations in <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/reproduced_redpajama/redpajama-arxiv.yaml">redpajama-arxiv.yaml</a> and execute the following command to reproduce the processing flow of RedPajama:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/process_data.py<span class="w"> </span>--config<span class="w"> </span>&lt;path-to-data-juicer-hub&gt;/reproduced_redpajama/redpajama-arxiv.yaml
-</pre></div>
-</div>
-<section id="comparison">
-<h3>Comparison<a class="headerlink" href="#comparison" title="Link to this heading">#</a></h3>
+  <section id="notebooks-tutorial">
+<h1>Notebooks Tutorial<a class="headerlink" href="#notebooks-tutorial" title="Link to this heading">#</a></h1>
+<p>Welcome to the Notebooks Tutorial Library of Data Juicer Hub! <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/notebook">This branch</a> contains a series of Jupyter notebooks to help you get started with Data Juicer quickly.</p>
+<section id="quick-start">
+<h2>🚀 Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<p>In addition to the methods below, you can also try <a class="reference external" href="http://8.138.149.181/">JupyterLab Playground with Tutorials</a>.</p>
+<section id="method-1-github-codespace">
+<h3>Method 1: Github Codespace<a class="headerlink" href="#method-1-github-codespace" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Launch Codespace</strong></p>
+<ul class="simple">
+<li><p>Click the <code class="docutils literal notranslate"><span class="pre">Code</span></code> button in this repository and select the <code class="docutils literal notranslate"><span class="pre">Codespaces</span></code> tab</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">codespace</span> <span class="pre">on</span> <span class="pre">notebook</span></code> (the <code class="docutils literal notranslate"><span class="pre">+</span></code> icon) to start the environment</p></li>
+<li><p>Wait a moment and you’ll see the VSCode Web interface</p></li>
+</ul>
+</li>
+<li><p><strong>Select and Run Notebooks</strong></p>
+<ul class="simple">
+<li><p>Find the <code class="docutils literal notranslate"><span class="pre">notebooks</span></code> folder in the left file directory</p></li>
+<li><p>Click on the notebook file you’re interested in</p></li>
+<li><p>Click the kernel selector in the top right corner and choose the <strong><code class="docutils literal notranslate"><span class="pre">data-juicer-hub</span></code></strong> environment (located in the <code class="docutils literal notranslate"><span class="pre">.venv</span></code> directory)</p></li>
+<li><p>Start running!</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="method-2-google-colab">
+<h3>Method 2: Google Colab<a class="headerlink" href="#method-2-google-colab" title="Link to this heading">#</a></h3>
+<p>Click the links below to run the tutorials online in Google Colab:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head text-center"><p>num_samples</p></th>
-<th class="head text-center"><p>num_tokens</p></th>
-<th class="head text-center"><p>peak_memory</p></th>
-<th class="head"><p>wall_time</p></th>
+<tr class="row-odd"><th class="head"><p>Chapter</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>Colab Link</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>redpajama</p></td>
-<td class="text-center"><p>1,724,497</p></td>
-<td class="text-center"><p>30,667,506,934</p></td>
-<td class="text-center"><p>35GB</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">total:</span> <span class="pre">11h52min</span></code></p></td>
+<tr class="row-even"><td><p>01</p></td>
+<td><p>Getting Started</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/01_Getting_Started.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Data-Juicer</p></td>
-<td class="text-center"><p>2,675,426</p></td>
-<td class="text-center"><p>30,338,153,178</p></td>
-<td class="text-center"><p>21GB</p></td>
-<td><p>preprocess: 5h21min<br>read+unify: 25min<br>remove_header_mapper: 5min<br>remove_comments_mapper: 3min<br> remove_bibliography_mapper: 4min<br>expand_macro_mapper: 5min19s<br>text_length_filter: 4min<br>export: 43min<br><code class="docutils literal notranslate"><span class="pre">total:</span> <span class="pre">6h53min</span></code></p></td>
+<tr class="row-odd"><td><p>02</p></td>
+<td><p>Building Recipes</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/02_Building_Recipes.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>03</p></td>
+<td><p>Data Formats and Loading</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/03_Data_Formats_and_Loading.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>04</p></td>
+<td><p>DJ Dataset API</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/04_DJ_Dataset_API.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>05</p></td>
+<td><p>Operators Usage</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/05_Operators_Usage.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>06</p></td>
+<td><p>Analysis and Visualization</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/06_Analysis_and_Visualization.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>07</p></td>
+<td><p>Distributed Processing with Ray</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/07_Distributed_Processing_with_Ray.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>08</p></td>
+<td><p>Preprocessing</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/08_Preprocessing.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-even"><td><p>09</p></td>
+<td><p>Multimodal Data Processing</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/09_Multimodal_Data_Processing.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>Advanced Dataset Configuration</p></td>
+<td><p><a class="reference external" href="https://colab.research.google.com/github/datajuicer/data-juicer-hub/blob/notebook/notebooks/10_Advanced_Dataset_Configuration.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
 </section>
-<section id="books">
-<h2>Books<a class="headerlink" href="#books" title="Link to this heading">#</a></h2>
-<p>The raw data files can be downloaded from the same HuggingFace datasets as in <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/book">Redpajama/Books</a>.</p>
-<p>Once downloaded, modify the path configurations in <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/reproduced_redpajama/redpajama-books.yaml">redpajama-books.yaml</a> and execute the following command to reproduce the processing flow of RedPajama.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/process_data.py<span class="w"> </span>--config<span class="w"> </span>&lt;path-to-data-juicer-hub&gt;/reproduced_redpajama/redpajama-books.yaml
-</pre></div>
-</div>
-<section id="id1">
-<h3>Comparison<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head text-center"><p>num_samples</p></th>
-<th class="head text-center"><p>num_tokens</p></th>
-<th class="head text-center"><p>peak_memory</p></th>
-<th class="head"><p>wall_time</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>redpajama</p></td>
-<td class="text-center"><p>205,183</p></td>
-<td class="text-center"><p>25,962,395,123</p></td>
-<td class="text-center"><p>450GB</p></td>
-<td><p>split_for_dedup: 5min<br>dedup: 117min<br> <code class="docutils literal notranslate"><span class="pre">total:</span> <span class="pre">122min</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Data-Juicer</p></td>
-<td class="text-center"><p>207,902</p></td>
-<td class="text-center"><p>26,108,635,683</p></td>
-<td class="text-center"><p>96GB</p></td>
-<td><p>read+unify: 20min<br>compute_hash: 78min<br>dedup: 3min<br>export: 3min<br><code class="docutils literal notranslate"><span class="pre">total:</span> <span class="pre">114min</span></code></p></td>
-</tr>
-</tbody>
-</table>
-</div>
 </section>
+<section id="tutorial-content-overview">
+<h1>📝 Tutorial Content Overview<a class="headerlink" href="#tutorial-content-overview" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/01_Getting_Started.ipynb"><strong>01_Getting_Started</strong></a> - Data Juicer core concepts and quick start guide</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/02_Building_Recipes.ipynb"><strong>02_Building_Recipes</strong></a> - Design and construction of data processing recipes</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/03_Data_Formats_and_Loading.ipynb"><strong>03_Data_Formats_and_Loading</strong></a> - Comprehensive guide to data formats and loading methods</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/04_DJ_Dataset_API.ipynb"><strong>04_DJ_Dataset_API</strong></a> - Complete Dataset API guide</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/05_Operators_Usage.ipynb"><strong>05_Operators_Usage</strong></a> - Detailed explanation of data processing operators (both YAML and Python modes)</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/06_Analysis_and_Visualization.ipynb"><strong>06_Analysis_and_Visualization</strong></a> - Data analysis and visualization tools</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/07_Distributed_Processing_with_Ray.ipynb"><strong>07_Distributed_Processing_with_Ray</strong></a> - Ray distributed processing framework integration</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/08_Preprocessing.ipynb"><strong>08_Preprocessing</strong></a> - Data preprocessing scripts</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/09_Multimodal_Data_Processing.ipynb"><strong>09_Multimodal_Data_Processing</strong></a> - Multimodal data processing capabilities</p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/docs/notebooks/10_Advanced_Dataset_Configuration.ipynb"><strong>10_Advanced_Dataset_Configuration</strong></a> - Advanced Dataset configuration options</p></li>
+</ul>
+<section id="recommended-learning-paths">
+<h2>💡 Recommended Learning Paths<a class="headerlink" href="#recommended-learning-paths" title="Link to this heading">#</a></h2>
+<p><strong>Quick Start</strong></p>
+<blockquote>
+<div><p>01 → 02 → 05 → 06 → 07</p>
+<p>For: Learners who want to quickly understand and use Data Juicer’s core capabilities</p>
+</div></blockquote>
+<p><strong>Data Integration</strong></p>
+<blockquote>
+<div><p>03 → 08, 09, 10</p>
+<p>For: Developers who already understand Data Juicer’s core capabilities and need to integrate their own data into processing pipelines</p>
+</div></blockquote>
+<p><strong>Programming and Customization</strong></p>
+<blockquote>
+<div><p>01 → 03 → 04 → 05 → 07</p>
+<p>For: Engineers who want to flexibly customize data processing pipelines with code</p>
+</div></blockquote>
 </section>
-<section id="code">
-<h2>Code<a class="headerlink" href="#code" title="Link to this heading">#</a></h2>
-<p>The raw data files can be downloaded from Google BigQuery as in <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/github">Redpajama/Code</a>.</p>
-<p>Once downloaded, unzip and delete files whose extensions are not in the following whitelist:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.asm, .bat, .cmd, .c, .h, .cs, .cpp, .hpp, .c++, .h++, .cc, .hh, .C, .H, .cmake, .css, .dockerfile, .f90, .f, .f03, .f08, .f77, .f95, .for, .fpp, .go, .hs, .html, .java, .js, .jl, .lua, .md, .markdown, .php, .php3, .php4, .php5, .phps, .phpt, .pl, .pm, .pod, .perl,  ps1, .psd1, .psm1, .py, .rb, .rs, .sql, .scala, .sh, .bash, .command, .zsh, .ts, .tsx, .tex, .vb, Dockerfile, Makefile, .xml, .rst, .m, .smali
-</pre></div>
-</div>
-<p>After preparation, modify the path configurations in <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/reproduced_redpajama/redpajama-code.yaml">redpajama-code.yaml</a> and execute the following command to reproduce the processing flow of redpajama:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/process_data.py<span class="w"> </span>--config<span class="w"> </span>&lt;path-to-data-juicer-hub&gt;/reproduced_redpajama/redpajama-code.yaml
-</pre></div>
-</div>
-<section id="id2">
-<h3>Comparison<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head text-center"><p>num_samples</p></th>
-<th class="head text-center"><p>num_tokens</p></th>
-<th class="head text-center"><p>peak_memory</p></th>
-<th class="head"><p>wall_time</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>redpajama</p></td>
-<td class="text-center"><p>73,208,524</p></td>
-<td class="text-center"><p>150,390,270,060</p></td>
-<td class="text-center"><p>212GB</p></td>
-<td><p>local-dedup: 37h<br>global-dedup: 1h<br>merge-dedup: 6h<br>filter: 17h<br><code class="docutils literal notranslate"><span class="pre">total:</span> <span class="pre">61h</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Data-Juicer</p></td>
-<td class="text-center"><p>73,169,889</p></td>
-<td class="text-center"><p>150,310,903,230</p></td>
-<td class="text-center"><p>370GB</p></td>
-<td><p>preprocess: 5h21min<br>read+unify: 12h<br>document_deduplicator: 20h<br>clean_copyright_mappe:  3h<br>maximum_line_length_filter: 2.5h<br>average_line_length_filter: 2h<br>alphanumeric_filter: 13h<br>export: 2.5h<br><code class="docutils literal notranslate"><span class="pre">total:</span> <span class="pre">59h</span></code></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</section>
-<section id="stackexchange">
-<h2>StackExchange<a class="headerlink" href="#stackexchange" title="Link to this heading">#</a></h2>
-<p>The raw data files can be downloaded from the same Archive link as in <a class="reference external" href="https://github.com/togethercomputer/RedPajama-Data/tree/rp_v1/data_prep/stack_exchange">Redpajama/Stack_exchange</a>.</p>
-<p>Once downloaded, use <a class="reference external" href="https://github.com/datajuicer/data-juicer/blob/main/tools/preprocess/raw_stackexchange_to_jsonl.py">raw_stackexchange_to_jsonl.py</a> to convert from the original format to <code class="docutils literal notranslate"><span class="pre">jsonl</span></code> that Data-Juicer can handle easily:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/preprocess/raw_arxiv_stackexchange_to_jsonl.py<span class="w">           </span><span class="se">\</span>
-<span class="w">    </span>--src_dir<span class="w">       </span>&lt;src_dir&gt;<span class="w">      </span><span class="se">\</span>
-<span class="w">    </span>--target_dir<span class="w">    </span>&lt;target_dir&gt;<span class="w">   </span><span class="se">\</span>
-<span class="w">    </span>--topk<span class="w">          </span>&lt;topk&gt;<span class="w">         </span><span class="se">\</span>
-<span class="w">    </span>--num_proc<span class="w">      </span>&lt;num_proc&gt;<span class="w">     </span><span class="se">\</span>
-</pre></div>
-</div>
-<p>After conversion, modify the path configurations in <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/reproduced_redpajama/redpajama-stackexchange.yaml">redpajama-stackexchange.yaml</a> and execute the following command to reproduce the processing flow of redpajama:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools/process_data.py<span class="w"> </span>--config<span class="w"> </span>&lt;path-to-data-juicer-hub&gt;/reproduced_redpajama/redpajama-stackexchange.yaml
-</pre></div>
-</div>
-<section id="id3">
-<h3>Comparison<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head text-center"><p>num_samples</p></th>
-<th class="head text-center"><p>num_tokens</p></th>
-<th class="head text-center"><p>peak_memory</p></th>
-<th class="head"><p>wall_time</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>redpajama</p></td>
-<td class="text-center"><p>29,825,086</p></td>
-<td class="text-center"><p>20,502,757,123</p></td>
-<td class="text-center"><p>&gt;500GB</p></td>
-<td><p>filter: 170min<br>postprocess: 90min<br><code class="docutils literal notranslate"><span class="pre">total:</span> <span class="pre">260min</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Data-Juicer</p></td>
-<td class="text-center"><p>29,825,086</p></td>
-<td class="text-center"><p>20,628,082,262</p></td>
-<td class="text-center"><p>100GB</p></td>
-<td><p>preprocess: 210min<br>read+unify: 86min<br>clean_html: 15min<br>language_id_score_filter: 18min<br><code class="docutils literal notranslate"><span class="pre">total:</span> <span class="pre">391min</span></code></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
+<section id="more-resources">
+<h2>📚 More Resources<a class="headerlink" href="#more-resources" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://datajuicer.github.io/data-juicer/en/main/">Data Juicer Official Documentation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub">Data Juicer Hub</a></p></li>
+</ul>
+<p>Happy Learning! 🎉</p>
 </section>
 </section>
 
@@ -706,13 +659,22 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="BLOOM.html"
+       href="RecipeGallery.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">BLOOM Config Files</p>
+        <p class="prev-next-title">Data Recipe Gallery</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="AlpacaCOT.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Refine Alpaca-CoT Config Files</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -732,31 +694,29 @@
     <i class="fa-solid fa-list"></i> On this page
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arxiv">arXiv</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#books">Books</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Comparison</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Comparison</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stackexchange">StackExchange</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Comparison</a></li>
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Notebooks Tutorial</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">🚀 Quick Start</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-github-codespace">Method 1: Github Codespace</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-google-colab">Method 2: Google Colab</a></li>
 </ul>
 </li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tutorial-content-overview">📝 Tutorial Content Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-learning-paths">💡 Recommended Learning Paths</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-resources">📚 More Resources</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
   <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/docs/RedPajama.md.txt"
+      <li><a href="../_sources/docs/NotebooksTutorial.md.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

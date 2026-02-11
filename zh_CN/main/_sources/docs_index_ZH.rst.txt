@@ -7,4 +7,5 @@
    :glob:
 
    docs/RecipeGallery_ZH
+   docs/NotebooksTutorial_ZH
    docs/*
