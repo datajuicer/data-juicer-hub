@@ -7,4 +7,5 @@ DOCS
    :glob:
 
    docs/RecipeGallery
+   docs/NotebooksTutorial
    docs/*
