@@ -52,6 +52,13 @@ jobs:
           echo "Restoring custom files..."
           cp -rf /tmp/custom_files/source/* docs/sphinx_doc/source
           echo "Done!"
+      - name: Fetch notebook branches docs
+        run: |
+          set -e
+          echo "Fetching notebook branches docs..."
+          mkdir -p docs/sphinx_doc/source/docs
+          git clone --depth=1 --branch notebook https://github.com/datajuicer/data-juicer-hub.git /tmp/notebooks
+          cp /tmp/notebooks/*.md docs/sphinx_doc/source/docs
       - name: Get git tags
         run: |
           git fetch --all --tags
