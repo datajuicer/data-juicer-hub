@@ -16,6 +16,15 @@ git clone https://github.com/datajuicer/data-juicer-hub.git
 dj-process --config <root-of-data-juicer-hub>/demo/process.yaml --dataset_path <your-dataset-path>
 ```
 
+If you prefer learning and using Data-Juicer through interactive Notebooks, you can switch to the `notebook` branch:
+
+```shell
+# Switch to the notebook branch
+git checkout notebook
+```
+
+This branch contains detailed Data-Juicer Notebook tutorials. You can refer to the [online documentation](https://datajuicer.github.io/data-juicer-hub/en/main/docs/NotebooksTutorial.html) for usage guidance.
+
 ## Contributing
 
 This is a community-driven repo, so feel free to upload your own recipes to this repo! 😄
