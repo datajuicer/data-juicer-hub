@@ -17,7 +17,6 @@ git clone https://github.com/datajuicer/data-juicer-hub.git
 dj-process --config <data-juicer-hub根目录>/demo/process.yaml --dataset_path <你的数据集路径>
 ```
 
-
 如果你更喜欢通过交互式 Notebook 学习和使用 Data-Juicer，可以切换到 `notebook` 分支：
 
 ```shell
