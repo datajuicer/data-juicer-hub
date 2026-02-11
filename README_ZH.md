@@ -25,7 +25,7 @@ dj-process --config <data-juicer-hub根目录>/demo/process.yaml --dataset_path 
 git checkout notebook
 ```
 
-该分支包含了 Data-Juicer 的详细 Notebook 教程，你可以参考 [在线文档](https://datajuicer.github.io/data-juicer-hub/en/main/docs/NotebooksTutorial_ZH.html) 进行使用。
+该分支包含了 Data-Juicer 的详细 Notebook 教程，你可以参考 [在线文档](https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/NotebooksTutorial_ZH.html) 进行使用。
 
 ## 贡献指南
 
