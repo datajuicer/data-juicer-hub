@@ -72,6 +72,7 @@ class AskAIWidget {
       onClear: () => this.clearConversation(),
       onExpand: () => this.ui.toggleExpand(),
       onSend: () => this.sendMessage(),
+      onThinkingToggle: () => this.ui.toggleThinking(),
     });
 
     // Bind feedback button events
@@ -279,6 +280,13 @@ class AskAIWidget {
 
     // Track active tool calls by call_id
     const activeToolCalls = new Map();
+    // Track the currently active thinking container
+    let activeThinkingContainer = null;
+
+    // Build model_config based on thinking toggle state
+    const modelConfig = {
+      enable_thinking: this.ui.enableThinking
+    };
 
     try {
       // Get AI response with streaming
@@ -288,6 +296,13 @@ class AskAIWidget {
         (content) => {
           // Remove typing class when we start receiving content
           assistantMessageDiv.classList.remove('typing');
+          // Finalize thinking panel if it was open (thinking phase ended, text phase started)
+          if (activeThinkingContainer) {
+            this.ui.finalizeThinking(activeThinkingContainer);
+            activeThinkingContainer = null;
+          }
+          // Collapse completed tool containers when text content arrives
+          this.ui.collapseCompletedToolContainers(assistantMessageDiv);
           this.ui.updateMessageContent(assistantMessageDiv, content);
         },
         // onToolUse
@@ -298,6 +313,12 @@ class AskAIWidget {
           const typingIndicator = assistantMessageDiv.querySelector('.typing-indicator');
           if (typingIndicator) {
             typingIndicator.remove();
+          }
+
+          // Finalize thinking panel if it was open before tool call
+          if (activeThinkingContainer) {
+            this.ui.finalizeThinking(activeThinkingContainer);
+            activeThinkingContainer = null;
           }
           
           // Add tool call to panel
@@ -314,6 +335,12 @@ class AskAIWidget {
           activeToolCalls.forEach(toolId => {
             this.ui.markToolCallDone(toolId);
           });
+
+          // Finalize any remaining active thinking container
+          if (activeThinkingContainer) {
+            this.ui.finalizeThinking(activeThinkingContainer);
+            activeThinkingContainer = null;
+          }
           
           // Ensure typing class is removed
           assistantMessageDiv.classList.remove('typing');
@@ -383,6 +410,24 @@ class AskAIWidget {
             this.ui.markToolCallDone(toolId);
             console.log('Tool completed:', callId, '-> toolId:', toolId);
           }
+        },
+        // modelConfig
+        modelConfig,
+        // onThinkingUpdate
+        (thinkingText) => {
+          // Remove typing class when we start receiving thinking content
+          assistantMessageDiv.classList.remove('typing');
+          const typingIndicator = assistantMessageDiv.querySelector('.typing-indicator');
+          if (typingIndicator) {
+            typingIndicator.remove();
+          }
+          // Collapse completed tool containers when thinking phase starts
+          this.ui.collapseCompletedToolContainers(assistantMessageDiv);
+          // Create a new thinking container if none is active
+          if (!activeThinkingContainer) {
+            activeThinkingContainer = this.ui.createThinkingContainer(assistantMessageDiv);
+          }
+          this.ui.appendThinkingContent(thinkingText, activeThinkingContainer);
         }
       );
     } catch (error) {

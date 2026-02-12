@@ -32,6 +32,9 @@ export const I18N = {
     feedbackSuccess: 'Thank you for your feedback!',
     feedbackError: 'Failed to submit feedback',
     copiedSuccess: 'Copied to clipboard!',
+    thinking: 'Thinking',
+    thinkingTitle: 'Enable/Disable Thinking',
+    thinkingContent: 'Thinking',
     helpSuffix: '\n\n---\n*If you have any questions, please visit [data-juicer issues](https://github.com/datajuicer/data-juicer/issues) or [data-juicer-agents issues](https://github.com/datajuicer/data-juicer-agents/issues)*'
   },
   zh_CN: {
@@ -63,6 +66,9 @@ export const I18N = {
     feedbackSuccess: '感谢您的反馈！',
     feedbackError: '提交反馈失败',
     copiedSuccess: '已复制到剪贴板！',
+    thinking: '思考',
+    thinkingTitle: '开启/关闭思考模式',
+    thinkingContent: '思考',
     helpSuffix: '\n\n---\n*如果您有任何问题，请访问 [data-juicer issues](https://github.com/datajuicer/data-juicer/issues) 或 [data-juicer-agents issues](https://github.com/datajuicer/data-juicer-agents/issues)*'
   }
 };

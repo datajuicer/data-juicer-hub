@@ -39,6 +39,9 @@ var AskAIWidget = (function () {
       feedbackSuccess: 'Thank you for your feedback!',
       feedbackError: 'Failed to submit feedback',
       copiedSuccess: 'Copied to clipboard!',
+      thinking: 'Thinking',
+      thinkingTitle: 'Enable/Disable Thinking',
+      thinkingContent: 'Thinking',
       helpSuffix: '\n\n---\n*If you have any questions, please visit [data-juicer issues](https://github.com/datajuicer/data-juicer/issues) or [data-juicer-agents issues](https://github.com/datajuicer/data-juicer-agents/issues)*'
     },
     zh_CN: {
@@ -70,6 +73,9 @@ var AskAIWidget = (function () {
       feedbackSuccess: '感谢您的反馈！',
       feedbackError: '提交反馈失败',
       copiedSuccess: '已复制到剪贴板！',
+      thinking: '思考',
+      thinkingTitle: '开启/关闭思考模式',
+      thinkingContent: '思考',
       helpSuffix: '\n\n---\n*如果您有任何问题，请访问 [data-juicer issues](https://github.com/datajuicer/data-juicer/issues) 或 [data-juicer-agents issues](https://github.com/datajuicer/data-juicer-agents/issues)*'
     }
   };
@@ -272,12 +278,15 @@ var AskAIWidget = (function () {
      * @param {Function} onComplete - Callback when complete with verified messages (userMessage, assistantMessage)
      * @param {Function} onError - Callback for errors (error)
      * @param {Function} onToolComplete - Callback when tool execution completes (callId)
+     * @param {Object} modelConfig - Optional model configuration (e.g., { enable_thinking: true })
+     * @param {Function} onThinkingUpdate - Callback for thinking content updates (thinkingText)
      */
-    async getAIResponseStream(message, onContentUpdate, onToolUse, onComplete, onError, onToolComplete) {
+    async getAIResponseStream(message, onContentUpdate, onToolUse, onComplete, onError, onToolComplete, modelConfig = null, onThinkingUpdate = null) {
       let currentStreamContent = '';
       let streamMessageId = `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       let hasReceivedContent = false;
       let streamCompletedSuccessfully = false;
+      let isInReasoningPhase = false;
 
       try {
         const requestBody = {
@@ -295,6 +304,10 @@ var AskAIWidget = (function () {
           session_id: this.sessionId,
           user_id: this.sessionId,
         };
+
+        if (modelConfig && typeof modelConfig === 'object') {
+          requestBody.model_params = modelConfig;
+        }
 
         console.log('Sending streaming request to:', `${this.getApiBaseUrl()}/process`);
 
@@ -386,28 +399,70 @@ var AskAIWidget = (function () {
                 }
               }
 
-              // Handle incremental text content
+              // Handle reasoning phase: object="message", type="reasoning"
+              if (data.object === "message" && data.type === "reasoning") {
+                if (data.status === "in_progress") {
+                  isInReasoningPhase = true;
+                  console.log('Entering reasoning phase, msg_id:', data.id);
+                } else if (data.status === "completed") {
+                  // Reasoning phase completed - ignore entirely (skip all further processing)
+                  isInReasoningPhase = false;
+                  console.log('Reasoning phase completed, msg_id:', data.id);
+                  continue;
+                }
+              }
+
+              // Handle normal message phase start: object="message", type="message"
+              // This signals the end of reasoning and start of normal response
+              if (data.object === "message" && data.type === "message" && data.status === "in_progress") {
+                if (isInReasoningPhase) {
+                  isInReasoningPhase = false;
+                  console.log('Exiting reasoning phase, entering message phase');
+                }
+              }
+
+              // Skip non-delta content events (e.g., completed content summaries from reasoning)
+              if (
+                data.object === "content" &&
+                data.type === "text" &&
+                data.delta !== true &&
+                data.status === "completed"
+              ) {
+                console.log('Skipping completed content summary, sequence:', data.sequence_number);
+                continue;
+              }
+
+              // Handle incremental text content (used for both reasoning and normal text)
               if (
                 data.object === "content" &&
                 data.type === "text" &&
                 data.delta === true &&
                 data.text !== undefined
               ) {
-                if (!hasReceivedContent) {
-                  currentStreamContent = '';
-                  hasReceivedContent = true;
-                }
-                currentStreamContent += data.text;
-                if (onContentUpdate) {
-                  onContentUpdate(currentStreamContent);
+                if (isInReasoningPhase) {
+                  // Route to thinking callback during reasoning phase
+                  if (onThinkingUpdate) {
+                    onThinkingUpdate(data.text);
+                  }
+                } else {
+                  // Route to normal content callback
+                  if (!hasReceivedContent) {
+                    currentStreamContent = '';
+                    hasReceivedContent = true;
+                  }
+                  currentStreamContent += data.text;
+                  if (onContentUpdate) {
+                    onContentUpdate(currentStreamContent);
+                  }
                 }
               }
 
-              // Final message delivery
+              // Final message delivery (skip reasoning messages to avoid showing thinking as normal text)
               if (
                 data.object === "message" &&
                 data.status === "completed" &&
                 data.role === "assistant" &&
+                data.type !== "reasoning" &&
                 Array.isArray(data.content)
               ) {
                 const fullText = data.content
@@ -573,6 +628,7 @@ var AskAIWidget = (function () {
       this.isOpen = false;
       this.isExpanded = false;
       this.isTyping = false;
+      this.enableThinking = false;
       this.messages = [];
       
       // DOM references (will be set after createWidget)
@@ -581,6 +637,7 @@ var AskAIWidget = (function () {
       this.closeBtn = null;
       this.clearBtn = null;
       this.expandBtn = null;
+      this.thinkingBtn = null;
       this.messagesContainer = null;
       this.input = null;
       this.sendBtn = null;
@@ -619,15 +676,23 @@ var AskAIWidget = (function () {
 
         <!-- Input Area -->
         <div class="ask-ai-input-area">
-          <textarea 
-            class="ask-ai-input" 
-            id="askAiInput" 
-            placeholder="${this.i18n.inputPlaceholder}"
-            rows="1"
-          ></textarea>
-          <button class="ask-ai-send" id="askAiSend" title="${this.i18n.sendTitle}">
-            ➤
-          </button>
+          <div class="ask-ai-input-row">
+            <textarea 
+              class="ask-ai-input" 
+              id="askAiInput" 
+              placeholder="${this.i18n.inputPlaceholder}"
+              rows="1"
+            ></textarea>
+            <button class="ask-ai-send" id="askAiSend" title="${this.i18n.sendTitle}">
+              ➤
+            </button>
+          </div>
+          <div class="ask-ai-input-options">
+            <button class="ask-ai-thinking-toggle" id="askAiThinkingToggle" title="${this.i18n.thinkingTitle}">
+              <i class="fa-solid fa-brain"></i>
+              <span class="ask-ai-thinking-label">${this.i18n.thinking}</span>
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -640,6 +705,7 @@ var AskAIWidget = (function () {
       this.closeBtn = document.getElementById('askAiClose');
       this.clearBtn = document.getElementById('askAiClear');
       this.expandBtn = document.getElementById('askAiExpand');
+      this.thinkingBtn = document.getElementById('askAiThinkingToggle');
       this.messagesContainer = document.getElementById('askAiMessages');
       this.input = document.getElementById('askAiInput');
       this.sendBtn = document.getElementById('askAiSend');
@@ -656,7 +722,8 @@ var AskAIWidget = (function () {
         onClear,
         onExpand,
         onSend,
-        onInputChange
+        onInputChange,
+        onThinkingToggle
       } = callbacks;
 
       // Toggle modal
@@ -698,6 +765,14 @@ var AskAIWidget = (function () {
             e.preventDefault();
             onSend();
           }
+        });
+      }
+
+      // Toggle thinking mode
+      if (onThinkingToggle) {
+        this.thinkingBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          onThinkingToggle();
         });
       }
 
@@ -904,25 +979,37 @@ var AskAIWidget = (function () {
       // Only append helpSuffix when explicitly requested (at the end of response)
       const contentToRender = addSuffix ? content + (this.i18n.helpSuffix || '') : content;
       
-      // Get all tool containers to find the last one
+      // Find the last "block" element (tool container or thinking panel)
+      // Content should always be placed after the last block element
       const toolContainers = messageDiv.querySelectorAll('.tool-calls-inline');
+      const thinkingContainers = messageDiv.querySelectorAll('.thinking-inline');
       const lastToolContainer = toolContainers.length > 0 ? toolContainers[toolContainers.length - 1] : null;
+      const lastThinkingContainer = thinkingContainers.length > 0 ? thinkingContainers[thinkingContainers.length - 1] : null;
       
-      if (lastToolContainer) {
-        // There are tool calls - find or create content wrapper AFTER the last tool container
-        let contentWrapper = lastToolContainer.nextElementSibling;
+      // Determine the last block element by comparing DOM positions
+      let lastBlockElement = null;
+      if (lastToolContainer && lastThinkingContainer) {
+        // Both exist - find which one comes last in DOM order
+        const position = lastToolContainer.compareDocumentPosition(lastThinkingContainer);
+        lastBlockElement = (position & Node.DOCUMENT_POSITION_FOLLOWING) ? lastThinkingContainer : lastToolContainer;
+      } else {
+        lastBlockElement = lastThinkingContainer || lastToolContainer;
+      }
+      
+      if (lastBlockElement) {
+        // Find or create content wrapper AFTER the last block element
+        let contentWrapper = lastBlockElement.nextElementSibling;
         if (!contentWrapper || !contentWrapper.classList.contains('message-content-segment')) {
           contentWrapper = document.createElement('div');
           contentWrapper.className = 'message-content-segment';
-          lastToolContainer.after(contentWrapper);
+          lastBlockElement.after(contentWrapper);
         }
         
         // Calculate what content belongs to this segment
-        // We need to extract only the NEW content after the last tool call
         const segmentContent = this.extractContentAfterTools(messageDiv, content);
         contentWrapper.innerHTML = this.renderMarkdown(segmentContent);
       } else {
-        // No tool calls yet - find or create the first content segment
+        // No block elements - find or create the first content segment
         let contentWrapper = messageDiv.querySelector('.message-content-segment');
         if (!contentWrapper) {
           contentWrapper = document.createElement('div');
@@ -970,11 +1057,22 @@ var AskAIWidget = (function () {
       
       const messageId = messageDiv.getAttribute('data-message-id');
       
-      // Get all tool containers
+      // Find the last block element (tool container or thinking panel)
       const toolContainers = messageDiv.querySelectorAll('.tool-calls-inline');
+      const thinkingContainers = messageDiv.querySelectorAll('.thinking-inline');
+      const lastToolContainer = toolContainers.length > 0 ? toolContainers[toolContainers.length - 1] : null;
+      const lastThinkingContainer = thinkingContainers.length > 0 ? thinkingContainers[thinkingContainers.length - 1] : null;
       
-      if (toolContainers.length === 0) {
-        // No tool calls - simple case, just render all content with suffix
+      let lastBlockElement = null;
+      if (lastToolContainer && lastThinkingContainer) {
+        const position = lastToolContainer.compareDocumentPosition(lastThinkingContainer);
+        lastBlockElement = (position & Node.DOCUMENT_POSITION_FOLLOWING) ? lastThinkingContainer : lastToolContainer;
+      } else {
+        lastBlockElement = lastThinkingContainer || lastToolContainer;
+      }
+      
+      if (!lastBlockElement) {
+        // No block elements - simple case, just render all content with suffix
         let contentWrapper = messageDiv.querySelector('.message-content-segment');
         if (!contentWrapper) {
           contentWrapper = document.createElement('div');
@@ -983,15 +1081,10 @@ var AskAIWidget = (function () {
         }
         contentWrapper.innerHTML = this.renderMarkdown(content + (this.i18n.helpSuffix || ''));
       } else {
-        // Has tool calls - find the last content segment and just add helpSuffix
-        const lastToolContainer = toolContainers[toolContainers.length - 1];
-        let lastContentSegment = lastToolContainer.nextElementSibling;
+        // Has block elements - find the last content segment after the last block
+        let lastContentSegment = lastBlockElement.nextElementSibling;
         
         if (lastContentSegment && lastContentSegment.classList.contains('message-content-segment')) {
-          // Get the current content from the segment (already rendered during streaming)
-          // Just re-render with helpSuffix added
-          lastContentSegment.textContent || '';
-          // Use the stored full content to get the correct segment content
           const fullContent = messageDiv.getAttribute('data-full-content') || content;
           const contentBeforeLastTool = parseInt(messageDiv.getAttribute('data-content-before-last-tool') || '0', 10);
           const segmentContent = contentBeforeLastTool > 0 && contentBeforeLastTool < fullContent.length 
@@ -999,7 +1092,7 @@ var AskAIWidget = (function () {
             : fullContent;
           lastContentSegment.innerHTML = this.renderMarkdown(segmentContent + (this.i18n.helpSuffix || ''));
         } else {
-          // No content segment after last tool - check if there should be one
+          // No content segment after last block - check if there should be one
           const fullContent = messageDiv.getAttribute('data-full-content') || content;
           const contentBeforeLastTool = parseInt(messageDiv.getAttribute('data-content-before-last-tool') || '0', 10);
           const segmentContent = contentBeforeLastTool > 0 && contentBeforeLastTool < fullContent.length 
@@ -1010,7 +1103,7 @@ var AskAIWidget = (function () {
             lastContentSegment = document.createElement('div');
             lastContentSegment.className = 'message-content-segment';
             lastContentSegment.innerHTML = this.renderMarkdown(segmentContent + (this.i18n.helpSuffix || ''));
-            lastToolContainer.after(lastContentSegment);
+            lastBlockElement.after(lastContentSegment);
           }
         }
       }
@@ -1065,6 +1158,100 @@ var AskAIWidget = (function () {
       const typingIndicator = document.getElementById('typingIndicator');
       if (typingIndicator) {
         typingIndicator.remove();
+      }
+    }
+
+    /**
+     * Toggle thinking mode on/off
+     */
+    toggleThinking() {
+      this.enableThinking = !this.enableThinking;
+      if (this.enableThinking) {
+        this.thinkingBtn.classList.add('active');
+      } else {
+        this.thinkingBtn.classList.remove('active');
+      }
+    }
+
+    /**
+     * Create a new thinking container inside message bubble as a collapsible panel.
+     * Each reasoning phase gets its own container.
+     * @param {HTMLElement} messageDiv - Message element to add thinking info to
+     * @returns {HTMLElement} The created thinking container
+     */
+    createThinkingContainer(messageDiv) {
+      if (!messageDiv) return null;
+
+      // Record current content length before adding thinking block
+      const currentFullContent = messageDiv.getAttribute('data-full-content') || '';
+      messageDiv.setAttribute('data-content-before-last-tool', currentFullContent.length.toString());
+
+      const thinkingContainer = document.createElement('div');
+      thinkingContainer.className = 'thinking-inline';
+
+      // Add collapsible header
+      const header = document.createElement('div');
+      header.className = 'thinking-inline-header';
+      header.innerHTML = `
+      <span class="thinking-inline-title">💭 ${this.i18n.thinkingContent}</span>
+      <button class="thinking-inline-toggle">▼</button>
+    `;
+      thinkingContainer.appendChild(header);
+
+      // Add content container
+      const thinkingContentDiv = document.createElement('div');
+      thinkingContentDiv.className = 'thinking-inline-content';
+      thinkingContainer.appendChild(thinkingContentDiv);
+
+      // Append thinking container at the end of messageDiv
+      messageDiv.appendChild(thinkingContainer);
+
+      // Add toggle functionality
+      const toggleBtn = header.querySelector('.thinking-inline-toggle');
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const contentDiv = thinkingContainer.querySelector('.thinking-inline-content');
+        const isCollapsed = contentDiv.style.display === 'none';
+        contentDiv.style.display = isCollapsed ? 'block' : 'none';
+        toggleBtn.textContent = isCollapsed ? '▼' : '▶';
+        thinkingContainer.classList.toggle('collapsed', !isCollapsed);
+      });
+
+      return thinkingContainer;
+    }
+
+    /**
+     * Append delta text to an existing thinking container
+     * @param {string} thinkingText - Incremental thinking text (delta)
+     * @param {HTMLElement} thinkingContainer - The active thinking container
+     */
+    appendThinkingContent(thinkingText, thinkingContainer) {
+      if (!thinkingContainer) return;
+
+      const thinkingContentDiv = thinkingContainer.querySelector('.thinking-inline-content');
+      if (!thinkingContentDiv) return;
+
+      const currentText = thinkingContentDiv.getAttribute('data-raw-text') || '';
+      const updatedText = currentText + thinkingText;
+      thinkingContentDiv.setAttribute('data-raw-text', updatedText);
+      thinkingContentDiv.innerHTML = this.renderMarkdown(updatedText);
+
+      this.scrollToBottom();
+    }
+
+    /**
+     * Finalize a specific thinking container - collapse it when done
+     * @param {HTMLElement} thinkingContainer - The thinking container to finalize
+     */
+    finalizeThinking(thinkingContainer) {
+      if (!thinkingContainer) return;
+
+      const contentDiv = thinkingContainer.querySelector('.thinking-inline-content');
+      const toggleBtn = thinkingContainer.querySelector('.thinking-inline-toggle');
+      if (contentDiv && toggleBtn) {
+        contentDiv.style.display = 'none';
+        toggleBtn.textContent = '▶';
+        thinkingContainer.classList.add('collapsed');
       }
     }
 
@@ -1175,6 +1362,33 @@ var AskAIWidget = (function () {
           statusSpan.classList.remove('running');
         }
       }
+    }
+
+    /**
+     * Collapse all fully-completed tool containers in a message
+     * Called when a non-tool-call phase starts (text content or thinking)
+     * @param {HTMLElement} messageDiv - Message element
+     */
+    collapseCompletedToolContainers(messageDiv) {
+      if (!messageDiv) return;
+
+      const toolContainers = messageDiv.querySelectorAll('.tool-calls-inline');
+      toolContainers.forEach(toolContainer => {
+        // Skip already collapsed containers
+        if (toolContainer.classList.contains('collapsed')) return;
+
+        // Check if all tools in this container are done (no running ones)
+        const remainingRunning = toolContainer.querySelectorAll('.tool-call-inline.running');
+        if (remainingRunning.length === 0) {
+          const contentDiv = toolContainer.querySelector('.tool-calls-inline-content');
+          const toggleBtn = toolContainer.querySelector('.tool-calls-inline-toggle');
+          if (contentDiv && toggleBtn) {
+            contentDiv.style.display = 'none';
+            toggleBtn.textContent = '▶';
+            toolContainer.classList.add('collapsed');
+          }
+        }
+      });
     }
 
     /**
@@ -1398,6 +1612,7 @@ var AskAIWidget = (function () {
         onClear: () => this.clearConversation(),
         onExpand: () => this.ui.toggleExpand(),
         onSend: () => this.sendMessage(),
+        onThinkingToggle: () => this.ui.toggleThinking(),
       });
 
       // Bind feedback button events
@@ -1605,6 +1820,13 @@ var AskAIWidget = (function () {
 
       // Track active tool calls by call_id
       const activeToolCalls = new Map();
+      // Track the currently active thinking container
+      let activeThinkingContainer = null;
+
+      // Build model_config based on thinking toggle state
+      const modelConfig = {
+        enable_thinking: this.ui.enableThinking
+      };
 
       try {
         // Get AI response with streaming
@@ -1614,6 +1836,13 @@ var AskAIWidget = (function () {
           (content) => {
             // Remove typing class when we start receiving content
             assistantMessageDiv.classList.remove('typing');
+            // Finalize thinking panel if it was open (thinking phase ended, text phase started)
+            if (activeThinkingContainer) {
+              this.ui.finalizeThinking(activeThinkingContainer);
+              activeThinkingContainer = null;
+            }
+            // Collapse completed tool containers when text content arrives
+            this.ui.collapseCompletedToolContainers(assistantMessageDiv);
             this.ui.updateMessageContent(assistantMessageDiv, content);
           },
           // onToolUse
@@ -1624,6 +1853,12 @@ var AskAIWidget = (function () {
             const typingIndicator = assistantMessageDiv.querySelector('.typing-indicator');
             if (typingIndicator) {
               typingIndicator.remove();
+            }
+
+            // Finalize thinking panel if it was open before tool call
+            if (activeThinkingContainer) {
+              this.ui.finalizeThinking(activeThinkingContainer);
+              activeThinkingContainer = null;
             }
             
             // Add tool call to panel
@@ -1640,6 +1875,12 @@ var AskAIWidget = (function () {
             activeToolCalls.forEach(toolId => {
               this.ui.markToolCallDone(toolId);
             });
+
+            // Finalize any remaining active thinking container
+            if (activeThinkingContainer) {
+              this.ui.finalizeThinking(activeThinkingContainer);
+              activeThinkingContainer = null;
+            }
             
             // Ensure typing class is removed
             assistantMessageDiv.classList.remove('typing');
@@ -1709,6 +1950,24 @@ var AskAIWidget = (function () {
               this.ui.markToolCallDone(toolId);
               console.log('Tool completed:', callId, '-> toolId:', toolId);
             }
+          },
+          // modelConfig
+          modelConfig,
+          // onThinkingUpdate
+          (thinkingText) => {
+            // Remove typing class when we start receiving thinking content
+            assistantMessageDiv.classList.remove('typing');
+            const typingIndicator = assistantMessageDiv.querySelector('.typing-indicator');
+            if (typingIndicator) {
+              typingIndicator.remove();
+            }
+            // Collapse completed tool containers when thinking phase starts
+            this.ui.collapseCompletedToolContainers(assistantMessageDiv);
+            // Create a new thinking container if none is active
+            if (!activeThinkingContainer) {
+              activeThinkingContainer = this.ui.createThinkingContainer(assistantMessageDiv);
+            }
+            this.ui.appendThinkingContent(thinkingText, activeThinkingContainer);
           }
         );
       } catch (error) {

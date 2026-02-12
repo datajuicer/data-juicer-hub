@@ -258,11 +258,11 @@
 
 /* Input Area */
 .ask-ai-input-area {
-  padding: 16px 20px;
+  padding: 12px 20px 10px;
   border-top: 1px solid #e0e0e0;
   display: flex;
-  gap: 12px;
-  align-items: flex-end;
+  flex-direction: column;
+  gap: 0;
 }
 
 .ask-ai-input {
@@ -749,6 +749,155 @@
 .ask-ai-feedback-btn.dislike.active {
   color: #ef4444;
   background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Input area layout adjustments for thinking toggle */
+.ask-ai-input-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.ask-ai-input-options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Thinking toggle button */
+.ask-ai-thinking-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 14px;
+  background: transparent;
+  color: #888;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.ask-ai-thinking-toggle:hover {
+  border-color: #a78bfa;
+  color: #7c3aed;
+  background: rgba(167, 139, 250, 0.05);
+}
+
+.ask-ai-thinking-toggle.active {
+  border-color: #7c3aed;
+  color: #7c3aed;
+  background: rgba(167, 139, 250, 0.1);
+}
+
+.ask-ai-thinking-toggle .ask-ai-thinking-label {
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* Dark mode - thinking toggle */
+.ask-ai-modal.theme-dark .ask-ai-thinking-toggle {
+  border-color: #4a4a4a;
+  color: #999;
+}
+
+.ask-ai-modal.theme-dark .ask-ai-thinking-toggle:hover {
+  border-color: #a78bfa;
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.1);
+}
+
+.ask-ai-modal.theme-dark .ask-ai-thinking-toggle.active {
+  border-color: #a78bfa;
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.15);
+}
+
+/* Thinking Inline (inside message bubble) - similar to tool-calls-inline */
+.thinking-inline {
+  margin-bottom: 12px;
+  background: rgba(167, 139, 250, 0.03);
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.thinking-inline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: rgba(167, 139, 250, 0.08);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.thinking-inline-header:hover {
+  background: rgba(167, 139, 250, 0.12);
+}
+
+.thinking-inline-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #7c3aed;
+}
+
+.thinking-inline-toggle {
+  background: none;
+  border: none;
+  color: #7c3aed;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.thinking-inline-content {
+  padding: 8px 10px;
+  display: block;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.5;
+  max-height: 300px;
+  overflow-y: auto;
+  word-break: break-word;
+}
+
+/* Thinking Inline - Dark Mode */
+.ask-ai-modal.theme-dark .thinking-inline {
+  background: rgba(167, 139, 250, 0.08);
+  border-color: rgba(167, 139, 250, 0.2);
+}
+
+.ask-ai-modal.theme-dark .thinking-inline-header {
+  background: rgba(167, 139, 250, 0.15);
+}
+
+.ask-ai-modal.theme-dark .thinking-inline-header:hover {
+  background: rgba(167, 139, 250, 0.2);
+}
+
+.ask-ai-modal.theme-dark .thinking-inline-title {
+  color: #a78bfa;
+}
+
+.ask-ai-modal.theme-dark .thinking-inline-toggle {
+  color: #a78bfa;
+}
+
+.ask-ai-modal.theme-dark .thinking-inline-content {
+  color: #bbb;
 }
 
 /* Dark theme support */

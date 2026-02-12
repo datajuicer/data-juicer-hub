@@ -157,12 +157,15 @@ export class AskAIApi {
    * @param {Function} onComplete - Callback when complete with verified messages (userMessage, assistantMessage)
    * @param {Function} onError - Callback for errors (error)
    * @param {Function} onToolComplete - Callback when tool execution completes (callId)
+   * @param {Object} modelConfig - Optional model configuration (e.g., { enable_thinking: true })
+   * @param {Function} onThinkingUpdate - Callback for thinking content updates (thinkingText)
    */
-  async getAIResponseStream(message, onContentUpdate, onToolUse, onComplete, onError, onToolComplete) {
+  async getAIResponseStream(message, onContentUpdate, onToolUse, onComplete, onError, onToolComplete, modelConfig = null, onThinkingUpdate = null) {
     let currentStreamContent = '';
     let streamMessageId = `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     let hasReceivedContent = false;
     let streamCompletedSuccessfully = false;
+    let isInReasoningPhase = false;
 
     try {
       const requestBody = {
@@ -180,6 +183,10 @@ export class AskAIApi {
         session_id: this.sessionId,
         user_id: this.sessionId,
       };
+
+      if (modelConfig && typeof modelConfig === 'object') {
+        requestBody.model_params = modelConfig;
+      }
 
       console.log('Sending streaming request to:', `${this.getApiBaseUrl()}/process`);
 
@@ -271,28 +278,70 @@ export class AskAIApi {
               }
             }
 
-            // Handle incremental text content
+            // Handle reasoning phase: object="message", type="reasoning"
+            if (data.object === "message" && data.type === "reasoning") {
+              if (data.status === "in_progress") {
+                isInReasoningPhase = true;
+                console.log('Entering reasoning phase, msg_id:', data.id);
+              } else if (data.status === "completed") {
+                // Reasoning phase completed - ignore entirely (skip all further processing)
+                isInReasoningPhase = false;
+                console.log('Reasoning phase completed, msg_id:', data.id);
+                continue;
+              }
+            }
+
+            // Handle normal message phase start: object="message", type="message"
+            // This signals the end of reasoning and start of normal response
+            if (data.object === "message" && data.type === "message" && data.status === "in_progress") {
+              if (isInReasoningPhase) {
+                isInReasoningPhase = false;
+                console.log('Exiting reasoning phase, entering message phase');
+              }
+            }
+
+            // Skip non-delta content events (e.g., completed content summaries from reasoning)
+            if (
+              data.object === "content" &&
+              data.type === "text" &&
+              data.delta !== true &&
+              data.status === "completed"
+            ) {
+              console.log('Skipping completed content summary, sequence:', data.sequence_number);
+              continue;
+            }
+
+            // Handle incremental text content (used for both reasoning and normal text)
             if (
               data.object === "content" &&
               data.type === "text" &&
               data.delta === true &&
               data.text !== undefined
             ) {
-              if (!hasReceivedContent) {
-                currentStreamContent = '';
-                hasReceivedContent = true;
-              }
-              currentStreamContent += data.text;
-              if (onContentUpdate) {
-                onContentUpdate(currentStreamContent);
+              if (isInReasoningPhase) {
+                // Route to thinking callback during reasoning phase
+                if (onThinkingUpdate) {
+                  onThinkingUpdate(data.text);
+                }
+              } else {
+                // Route to normal content callback
+                if (!hasReceivedContent) {
+                  currentStreamContent = '';
+                  hasReceivedContent = true;
+                }
+                currentStreamContent += data.text;
+                if (onContentUpdate) {
+                  onContentUpdate(currentStreamContent);
+                }
               }
             }
 
-            // Final message delivery
+            // Final message delivery (skip reasoning messages to avoid showing thinking as normal text)
             if (
               data.object === "message" &&
               data.status === "completed" &&
               data.role === "assistant" &&
+              data.type !== "reasoning" &&
               Array.isArray(data.content)
             ) {
               const fullText = data.content
