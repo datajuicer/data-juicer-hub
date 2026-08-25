@@ -1,0 +1,783 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Showcase Cases Index &#8212; Data Juicer Hub</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=34d13042" />
+    <link rel="stylesheet" type="text/css" href="../../_static/ask-ai-widget.css?v=028e49fc" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script>window.JUICER_API_URL = 'https://datajuicer.online:443';</script>
+    <script src="../../_static/documentation_options.js?v=8a448e45"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'juicer_playground/cases/README';</script>
+    <script src="../../_static/sidebar.js?v=3fc1065c"></script>
+    <script src="../../_static/switcher-mobile.js?v=07875724"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../../_static/ask-ai-widget.js?v=7a5b498f"></script>
+    <link rel="icon" href="../../_static/icon.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search docs..."
+         aria-label="Search docs..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/icon.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/icon.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Data Juicer Hub</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../docs_index.html">
+    DOCS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer/en/main/">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-sandbox/en/main/">
+    Sandbox
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-agents/en/main/">
+    Agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/datajuicer/data-juicer-hub" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><div class="navbar-switcher-container">
+  
+  <div class="navbar-dropdown language-dropdown">
+    <button type="button" 
+            class="navbar-dropdown-trigger" 
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Select language: en">
+      <span class="switcher-icon" aria-hidden="true">🌐</span>
+      <span class="switcher-text">en</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+    </button>
+    <div class="navbar-dropdown-panel" role="menu">
+      <div class="dropdown-content">
+        
+          
+          
+          <a href="../../../../en/main/juicer_playground/cases/README.html"
+             class="dropdown-item active"
+             role="menuitem"
+             aria-current="true">
+            English
+          </a>
+        
+          
+          
+          <a href="../../../../zh_CN/main/juicer_playground/cases/README.html"
+             class="dropdown-item "
+             role="menuitem"
+             >
+            简体中文
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div class="navbar-dropdown version-dropdown">
+    <button type="button" 
+            class="navbar-dropdown-trigger" 
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Select version: main">
+      <span class="switcher-icon" aria-hidden="true">📦</span>
+      <span class="switcher-text">main</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+    </button>
+    <div class="navbar-dropdown-panel" role="menu">
+      <div class="dropdown-content">
+        
+        <a href="../../../main/juicer_playground/cases/README.html"
+           class="dropdown-item active"
+           role="menuitem"
+           aria-current="true">
+          main
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../docs_index.html">
+    DOCS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer/en/main/">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-sandbox/en/main/">
+    Sandbox
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-agents/en/main/">
+    Agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/datajuicer/data-juicer-hub" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><div class="navbar-switcher-container">
+  
+  <div class="navbar-dropdown language-dropdown">
+    <button type="button" 
+            class="navbar-dropdown-trigger" 
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Select language: en">
+      <span class="switcher-icon" aria-hidden="true">🌐</span>
+      <span class="switcher-text">en</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+    </button>
+    <div class="navbar-dropdown-panel" role="menu">
+      <div class="dropdown-content">
+        
+          
+          
+          <a href="../../../../en/main/juicer_playground/cases/README.html"
+             class="dropdown-item active"
+             role="menuitem"
+             aria-current="true">
+            English
+          </a>
+        
+          
+          
+          <a href="../../../../zh_CN/main/juicer_playground/cases/README.html"
+             class="dropdown-item "
+             role="menuitem"
+             >
+            简体中文
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div class="navbar-dropdown version-dropdown">
+    <button type="button" 
+            class="navbar-dropdown-trigger" 
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Select version: main">
+      <span class="switcher-icon" aria-hidden="true">📦</span>
+      <span class="switcher-text">main</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+    </button>
+    <div class="navbar-dropdown-panel" role="menu">
+      <div class="dropdown-content">
+        
+        <a href="../../../main/juicer_playground/cases/README.html"
+           class="dropdown-item active"
+           role="menuitem"
+           aria-current="true">
+          main
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Showcase Cases Index</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="showcase-cases-index">
+<h1>Showcase Cases Index<a class="headerlink" href="#showcase-cases-index" title="Link to this heading">#</a></h1>
+<p>Juicer showcase cases, grouped by CDR-Bench-aligned capability. Each case uses a structured recipe to demonstrate a specific data-refinement operator or pipeline.</p>
+<section id="category-overview">
+<h2>Category Overview<a class="headerlink" href="#category-overview" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Category</p></th>
+<th class="head"><p>File</p></th>
+<th class="head"><p>Count</p></th>
+<th class="head"><p>Capabilities</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Atomic Mapper</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">atomic_mapper.jsonl</span></code></p></td>
+<td><p>6</p></td>
+<td><p>Single-step text transforms: copyright removal, whitespace normalization, email/IP cleaning, plus multi-step mapper chains</p></td>
+</tr>
+<tr class="row-odd"><td><p>Atomic Filter</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">atomic_filter.jsonl</span></code></p></td>
+<td><p>5</p></td>
+<td><p>Single-step filter decisions: text length, alphanumeric ratio, character repetition, max line length</p></td>
+</tr>
+<tr class="row-even"><td><p>PII Redaction</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pii.jsonl</span></code></p></td>
+<td><p>10</p></td>
+<td><p>Name / ID / address / contact / temporal placeholder redaction</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hallucination</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hallucination.jsonl</span></code></p></td>
+<td><p>5</p></td>
+<td><p>Reference-grounded detection and correction (JSON output)</p></td>
+</tr>
+<tr class="row-even"><td><p>Rubric Scoring</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rubric.jsonl</span></code></p></td>
+<td><p>4</p></td>
+<td><p>HelpSteer2 dimension scoring (complexity, verbosity, coherence, correctness)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Safety</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">safety.jsonl</span></code></p></td>
+<td><p>6</p></td>
+<td><p>Aegis safety-label classification (prompt_label, response_label) + multi-step combos</p></td>
+</tr>
+<tr class="row-even"><td><p>Order-sensitive</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">order_sensitive.jsonl</span></code></p></td>
+<td><p>8</p></td>
+<td><p>Multi-operator chains where execution order matters</p></td>
+</tr>
+<tr class="row-odd"><td><p>Compositional</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compositional.jsonl</span></code></p></td>
+<td><p>7</p></td>
+<td><p>Multi-step end-to-end pipelines (PII redaction combos, safety classification chains)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Total: 51 cases</strong> across 8 capability dimensions.</p>
+</section>
+<section id="design-principles">
+<h2>Design Principles<a class="headerlink" href="#design-principles" title="Link to this heading">#</a></h2>
+<p><strong>CDR-Bench-aligned operator taxonomy</strong>: cases follow CDR-Bench’s <code class="docutils literal notranslate"><span class="pre">atomic_m</span></code> / <code class="docutils literal notranslate"><span class="pre">atomic_f</span></code> / <code class="docutils literal notranslate"><span class="pre">semantic_*</span></code> / <code class="docutils literal notranslate"><span class="pre">order_*</span></code> track structure; each case maps to a clear <code class="docutils literal notranslate"><span class="pre">operator</span></code> and <code class="docutils literal notranslate"><span class="pre">operator_kind</span></code>.</p>
+<p><strong>Atomic-first, compositional as supplement</strong>: most cases are single-step atomic operations (atomic mapper / atomic filter), while compositional cases show multi-step operator coordination.</p>
+<p><strong>Structured prompt format</strong>: explicit numbered steps make operation order and output requirements easy to inspect.</p>
+<p><strong>Showcase-oriented</strong>: cases demonstrate the breadth of Juicer’s data-refinement capabilities across all major CDR-Bench operator categories.</p>
+</section>
+<section id="case-data-format-unified-schema">
+<h2>Case Data Format (unified schema)<a class="headerlink" href="#case-data-format-unified-schema" title="Link to this heading">#</a></h2>
+<p>Each case is a JSONL line; all categories share the same schema:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"am-001"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"capability"</span><span class="p">:</span><span class="w"> </span><span class="s2">"atomic_mapper"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"operator"</span><span class="p">:</span><span class="w"> </span><span class="s2">"whitespace_normalization_mapper"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"operator_kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mapper"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Whitespace normalization"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Atomic mapper: collapse multiple spaces, trim leading/trailing whitespace"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"input_text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"  The   quick  brown   fox.  "</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"reference"</span><span class="p">:</span><span class="w"> </span><span class="s2">"(optional; for hallucination detection and other reference-grounded tasks)"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"recipe"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Normalize whitespace: collapse multiple spaces to one, trim."</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"output_format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tagged_text"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"expected_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KEEP"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"expected_text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The quick brown fox."</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"why_good"</span><span class="p">:</span><span class="w"> </span><span class="s2">"What capability this case demonstrates"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Field notes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">output_format</span></code>: <code class="docutils literal notranslate"><span class="pre">tagged_text</span></code> (outputs <code class="docutils literal notranslate"><span class="pre">&lt;status&gt;KEEP|DROP&lt;/status&gt;&lt;clean_text&gt;...&lt;/clean_text&gt;</span></code>) or <code class="docutils literal notranslate"><span class="pre">json</span></code> (outputs structured JSON)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">operator_kind</span></code>: <code class="docutils literal notranslate"><span class="pre">mapper</span></code> / <code class="docutils literal notranslate"><span class="pre">filter</span></code> / <code class="docutils literal notranslate"><span class="pre">semantic_mapper</span></code> / <code class="docutils literal notranslate"><span class="pre">compositional</span></code></p></li>
+</ul>
+</section>
+<section id="per-category-notes">
+<h2>Per-Category Notes<a class="headerlink" href="#per-category-notes" title="Link to this heading">#</a></h2>
+<section id="atomic-mapper-atomic-mapper-jsonl">
+<h3>Atomic Mapper (<code class="docutils literal notranslate"><span class="pre">atomic_mapper.jsonl</span></code>)<a class="headerlink" href="#atomic-mapper-atomic-mapper-jsonl" title="Link to this heading">#</a></h3>
+<p>Single-step text-transform operators, plus short mapper chains for demonstrating CDR-Bench-style data transformations.</p>
+<p>Cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">am-001</span></code> copyright removal, <code class="docutils literal notranslate"><span class="pre">am-002</span></code> whitespace normalization, <code class="docutils literal notranslate"><span class="pre">am-005</span></code> email cleaning</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">am-003</span></code> / <code class="docutils literal notranslate"><span class="pre">am-004</span></code> 4-step pipelines (email + IP + links + more), <code class="docutils literal notranslate"><span class="pre">am-006</span></code> 2-step pipeline (IP + MAC)</p></li>
+</ul>
+</section>
+<section id="atomic-filter-atomic-filter-jsonl">
+<h3>Atomic Filter (<code class="docutils literal notranslate"><span class="pre">atomic_filter.jsonl</span></code>)<a class="headerlink" href="#atomic-filter-atomic-filter-jsonl" title="Link to this heading">#</a></h3>
+<p>Single-step filter-decision operators that demonstrate threshold-based KEEP/DROP decisions.</p>
+<p>Cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">af-001</span></code> / <code class="docutils literal notranslate"><span class="pre">af-004</span></code> text length filter, <code class="docutils literal notranslate"><span class="pre">af-002</span></code> alphanumeric ratio filter, <code class="docutils literal notranslate"><span class="pre">af-003</span></code> character repetition filter, <code class="docutils literal notranslate"><span class="pre">af-006</span></code> max line length filter</p></li>
+</ul>
+</section>
+<section id="pii-redaction-pii-jsonl">
+<h3>PII Redaction (<code class="docutils literal notranslate"><span class="pre">pii.jsonl</span></code>)<a class="headerlink" href="#pii-redaction-pii-jsonl" title="Link to this heading">#</a></h3>
+<p>A natural advantage of local deployment: redact sensitive data without it leaving your machines.</p>
+<p>Cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pii-001</span></code> / <code class="docutils literal notranslate"><span class="pre">pii-006</span></code> person names, <code class="docutils literal notranslate"><span class="pre">pii-002</span></code> / <code class="docutils literal notranslate"><span class="pre">pii-007</span></code> ID numbers, <code class="docutils literal notranslate"><span class="pre">pii-003</span></code> / <code class="docutils literal notranslate"><span class="pre">pii-004</span></code> addresses</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pii-005</span></code> contact info (email/phone), <code class="docutils literal notranslate"><span class="pre">pii-008</span></code> / <code class="docutils literal notranslate"><span class="pre">pii-009</span></code> / <code class="docutils literal notranslate"><span class="pre">pii-010</span></code> temporal/birth-date info</p></li>
+</ul>
+</section>
+<section id="hallucination-hallucination-jsonl">
+<h3>Hallucination (<code class="docutils literal notranslate"><span class="pre">hallucination.jsonl</span></code>)<a class="headerlink" href="#hallucination-hallucination-jsonl" title="Link to this heading">#</a></h3>
+<p>Reference-grounded comparison tasks, JSON output.</p>
+<p>Cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hall-001</span></code> / <code class="docutils literal notranslate"><span class="pre">hall-003</span></code> / <code class="docutils literal notranslate"><span class="pre">hall-006</span></code> hallucination correction (fix hallucinated content using reference)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hall-004</span></code> / <code class="docutils literal notranslate"><span class="pre">hall-007</span></code> hallucination detection (determine if text contains hallucinated content)</p></li>
+</ul>
+</section>
+<section id="rubric-scoring-rubric-jsonl">
+<h3>Rubric Scoring (<code class="docutils literal notranslate"><span class="pre">rubric.jsonl</span></code>)<a class="headerlink" href="#rubric-scoring-rubric-jsonl" title="Link to this heading">#</a></h3>
+<p>HelpSteer2 dimension scoring: one atomic case per dimension.</p>
+<p>Cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rub-001</span></code> complexity, <code class="docutils literal notranslate"><span class="pre">rub-002</span></code> verbosity, <code class="docutils literal notranslate"><span class="pre">rub-003</span></code> coherence, <code class="docutils literal notranslate"><span class="pre">rub-004</span></code> correctness</p></li>
+</ul>
+</section>
+<section id="safety-safety-jsonl">
+<h3>Safety (<code class="docutils literal notranslate"><span class="pre">safety.jsonl</span></code>)<a class="headerlink" href="#safety-safety-jsonl" title="Link to this heading">#</a></h3>
+<p>Aegis safety-label classification: atomic per-field cases plus multi-step combos.</p>
+<p>Cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">safe-001</span></code> / <code class="docutils literal notranslate"><span class="pre">safe-005</span></code> prompt_label classification, <code class="docutils literal notranslate"><span class="pre">safe-002</span></code> / <code class="docutils literal notranslate"><span class="pre">safe-003</span></code> response_label classification</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">safe-004</span></code> / <code class="docutils literal notranslate"><span class="pre">safe-006</span></code> 3-step pipelines (prompt_label + response_label + violated_categories)</p></li>
+</ul>
+</section>
+<section id="order-sensitive-order-sensitive-jsonl">
+<h3>Order-sensitive (<code class="docutils literal notranslate"><span class="pre">order_sensitive.jsonl</span></code>)<a class="headerlink" href="#order-sensitive-order-sensitive-jsonl" title="Link to this heading">#</a></h3>
+<p>Multi-operator chains where the specified execution order determines the result. Showcases Juicer’s ability to follow recipe order precisely.</p>
+<p>Cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">os-001</span></code> through <code class="docutils literal notranslate"><span class="pre">os-008</span></code>: diverse 3-5 step pipelines mixing filters and mappers (length filters, copyright cleaning, IP/MAC/links removal, word filters, punctuation normalization)</p></li>
+</ul>
+</section>
+<section id="compositional-compositional-jsonl">
+<h3>Compositional (<code class="docutils literal notranslate"><span class="pre">compositional.jsonl</span></code>)<a class="headerlink" href="#compositional-compositional-jsonl" title="Link to this heading">#</a></h3>
+<p>Multi-step end-to-end pipelines, showcasing complex recipe handling.</p>
+<p>Cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">comp-001</span></code> / <code class="docutils literal notranslate"><span class="pre">comp-002</span></code> / <code class="docutils literal notranslate"><span class="pre">comp-004</span></code> PII redaction combos (person + temporal, contact + location)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">comp-003</span></code> / <code class="docutils literal notranslate"><span class="pre">comp-005</span></code> / <code class="docutils literal notranslate"><span class="pre">comp-006</span></code> / <code class="docutils literal notranslate"><span class="pre">comp-007</span></code> safety classification chains (prompt_label + response_label + violated_categories)</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#category-overview">Category Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-principles">Design Principles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-data-format-unified-schema">Case Data Format (unified schema)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#per-category-notes">Per-Category Notes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atomic-mapper-atomic-mapper-jsonl">Atomic Mapper (<code class="docutils literal notranslate"><span class="pre">atomic_mapper.jsonl</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atomic-filter-atomic-filter-jsonl">Atomic Filter (<code class="docutils literal notranslate"><span class="pre">atomic_filter.jsonl</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pii-redaction-pii-jsonl">PII Redaction (<code class="docutils literal notranslate"><span class="pre">pii.jsonl</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hallucination-hallucination-jsonl">Hallucination (<code class="docutils literal notranslate"><span class="pre">hallucination.jsonl</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rubric-scoring-rubric-jsonl">Rubric Scoring (<code class="docutils literal notranslate"><span class="pre">rubric.jsonl</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safety-safety-jsonl">Safety (<code class="docutils literal notranslate"><span class="pre">safety.jsonl</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#order-sensitive-order-sensitive-jsonl">Order-sensitive (<code class="docutils literal notranslate"><span class="pre">order_sensitive.jsonl</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compositional-compositional-jsonl">Compositional (<code class="docutils literal notranslate"><span class="pre">compositional.jsonl</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/juicer_playground/cases/README.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Data-Juicer Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

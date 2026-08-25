@@ -52,7 +52,7 @@
     <script src="_static/sidebar.js?v=3fc1065c"></script>
     <script src="_static/switcher-mobile.js?v=07875724"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="_static/ask-ai-widget.js?v=bd1ac865"></script>
+    <script src="_static/ask-ai-widget.js?v=7a5b498f"></script>
     <link rel="icon" href="_static/icon.png"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
@@ -505,13 +505,49 @@
                   
   <section id="data-juicer-hub">
 <h1>Data-Juicer-Hub<a class="headerlink" href="#data-juicer-hub" title="链接到此标题。">#</a></h1>
-<p>面向各种预训练/微调任务的社区驱动型数据处理配方与最佳实践。</p>
+<p>面向 <a class="reference external" href="https://github.com/datajuicer/data-juicer">Data-Juicer</a> 生态的社区驱动型配方、工具与资源集合。</p>
 <section id="id1">
-<h2>文档<a class="headerlink" href="#id1" title="链接到此标题。">#</a></h2>
-<p>详细配方说明请访问 <a class="reference external" href="https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/RecipeGallery_CN.html">这里</a>。</p>
+<h2>目录索引<a class="headerlink" href="#id1" title="链接到此标题。">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>目录</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/demo">demo</a></p></td>
+<td><p>即用型 Data-Juicer 数据处理配方（YAML 配置）</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/juicer_playground">juicer_playground</a></p></td>
+<td><p><span class="xref myst">Juicer</span> 数据精炼模型的交互式 Playground 与部署脚本</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/annotation_config">annotation_config</a></p></td>
+<td><p>标注任务配置</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/dataset_config">dataset_config</a></p></td>
+<td><p>数据集处理配置</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/refined_recipes">refined_recipes</a></p></td>
+<td><p>优化后的数据处理配方</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/reproduced_bloom">reproduced_bloom</a></p></td>
+<td><p>复现 BLOOM 数据处理的配方</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/blob/main/reproduced_redpajama">reproduced_redpajama</a></p></td>
+<td><p>复现 RedPajama 数据处理的配方</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 <section id="id2">
-<h2>快速开始<a class="headerlink" href="#id2" title="链接到此标题。">#</a></h2>
+<h2>文档<a class="headerlink" href="#id2" title="链接到此标题。">#</a></h2>
+<p>详细配方说明请访问<a class="reference external" href="https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/RecipeGallery_CN.html">这里</a>。</p>
+</section>
+<section id="id3">
+<h2>快速开始<a class="headerlink" href="#id3" title="链接到此标题。">#</a></h2>
+<section id="id4">
+<h3>数据处理配方<a class="headerlink" href="#id4" title="链接到此标题。">#</a></h3>
 <p>本项目提供了多种针对不同任务的数据处理配方，你可以通过克隆此仓库并使用 <code class="docutils literal notranslate"><span class="pre">--config</span></code> 参数指定目标配方文件的本地路径来直接使用它们：</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 克隆到你本地机器上的某个位置</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/datajuicer/data-juicer-hub.git
@@ -524,11 +560,16 @@ dj-process<span class="w"> </span>--config<span class="w"> </span>&lt;data-juice
 git<span class="w"> </span>checkout<span class="w"> </span>notebook
 </pre></div>
 </div>
-<p>该分支包含了 Data-Juicer 的详细 Notebook 教程，你可以参考 <a class="reference external" href="https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/NotebooksTutorial_ZH.html">在线文档</a> 进行使用。</p>
+<p>该分支包含了 Data-Juicer 的详细 Notebook 教程，你可以参考<a class="reference external" href="https://datajuicer.github.io/data-juicer-hub/zh_CN/main/docs/NotebooksTutorial_ZH.html">在线文档</a>进行使用。</p>
 </section>
-<section id="id3">
-<h2>贡献指南<a class="headerlink" href="#id3" title="链接到此标题。">#</a></h2>
-<p>这是一个由社区驱动的仓库，欢迎你上传自己的数据处理配方！😄</p>
+<section id="juicer-playground">
+<h3>Juicer Playground<a class="headerlink" href="#juicer-playground" title="链接到此标题。">#</a></h3>
+<p>Juicer Playground 提供了 Juicer 数据精炼模型的交互式演示环境。详见 <span class="xref myst">juicer_playground/README.md</span>。</p>
+</section>
+</section>
+<section id="id5">
+<h2>贡献指南<a class="headerlink" href="#id5" title="链接到此标题。">#</a></h2>
+<p>这是一个由社区驱动的仓库，欢迎你上传自己的数据处理配方和工具！😄</p>
 </section>
 </section>
 
@@ -561,9 +602,14 @@ git<span class="w"> </span>checkout<span class="w"> </span>notebook
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">文档</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">快速开始</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">贡献指南</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">目录索引</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">文档</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">快速开始</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">数据处理配方</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#juicer-playground">Juicer Playground</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">贡献指南</a></li>
 </ul>
   </nav></div>
 

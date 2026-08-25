@@ -1,0 +1,913 @@
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Juicer &#8212; Data Juicer Hub</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=34d13042" />
+    <link rel="stylesheet" type="text/css" href="../_static/ask-ai-widget.css?v=028e49fc" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script>window.JUICER_API_URL = 'https://datajuicer.online:443';</script>
+    <script src="../_static/documentation_options.js?v=91bfbbb6"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/translations.js?v=540d3cec"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'juicer_playground/README_ZH';</script>
+    <script src="../_static/sidebar.js?v=3fc1065c"></script>
+    <script src="../_static/switcher-mobile.js?v=07875724"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="../_static/ask-ai-widget.js?v=7a5b498f"></script>
+    <link rel="icon" href="../_static/icon.png"/>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">跳转至主要内容</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>回到顶部</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search docs..."
+         aria-label="Search docs..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="版本警告"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="网页导航">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index_ZH.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/icon.png" class="logo__image only-light" alt=""/>
+    <img src="../_static/icon.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Data Juicer Hub</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../docs_index_ZH.html">
+    文档
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer/zh_CN/main/">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-sandbox/zh_CN/main/">
+    Sandbox
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-agents/zh_CN/main/">
+    Agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/datajuicer/data-juicer-hub" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="亮色"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="暗色"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><div class="navbar-switcher-container">
+  
+  <div class="navbar-dropdown language-dropdown">
+    <button type="button" 
+            class="navbar-dropdown-trigger" 
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Select language: zh-CN">
+      <span class="switcher-icon" aria-hidden="true">🌐</span>
+      <span class="switcher-text">zh-CN</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+    </button>
+    <div class="navbar-dropdown-panel" role="menu">
+      <div class="dropdown-content">
+        
+          
+          
+          <a href="../../../en/main/juicer_playground/README.html"
+             class="dropdown-item "
+             role="menuitem"
+             >
+            English
+          </a>
+        
+          
+          
+          <a href="../../../zh_CN/main/juicer_playground/README_ZH.html"
+             class="dropdown-item active"
+             role="menuitem"
+             aria-current="true">
+            简体中文
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div class="navbar-dropdown version-dropdown">
+    <button type="button" 
+            class="navbar-dropdown-trigger" 
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Select version: main">
+      <span class="switcher-icon" aria-hidden="true">📦</span>
+      <span class="switcher-text">main</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+    </button>
+    <div class="navbar-dropdown-panel" role="menu">
+      <div class="dropdown-content">
+        
+        <a href="../../main/juicer_playground/README_ZH.html"
+           class="dropdown-item active"
+           role="menuitem"
+           aria-current="true">
+          main
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="当前页面">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../docs_index_ZH.html">
+    文档
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer/zh_CN/main/">
+    Core
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-sandbox/zh_CN/main/">
+    Sandbox
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://datajuicer.github.io/data-juicer-agents/zh_CN/main/">
+    Agents
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/datajuicer/data-juicer-hub" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="亮色"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="暗色"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><div class="navbar-switcher-container">
+  
+  <div class="navbar-dropdown language-dropdown">
+    <button type="button" 
+            class="navbar-dropdown-trigger" 
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Select language: zh-CN">
+      <span class="switcher-icon" aria-hidden="true">🌐</span>
+      <span class="switcher-text">zh-CN</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+    </button>
+    <div class="navbar-dropdown-panel" role="menu">
+      <div class="dropdown-content">
+        
+          
+          
+          <a href="../../../en/main/juicer_playground/README.html"
+             class="dropdown-item "
+             role="menuitem"
+             >
+            English
+          </a>
+        
+          
+          
+          <a href="../../../zh_CN/main/juicer_playground/README_ZH.html"
+             class="dropdown-item active"
+             role="menuitem"
+             aria-current="true">
+            简体中文
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+
+  
+  <div class="navbar-dropdown version-dropdown">
+    <button type="button" 
+            class="navbar-dropdown-trigger" 
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Select version: main">
+      <span class="switcher-icon" aria-hidden="true">📦</span>
+      <span class="switcher-text">main</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon" aria-hidden="true"></i>
+    </button>
+    <div class="navbar-dropdown-panel" role="menu">
+      <div class="dropdown-content">
+        
+        <a href="../../main/juicer_playground/README_ZH.html"
+           class="dropdown-item active"
+           role="menuitem"
+           aria-current="true">
+          main
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index_ZH.html" class="nav-link" aria-label="初始页面">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Juicer</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="juicer">
+<h1>Juicer<a class="headerlink" href="#juicer" title="链接到此标题。">#</a></h1>
+<blockquote>
+<div><p>自然语言驱动的数据精炼模型 · 基于 Qwen3.6-35B-A3B · 可本地部署</p>
+</div></blockquote>
+<p><strong>源码目录：</strong> <a class="reference external" href="https://github.com/datajuicer/data-juicer-hub/tree/main/juicer_playground"><code class="docutils literal notranslate"><span class="pre">data-juicer-hub/juicer_playground</span></code></a></p>
+<p><strong>Juicer</strong> 把清洗指令、过滤规则和语义打标要求转化为严格的 tagged text 或 canonical JSON 输出。它不是通用聊天模型，而是面向数据精炼工作流设计的模型。</p>
+<p>评测基于 <a class="reference external" href="https://github.com/lukahhcm/data-juicer-hub/tree/CDR-Bench">CDR-Bench</a>。</p>
+<section id="id1">
+<h2>主要特性<a class="headerlink" href="#id1" title="链接到此标题。">#</a></h2>
+<ul class="simple">
+<li><p><strong>自然语言 recipe 执行</strong> — 例如“删除邮箱、去重句子、规范化空白”。</p></li>
+<li><p><strong>顺序敏感精炼</strong> — 能区分“先过滤再清洗”与“先清洗再过滤”，并跟踪中间状态。</p></li>
+<li><p><strong>结构化语义打标</strong> — rubric 等任务可返回约定格式的 JSON。</p></li>
+<li><p><strong>本地部署</strong> — 支持在本地环境中处理敏感数据。</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>快速开始<a class="headerlink" href="#id2" title="链接到此标题。">#</a></h2>
+<section id="id3">
+<h3>1. 启动模型<a class="headerlink" href="#id3" title="链接到此标题。">#</a></h3>
+<p>Juicer 不强绑特定推理框架。我们推荐将它部署为 OpenAI 兼容服务，便于 Playground 和数据处理任务调用。</p>
+<section id="vllm">
+<h4>推荐：vLLM 服务<a class="headerlink" href="#vllm" title="链接到此标题。">#</a></h4>
+<p>在单张 H20（96GB）上可直接使用仓库中的启动脚本：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">MODEL_ID</span><span class="o">=</span>/path/to/juicer-model
+bash<span class="w"> </span>serve.sh<span class="w"> </span>--model<span class="w"> </span><span class="s2">"</span><span class="nv">$MODEL_ID</span><span class="s2">"</span><span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span>
+</pre></div>
+</div>
+</section>
+<section id="sglang">
+<h4>可选：SGLang 服务<a class="headerlink" href="#sglang" title="链接到此标题。">#</a></h4>
+<p>请先根据 <a class="reference external" href="https://docs.sglang.io/docs/get-started/install">SGLang 官方安装指南</a> 为你的加速器环境安装 SGLang，然后启动服务：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">MODEL_ID</span><span class="o">=</span>/path/to/juicer-model
+python<span class="w"> </span>-m<span class="w"> </span>sglang.launch_server<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-path<span class="w"> </span><span class="s2">"</span><span class="nv">$MODEL_ID</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--served-model-name<span class="w"> </span>juicer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">8000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--trust-remote-code
+</pre></div>
+</div>
+</section>
+<section id="transformers">
+<h4>可选：Transformers 本地加载<a class="headerlink" href="#transformers" title="链接到此标题。">#</a></h4>
+<p>这种方式可以直接在 Python 中调用模型，不需要启动服务：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"transformers&gt;=5.3"</span><span class="w"> </span>accelerate
+<span class="nb">export</span><span class="w"> </span><span class="nv">MODEL_ID</span><span class="o">=</span>/path/to/juicer-model
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoModelForImageTextToText</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"MODEL_ID"</span><span class="p">]</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">trust_remote_code</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForImageTextToText</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">model_id</span><span class="p">,</span>
+    <span class="n">torch_dtype</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+    <span class="n">device_map</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+    <span class="n">trust_remote_code</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Remove email addresses from: Contact ops@example.com."</span><span class="p">}]</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span>
+    <span class="n">messages</span><span class="p">,</span>
+    <span class="n">tokenize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">enable_thinking</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_tensors</span><span class="o">=</span><span class="s2">"pt"</span><span class="p">,</span>
+    <span class="n">return_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+<span class="n">prompt_length</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">"input_ids"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span> <span class="n">do_sample</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">prompt_length</span><span class="p">:],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="playground">
+<h3>2. 打开 Playground<a class="headerlink" href="#playground" title="链接到此标题。">#</a></h3>
+<p>Playground 可连接任意 OpenAI 兼容的模型服务：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="nb">export</span><span class="w"> </span><span class="nv">JUICER_BASE_URL</span><span class="o">=</span>http://localhost:8000/v1
+python<span class="w"> </span>app_zh.py
+<span class="c1"># 浏览器打开 http://localhost:7861</span>
+</pre></div>
+</div>
+<p>Playground 为无构建步骤的单页应用，包含 4 个标签页：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>标签页</p></th>
+<th class="head"><p>用途</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>试用 Juicer</strong></p></td>
+<td><p>随机载入 case，或粘贴自定义文本和 recipe 执行</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>示例库</strong></p></td>
+<td><p>浏览 51 条展示用例，查看详情或载入试用页</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>能力展示</strong></p></td>
+<td><p>通过典型示例了解核心能力</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>AB 对照</strong></p></td>
+<td><p>（可选）并排对比基础模型与 Juicer</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="ab">
+<h3>AB 对照（可选）<a class="headerlink" href="#ab" title="链接到此标题。">#</a></h3>
+<p>如果有多张 GPU，可以同时启动 Juicer 和基础模型，实际体验两者在同一 recipe 上的差异。GPU 分配可根据机器情况通过脚本参数调整。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>serve_ab.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--juicer<span class="w"> </span>/path/to/juicer-model<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--raw<span class="w"> </span>/path/to/Qwen3.6-35B-A3B
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">JUICER_RAW_BASE_URL</span><span class="o">=</span>http://localhost:8001/v1
+python<span class="w"> </span>app_zh.py
+
+bash<span class="w"> </span>serve_ab.sh<span class="w"> </span>--stop
+</pre></div>
+</div>
+<p>详细步骤见 <a class="reference internal" href="tutorial.html"><span class="std std-doc">tutorial.md</span></a>。</p>
+</section>
+</section>
+<section id="id4">
+<h2>能力<a class="headerlink" href="#id4" title="链接到此标题。">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>类型</p></th>
+<th class="head"><p>含义</p></th>
+<th class="head"><p>示例</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Atomic</p></td>
+<td><p>单步 mapper 或 filter</p></td>
+<td><p>删除 URL；仅保留英文文本</p></td>
+</tr>
+<tr class="row-odd"><td><p>Compositional</p></td>
+<td><p>一次执行多个精炼步骤</p></td>
+<td><p>删除邮箱、去重、规范化空白</p></td>
+</tr>
+<tr class="row-even"><td><p>Order-sensitive</p></td>
+<td><p>遵循中间状态和执行顺序</p></td>
+<td><p>清洗前过滤与清洗后过滤</p></td>
+</tr>
+<tr class="row-odd"><td><p>Semantic</p></td>
+<td><p>PII 脱敏、rubric 评分和安全打标</p></td>
+<td><p>替换私密标识符；输出结构化评分</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>CDR-Bench 和展示用例聚焦以下核心算子：</p>
+<ul class="simple">
+<li><p><strong>文本 mapper：</strong> 链接清理、注释/参考文献删除、重复句删除、空白和格式规范化</p></li>
+<li><p><strong>filter：</strong> 文本/词长过滤、重复比例和停用词比例过滤等</p></li>
+<li><p><strong>PII 算子：</strong> 联系方式、地址、时间、身份和人名脱敏</p></li>
+<li><p><strong>语义算子：</strong> 幻觉检测/修正、rubric 评分和分类打标</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2>展示用例<a class="headerlink" href="#id5" title="链接到此标题。">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">cases/</span></code> 目录包含 51 条展示 case，按 CDR-Bench 能力分类：</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>类别</p></th>
+<th class="head"><p>文件</p></th>
+<th class="head"><p>条数</p></th>
+<th class="head"><p>内容</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>原子 Mapper</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">atomic_mapper.jsonl</span></code></p></td>
+<td><p>6</p></td>
+<td><p>单步文本变换</p></td>
+</tr>
+<tr class="row-odd"><td><p>原子 Filter</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">atomic_filter.jsonl</span></code></p></td>
+<td><p>5</p></td>
+<td><p>单步过滤决策</p></td>
+</tr>
+<tr class="row-even"><td><p>PII 脱敏</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pii.jsonl</span></code></p></td>
+<td><p>10</p></td>
+<td><p>人名/联系方式/地址/证件/时间脱敏</p></td>
+</tr>
+<tr class="row-odd"><td><p>幻觉检测</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">hallucination.jsonl</span></code></p></td>
+<td><p>5</p></td>
+<td><p>幻觉检测与修正</p></td>
+</tr>
+<tr class="row-even"><td><p>质量评分</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rubric.jsonl</span></code></p></td>
+<td><p>4</p></td>
+<td><p>HelpSteer2 维度评分</p></td>
+</tr>
+<tr class="row-odd"><td><p>安全分类</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">safety.jsonl</span></code></p></td>
+<td><p>6</p></td>
+<td><p>Aegis 安全分类</p></td>
+</tr>
+<tr class="row-even"><td><p>顺序敏感</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">order_sensitive.jsonl</span></code></p></td>
+<td><p>8</p></td>
+<td><p>多算子顺序执行</p></td>
+</tr>
+<tr class="row-odd"><td><p>组合操作</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compositional.jsonl</span></code></p></td>
+<td><p>7</p></td>
+<td><p>多步端到端流程</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>所有 case 共用统一 schema，详见 <a class="reference internal" href="cases/README.html"><span class="std std-doc">cases/README.md</span></a>。</p>
+</section>
+<section id="id6">
+<h2>代码调用<a class="headerlink" href="#id6" title="链接到此标题。">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/single_clean.py<span class="w">   </span><span class="c1"># 单条调用</span>
+python<span class="w"> </span>examples/batch_clean.py<span class="w">    </span><span class="c1"># 批量清洗</span>
+python<span class="w"> </span>examples/pii_redact.py<span class="w">     </span><span class="c1"># PII 脱敏</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">adapter.py</span></code> 提供 <code class="docutils literal notranslate"><span class="pre">build_prompt_from_row(row)</span></code> 和 <code class="docutils literal notranslate"><span class="pre">parse_output(text,</span> <span class="pre">output_format)</span></code> 等 API，详见 <a class="reference internal" href="examples/README.html"><span class="std std-doc">examples/README.md</span></a>。</p>
+</section>
+<section id="id7">
+<h2>模型概览<a class="headerlink" href="#id7" title="链接到此标题。">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>项目</p></th>
+<th class="head"><p>说明</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>基础模型</p></td>
+<td><p><a class="reference external" href="https://huggingface.co/Qwen/Qwen3.6-35B-A3B">Qwen/Qwen3.6-35B-A3B</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>架构</p></td>
+<td><p>Qwen3.6 MoE causal LM；35B 总参数 / 3B 激活参数</p></td>
+</tr>
+<tr class="row-even"><td><p>输出约定</p></td>
+<td><p>Tagged text 或任务特定的 canonical JSON</p></td>
+</tr>
+<tr class="row-odd"><td><p>已评估服务长度</p></td>
+<td><p>32,768 tokens</p></td>
+</tr>
+<tr class="row-even"><td><p>继承的上下文配置</p></td>
+<td><p>262,144 tokens；32K 以上质量未评估</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p>服务框架支持时，可通过 <code class="docutils literal notranslate"><span class="pre">chat_template_kwargs.enable_thinking=false</span></code> 关闭 thinking。</p>
+</div></blockquote>
+</section>
+<section id="id8">
+<h2>评测摘要<a class="headerlink" href="#id8" title="链接到此标题。">#</a></h2>
+<p><img alt="Juicer 在 CDR-Bench 上的评测结果" src="https://github.com/datajuicer/data-juicer-hub/blob/main/juicer_playground/assets/model-card.png" /></p>
+</section>
+<section id="id9">
+<h2>局限性<a class="headerlink" href="#id9" title="链接到此标题。">#</a></h2>
+<ul class="simple">
+<li><p>32K tokens 以上的数据精炼质量尚未评估。</p></li>
+<li><p>在高精度或合规关键场景中，不应直接取代确定性工具和人工审核。</p></li>
+</ul>
+</section>
+<section id="id10">
+<h2>引用<a class="headerlink" href="#id10" title="链接到此标题。">#</a></h2>
+<div class="highlight-plain notranslate"><div class="highlight"><pre><span></span>@misc{juicer2026,
+  title        = {Juicer: Natural-Language Data Refinement with Qwen3.6-35B-A3B},
+  author       = {Juicer Contributors},
+  year         = {2026},
+  howpublished = {Hugging Face model release}
+}
+</pre></div>
+</div>
+<p>Juicer 基于 <a class="reference external" href="https://huggingface.co/Qwen/Qwen3.6-35B-A3B">Qwen3.6-35B-A3B</a>，并使用了 <a class="reference external" href="https://github.com/lukahhcm/data-juicer-hub/tree/CDR-Bench">CDR-Bench</a>、<a class="reference external" href="https://github.com/datajuicer/data-juicer">Data-Juicer</a> 和 <a class="reference external" href="https://github.com/agentscope-ai/Trinity-RFT">Trinity-RFT</a>。</p>
+</section>
+<section id="id11">
+<h2>许可证<a class="headerlink" href="#id11" title="链接到此标题。">#</a></h2>
+<p>Apache License 2.0，继承自 Qwen3.6-35B-A3B 基础模型。</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 当前页面
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">主要特性</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">快速开始</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1. 启动模型</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#vllm">推荐：vLLM 服务</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sglang">可选：SGLang 服务</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#transformers">可选：Transformers 本地加载</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#playground">2. 打开 Playground</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ab">AB 对照（可选）</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">能力</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">展示用例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">代码调用</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">模型概览</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">评测摘要</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">局限性</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">引用</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">许可证</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/juicer_playground/README_ZH.md.txt"
+            rel="nofollow">显示源代码</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Data-Juicer Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4创建。
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  使用 <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1构建.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

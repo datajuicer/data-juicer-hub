@@ -759,12 +759,42 @@ var AskAIWidget = (function () {
       if (onSend) {
         this.sendBtn.addEventListener('click', onSend);
 
-        // Handle Enter key in input
+        // Handle Enter key to send message.
+        // IME composition guard: On macOS, when a user confirms an English
+        // candidate (e.g. "json") by pressing Enter under a Chinese IME,
+        // some browsers fire `compositionend` BEFORE `keydown(Enter)`,
+        // causing all standard guards (e.isComposing, keyCode 229) to fail.
+        //
+        // Solution: record the timestamp of the last `compositionend` and
+        // suppress any Enter keydown that arrives within a short window
+        // after it — that Enter was used to confirm the IME candidate,
+        // not to send the message.
+        let lastCompositionEndTime = 0;
+        this.input.addEventListener('compositionstart', () => {
+          lastCompositionEndTime = 0;
+        });
+        this.input.addEventListener('compositionend', () => {
+          lastCompositionEndTime = Date.now();
+        });
+
         this.input.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
+          if (e.key !== 'Enter' || e.shiftKey) return;
+
+          // Standard IME guards
+          if (e.isComposing || e.keyCode === 229) {
             e.preventDefault();
-            onSend();
+            return;
           }
+
+          // Timestamp-based guard: if compositionend just fired (within
+          // 100ms), this Enter is from IME confirmation, not a real send.
+          if (Date.now() - lastCompositionEndTime < 100) {
+            e.preventDefault();
+            return;
+          }
+
+          e.preventDefault();
+          onSend();
         });
       }
 

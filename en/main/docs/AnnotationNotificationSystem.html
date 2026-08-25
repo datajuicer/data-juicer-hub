@@ -51,7 +51,7 @@
     <script src="../_static/sidebar.js?v=3fc1065c"></script>
     <script src="../_static/switcher-mobile.js?v=07875724"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="../_static/ask-ai-widget.js?v=bd1ac865"></script>
+    <script src="../_static/ask-ai-widget.js?v=7a5b498f"></script>
     <link rel="icon" href="../_static/icon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -537,12 +537,12 @@
 <span class="w">      </span><span class="c1"># Email channel configuration</span>
 <span class="w">      </span><span class="nt">email</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Enable email notifications</span>
-<span class="w">        </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.example.com&quot;</span>
+<span class="w">        </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">"smtp.example.com"</span>
 <span class="w">        </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">587</span>
-<span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-email@example.com&quot;</span>
-<span class="w">        </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-email@example.com&quot;</span>
-<span class="w">        </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient1@example.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;recipient2@example.com&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">        </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Notification</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">Data</span><span class="nv"> </span><span class="s">Juicer&quot;</span>
+<span class="w">        </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">"your-email@example.com"</span>
+<span class="w">        </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">"your-email@example.com"</span>
+<span class="w">        </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"recipient1@example.com"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"recipient2@example.com"</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="s">"Notification</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">Data</span><span class="nv"> </span><span class="s">Juicer"</span>
 <span class="w">      </span>
 <span class="w">      </span><span class="c1"># Slack channel configuration (optional)</span>
 <span class="w">      </span><span class="nt">slack</span><span class="p">:</span>
@@ -562,7 +562,7 @@
 <span class="w">  </span>
 <span class="w">  </span><span class="nt">slack</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># Disable Slack notifications</span>
-<span class="w">    </span><span class="c1"># Slack settings (won&#39;t be used since disabled)</span>
+<span class="w">    </span><span class="c1"># Slack settings (won't be used since disabled)</span>
 <span class="w">  </span>
 <span class="w">  </span><span class="nt">dingtalk</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Enable DingTalk notifications</span>
@@ -577,12 +577,12 @@
 <h3>Standard SMTP with STARTTLS:<a class="headerlink" href="#standard-smtp-with-starttls" title="Link to this heading">#</a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">email</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.example.com&quot;</span>
+<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">"smtp.example.com"</span>
 <span class="w">  </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">587</span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@example.com&quot;</span>
-<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@example.com&quot;</span>
-<span class="w">  </span><span class="nt">sender_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Your</span><span class="nv"> </span><span class="s">Name&quot;</span><span class="w">  </span><span class="c1"># Optional</span>
-<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient1@example.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;recipient2@example.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">"your.username@example.com"</span>
+<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">"your.username@example.com"</span>
+<span class="w">  </span><span class="nt">sender_name</span><span class="p">:</span><span class="w"> </span><span class="s">"Your</span><span class="nv"> </span><span class="s">Name"</span><span class="w">  </span><span class="c1"># Optional</span>
+<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"recipient1@example.com"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"recipient2@example.com"</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
@@ -590,12 +590,12 @@
 <h3>Direct SSL Connection (e.g., Gmail):<a class="headerlink" href="#direct-ssl-connection-e-g-gmail" title="Link to this heading">#</a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">email</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.gmail.com&quot;</span>
+<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">"smtp.gmail.com"</span>
 <span class="w">  </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">465</span>
 <span class="w">  </span><span class="nt">use_ssl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@gmail.com&quot;</span>
-<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@gmail.com&quot;</span>
-<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient1@example.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">"your.username@gmail.com"</span>
+<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">"your.username@gmail.com"</span>
+<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"recipient1@example.com"</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
@@ -603,16 +603,16 @@
 <h3>Alibaba Email Server:<a class="headerlink" href="#alibaba-email-server" title="Link to this heading">#</a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">email</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.alibaba-inc.com&quot;</span>
+<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">"smtp.alibaba-inc.com"</span>
 <span class="w">  </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">465</span>
 <span class="w">  </span><span class="nt">use_ssl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">include_port_in_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Include port in server address</span>
 <span class="w">  </span><span class="nt">use_mime_multipart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">      </span><span class="c1"># Use simple MIMEText</span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@alibaba-inc.com&quot;</span>
-<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your.username@alibaba-inc.com&quot;</span>
-<span class="w">  </span><span class="nt">recipient_separator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;;&quot;</span><span class="w">       </span><span class="c1"># Use semicolons for recipients</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="s">"your.username@alibaba-inc.com"</span>
+<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">"your.username@alibaba-inc.com"</span>
+<span class="w">  </span><span class="nt">recipient_separator</span><span class="p">:</span><span class="w"> </span><span class="s">";"</span><span class="w">       </span><span class="c1"># Use semicolons for recipients</span>
 <span class="w">  </span><span class="nt">add_message_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">           </span><span class="c1"># Add Message-ID header</span>
-<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient1@example.com&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;recipient2@example.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"recipient1@example.com"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"recipient2@example.com"</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
@@ -621,14 +621,14 @@
 <h2>Secure Password Handling<a class="headerlink" href="#secure-password-handling" title="Link to this heading">#</a></h2>
 <p>For security, passwords should be provided via environment variables:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># General email password</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_EMAIL_PASSWORD</span><span class="o">=</span><span class="s2">&quot;your_password&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_EMAIL_PASSWORD</span><span class="o">=</span><span class="s2">"your_password"</span>
 
 <span class="c1"># Server-specific passwords (preferred)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SMTP_GMAIL_COM_PASSWORD</span><span class="o">=</span><span class="s2">&quot;your_gmail_password&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SMTP_ALIBABA_INC_COM_PASSWORD</span><span class="o">=</span><span class="s2">&quot;your_alibaba_password&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SMTP_GMAIL_COM_PASSWORD</span><span class="o">=</span><span class="s2">"your_gmail_password"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SMTP_ALIBABA_INC_COM_PASSWORD</span><span class="o">=</span><span class="s2">"your_alibaba_password"</span>
 
 <span class="c1"># Slack webhook</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SLACK_WEBHOOK</span><span class="o">=</span><span class="s2">&quot;your_slack_webhook_url&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATA_JUICER_SLACK_WEBHOOK</span><span class="o">=</span><span class="s2">"your_slack_webhook_url"</span>
 </pre></div>
 </div>
 </section>
@@ -638,12 +638,12 @@
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">email</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">use_cert_auth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">client_cert_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/client.crt&quot;</span>
-<span class="w">  </span><span class="nt">client_key_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/client.key&quot;</span>
-<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;smtp.example.com&quot;</span>
+<span class="w">  </span><span class="nt">client_cert_file</span><span class="p">:</span><span class="w"> </span><span class="s">"/path/to/client.crt"</span>
+<span class="w">  </span><span class="nt">client_key_file</span><span class="p">:</span><span class="w"> </span><span class="s">"/path/to/client.key"</span>
+<span class="w">  </span><span class="nt">smtp_server</span><span class="p">:</span><span class="w"> </span><span class="s">"smtp.example.com"</span>
 <span class="w">  </span><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">587</span>
-<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;notifications@example.com&quot;</span>
-<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;recipient@example.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">sender_email</span><span class="p">:</span><span class="w"> </span><span class="s">"notifications@example.com"</span>
+<span class="w">  </span><span class="nt">recipients</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"recipient@example.com"</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
