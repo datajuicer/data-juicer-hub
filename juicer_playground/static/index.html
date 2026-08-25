@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juicer Playground</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<a href="#page-try" class="skip-link">Skip to main content</a>
+<header class="header">
+<h1><a href="#">Juicer Playground</a></h1>
+<div class="header-actions">
+<span class="health-indicator loading" id="health-indicator" title="Checking model service…">
+<span class="health-dot"></span>
+<span class="health-label" id="health-label">Checking service…</span>
+</span>
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light theme"><span id="theme-icon">&#9789;</span></button>
+</div>
+</header>
+
+<nav class="nav-bar" role="tablist" aria-label="Playground tabs">
+<div class="nav-item active" data-page="try" role="tab" tabindex="0" aria-selected="true" onclick="switchPage('try')" onkeydown="navKeydown(event,'try')">&#9881; Try Juicer</div>
+<div class="nav-item" data-page="gallery" role="tab" tabindex="0" aria-selected="false" onclick="switchPage('gallery')" onkeydown="navKeydown(event,'gallery')">&#128218; Showcase Gallery</div>
+<div class="nav-item" data-page="capability" role="tab" tabindex="0" aria-selected="false" onclick="switchPage('capability')" onkeydown="navKeydown(event,'capability')">&#11088; Capability Showcase</div>
+<div class="nav-item" data-page="ab" role="tab" tabindex="0" aria-selected="false" onclick="switchPage('ab')" onkeydown="navKeydown(event,'ab')">&#9878; AB Comparison</div>
+</nav>
+
+<!-- ============ Page 1: Try Juicer ============ -->
+<div class="page active" id="page-try">
+<main class="main" id="try-main">
+<p class="page-subtitle"><span class="ps-icon">&#9881;</span>Run manually: load a random case or paste your own text + recipe, then compare Before/After results (supports one-click A/B order switching).</p>
+<div class="card">
+<div class="card-header">&#9881; Configuration</div>
+<div class="card-body">
+<div class="form-grid">
+<div class="form-group">
+<label>Case category (for random loading; leave empty = all categories)</label>
+<select id="category-select">
+<option value="">— All categories —</option>
+</select>
+</div>
+<div class="form-group">
+<label>Output format</label>
+<select id="output-format-select">
+<option value="tagged_text">tagged_text (&lt;status&gt;/&lt;clean_text&gt;)</option>
+<option value="json">json (structured JSON)</option>
+</select>
+</div>
+<div class="form-group full-width">
+<label>Recipe (natural-language instruction; structured format works best)</label>
+<textarea id="recipe-input" rows="6" placeholder="Loading a random case will fill this in, or edit manually..."></textarea>
+</div>
+<div class="form-group full-width" id="reference-group" style="display:none;">
+<label>Reference (for hallucination detection and other reference-grounded tasks)</label>
+<textarea id="reference-input" rows="3" placeholder="Optional: reference text"></textarea>
+</div>
+<div class="form-group full-width">
+<label>Input text</label>
+<textarea id="text-input" rows="6" placeholder="Enter text to process here..."></textarea>
+</div>
+</div>
+<div class="start-section">
+<button class="btn btn-success btn-large" id="run-btn" onclick="runJuicer()">&#9654; Run</button>
+<span class="run-hint" id="run-hint"></span>
+<span class="kbd-hint">or press <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span> to run</span>
+<button class="btn btn-secondary" onclick="loadRandomCase()">&#127922; Load random case</button>
+<button class="btn btn-secondary" onclick="switchVariant()" id="variant-btn" style="display:none;">Switch A/B order</button>
+<button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+</div>
+</div>
+</div>
+
+<div class="card" id="result-card" style="display:none;">
+<div class="card-header">
+<span>Result</span>
+<span class="status-badge" id="status-badge" style="display:none;"></span>
+<span class="header-meta" id="model-info"></span>
+</div>
+<div class="card-body">
+<div class="diff-grid" id="diff-grid">
+<div class="diff-col">
+<h4>Input (Before)<span class="col-tag">raw</span></h4>
+<div class="output-box" id="before-output"></div>
+</div>
+<div class="diff-col">
+<h4>Output (After)<span class="col-tag">refined</span></h4>
+<div class="output-box" id="after-output"></div>
+</div>
+</div>
+<div class="diff-legend" id="diff-legend" style="display:none;">
+<span class="lg del"><span class="sw"></span>Deleted/modified</span>
+<span class="lg add"><span class="sw"></span>Added/retained change</span>
+</div>
+<div id="expected-row" style="margin-top:12px;display:none;">
+<div class="section-label">Expected (reference answer)<span class="sl-tag">reference</span></div>
+<div class="output-box muted" id="expected-output"></div>
+</div>
+<div class="section-gap">
+<div class="section-label">Raw Output<span class="sl-tag">unparsed response</span></div>
+<div class="output-box muted raw-output-box" id="raw-output"></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- ============ Page 2: Showcase Gallery ============ -->
+<div class="page" id="page-gallery">
+<main class="main">
+<p class="page-subtitle"><span class="ps-icon">&#128218;</span>Showcase case library: browse 51 CDR-Bench-aligned cases, click a card for details, or send it to Try Juicer.</p>
+<div class="card">
+<div class="card-header">&#128218; Showcase Cases (51, grouped by CDR-Bench capability)</div>
+<div class="card-body">
+<div class="filter-bar">
+<select id="gallery-filter" onchange="renderGallery()">
+<option value="">All categories</option>
+</select>
+<span class="muted-sm" id="gallery-count"></span>
+</div>
+<div id="case-list" class="case-list"></div>
+</div>
+</div>
+</main>
+</div>
+
+
+<!-- ============ Page 3: Capability Showcase ============ -->
+<div class="page" id="page-capability">
+<main class="main">
+<p class="page-subtitle"><span class="ps-icon">&#11088;</span>Capability tour: 5 core capabilities explained, each with a canonical example you can load into Try Juicer.</p>
+<div class="card">
+<div class="card-header">&#11088; Capability Tour (5 core capabilities + canonical examples)</div>
+<div class="card-body" id="capability-body">
+<div class="empty-state"><span class="spinner"></span><div class="empty-hint">Loading cases…</div></div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- ============ Page 4: AB Comparison ============ -->
+<div class="page" id="page-ab">
+<main class="main">
+<p class="page-subtitle"><span class="ps-icon">&#9878;</span>AB Comparison (optional): side-by-side comparison of the base model (Qwen3.6-35B-A3B) vs. Juicer. Requires an additional base-model service.</p>
+<div id="ab-notice" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:6px;background:#fffdf3;border:1px solid #f0d860;font-size:13px;">
+<strong>AB Comparison is not enabled.</strong> This is an optional feature and does not affect normal Juicer usage.<br>
+To enable: run <code>bash serve_ab.sh --juicer &lt;juicer-path&gt; --raw &lt;base-model-path&gt;</code>,
+then set <code>JUICER_RAW_BASE_URL=http://localhost:8001/v1</code> and restart <code>python app.py</code>.
+</div>
+<div class="card">
+<div class="card-header">
+&#9878; Base Model vs Juicer
+<span id="ab-raw-status" style="float:right;font-size:12px;font-weight:normal;">Base model: <span id="ab-raw-dot">Checking…</span></span>
+</div>
+<div class="card-body">
+<div class="form-grid">
+<div class="form-group">
+<label>Case category (for random loading; leave empty = all)</label>
+<select id="ab-category"><option value="">All categories (random)</option></select>
+</div>
+<div class="form-group">
+<label>Output format</label>
+<select id="ab-format"><option value="tagged_text">tagged_text</option><option value="json">json</option></select>
+</div>
+<div class="form-group full-width">
+<label>Recipe</label>
+<textarea id="ab-recipe" rows="3" placeholder="Structured instruction"></textarea>
+</div>
+<div class="form-group full-width">
+<label>Input text</label>
+<textarea id="ab-input" rows="4" placeholder="Text to process"></textarea>
+</div>
+<div class="form-group full-width" id="ab-expected-row" style="display:none;">
+<label>Expected (reference answer)</label>
+<div class="output-box muted" id="ab-expected"></div>
+</div>
+</div>
+<div class="start-section">
+<button class="btn btn-primary" id="ab-run-btn" onclick="abRun()">&#9878; Compare side-by-side</button>
+<button class="btn btn-secondary" onclick="abLoadRandom()">&#127922; Load random case</button>
+<span class="kbd-hint">or press <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span> to compare</span>
+</div>
+</div>
+</div>
+<div class="card" id="ab-result-card" style="display:none;">
+<div class="card-header">
+<span>Comparison Result</span>
+<span class="header-meta" id="ab-model-info"></span>
+</div>
+<div class="card-body">
+<div class="diff-grid" id="ab-diff-grid">
+<div class="diff-col">
+<h4>Base Model (Qwen3.6-35B-A3B)<span class="col-tag">raw</span><span class="status-badge" id="ab-raw-badge" style="display:none;"></span></h4>
+<div class="output-box" id="ab-raw-output">—</div>
+</div>
+<div class="diff-col">
+<h4>Juicer<span class="col-tag">refined</span><span class="status-badge" id="ab-juicer-badge" style="display:none;"></span></h4>
+<div class="output-box" id="ab-juicer-output">—</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- Case Detail Modal -->
+<div class="modal-overlay" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+<div class="modal-content">
+<div class="modal-header">
+<h3 id="modal-title">Case Details</h3>
+<button class="modal-close" onclick="closeModal()" aria-label="Close details">&times;</button>
+</div>
+<div class="modal-body" id="modal-body"></div>
+<div class="modal-actions">
+<button class="btn btn-primary" onclick="loadCaseIntoTry()">Load into Try Juicer</button>
+<button class="btn btn-secondary" onclick="closeModal()">Close</button>
+</div>
+</div>
+</div>
+<script>
+let categories = {};
+let allCases = {};
+let currentCase = null;
+let currentPair = null;
+
+// ── Theme ──
+function toggleTheme() {
+const html = document.documentElement;
+const isDark = html.getAttribute('data-theme') === 'dark';
+html.setAttribute('data-theme', isDark ? '' : 'dark');
+document.getElementById('theme-icon').textContent = isDark ? '\u263D' : '\u2600';
+localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+(function() {
+if (localStorage.getItem('theme') === 'dark') {
+document.documentElement.setAttribute('data-theme','dark');
+document.getElementById('theme-icon').textContent = '\u2600';
+}
+})();
+
+// ── Page switch ──
+function switchPage(page) {
+document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.nav-item').forEach(n => { n.classList.remove('active'); n.setAttribute('aria-selected','false'); });
+const pg = document.getElementById('page-' + page);
+pg.classList.add('active');
+// Force reflow so the fade-in animation replays on every switch.
+void pg.offsetWidth;
+const navEl = document.querySelector(`.nav-item[data-page="${page}"]`);
+navEl.classList.add('active');
+navEl.setAttribute('aria-selected','true');
+if (page === 'gallery') renderGallery();
+if (page === 'capability') renderCapability();
+if (page === 'ab') abInit();
+}
+
+// Keyboard navigation for the tab bar: Arrow Left/Right to move, Enter/Space to activate.
+function navKeydown(e, page) {
+if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchPage(page); return; }
+const tabs = Array.from(document.querySelectorAll('.nav-item[role="tab"]'));
+const idx = tabs.findIndex(t => t.dataset.page === page);
+if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); const n = tabs[(idx+1)%tabs.length]; n.focus(); switchPage(n.dataset.page); }
+else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); const n = tabs[(idx-1+tabs.length)%tabs.length]; n.focus(); switchPage(n.dataset.page); }
+else if (e.key === 'Home') { e.preventDefault(); tabs[0].focus(); switchPage(tabs[0].dataset.page); }
+else if (e.key === 'End') { e.preventDefault(); const last = tabs[tabs.length-1]; last.focus(); switchPage(last.dataset.page); }
+}
+
+// ── AB comparison ──
+let abReady = false;
+let abCurrentCase = null;
+async function abInit() {
+if (abReady) { abCheckRaw(); return; }
+abReady = true;
+const sel = document.getElementById('ab-category');
+for (const [k, v] of Object.entries(categories)) {
+const opt = document.createElement('option');
+opt.value = k; opt.textContent = `${v.label} (${v.count})`;
+sel.appendChild(opt);
+}
+// Auto-link category to output format in AB tab too.
+sel.addEventListener('change', function() {
+const cat = this.value;
+if (!cat || !allCases[cat]) return;
+const formats = [...new Set(allCases[cat].map(c => c.output_format))];
+if (formats.length === 1) document.getElementById('ab-format').value = formats[0];
+});
+abCheckRaw();
+}
+async function abCheckRaw() {
+const dot = document.getElementById('ab-raw-dot');
+const notice = document.getElementById('ab-notice');
+try {
+const d = await (await fetch('/api/ab/health')).json();
+if (!d.configured) {
+dot.textContent = 'Not enabled'; dot.style.color = 'var(--text-muted, #888)';
+if (notice) notice.style.display = 'block';
+return;
+}
+if (notice) notice.style.display = 'none';
+if (d.ok) { dot.textContent = 'Online: ' + (d.raw_model || 'base'); dot.style.color = 'var(--success, #22a06b)'; }
+else { dot.textContent = 'Offline (service not started)'; dot.style.color = 'var(--danger, #d64545)'; }
+} catch(e) { dot.textContent = 'Check failed'; dot.style.color = 'var(--danger, #d64545)'; }
+}
+async function abLoadRandom() {
+const cat = document.getElementById('ab-category').value;
+const url = cat ? `/api/cases/random?category=${encodeURIComponent(cat)}` : '/api/cases/random';
+try {
+const c = await (await fetch(url)).json();
+abCurrentCase = c;
+document.getElementById('ab-input').value = c.input_text || '';
+document.getElementById('ab-recipe').value = c.recipe || '';
+document.getElementById('ab-format').value = c.output_format || 'tagged_text';
+const er = document.getElementById('ab-expected-row');
+if (c.expected_text !== undefined && c.expected_text !== null) {
+er.style.display = 'block';
+document.getElementById('ab-expected').textContent = c.expected_text || '(empty)';
+} else { er.style.display = 'none'; }
+} catch(e) { showToast('Load failed: ' + e.message, 'error'); }
+}
+function abBadge(el, verify) {
+el.style.display = 'inline-flex';
+if (!verify) { el.className = 'status-badge'; el.textContent = '—'; return; }
+el.className = 'status-badge ' + (verify.match ? 'keep' : 'error');
+el.textContent = verify.match ? '\u2713 Pass' : '\u2717 Fail';
+}
+function abRender(boxId, badgeId, res, fmt) {
+const box = document.getElementById(boxId);
+const badge = document.getElementById(badgeId);
+if (res.error) { box.className = 'output-box error'; box.textContent = res.error; badge.style.display = 'none'; return; }
+box.className = 'output-box';
+if (fmt === 'json') box.innerHTML = res.json ? '<pre class="json-view">' + escapeHtml(JSON.stringify(res.json, null, 2)) + '</pre>' : '<span style="color:var(--danger)">(parse failed)</span>';
+else box.textContent = (res.status ? '[' + res.status + '] ' : '') + (res.clean_text || '(empty)');
+abBadge(badge, res.verify);
+}
+async function abRun() {
+const btn = document.getElementById('ab-run-btn');
+const text = document.getElementById('ab-input').value.trim();
+const recipe = document.getElementById('ab-recipe').value.trim();
+const fmt = document.getElementById('ab-format').value;
+if (!text || !recipe) { showToast('Please fill in input text and recipe', 'error'); return; }
+let abEnabled = false;
+try { const h = await (await fetch('/api/ab/health')).json(); abEnabled = h.configured && h.ok; } catch(e) {}
+if (!abEnabled) { showToast('AB comparison is not enabled. Configure the base-model service first (see notice above).', 'error'); return; }
+btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Comparing...';
+document.getElementById('ab-result-card').style.display = 'block';
+document.getElementById('ab-raw-output').textContent = 'Running…';
+document.getElementById('ab-juicer-output').textContent = 'Running…';
+try {
+const body = { text, recipe, output_format: fmt };
+if (abCurrentCase) { body.expected_status = abCurrentCase.expected_status; body.expected_text = abCurrentCase.expected_text; body.reference = abCurrentCase.reference; }
+const d = await (await fetch('/api/ab/run', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) })).json();
+if (d.detail) throw new Error(d.detail);
+abRender('ab-raw-output', 'ab-raw-badge', d.raw, fmt);
+abRender('ab-juicer-output', 'ab-juicer-badge', d.juicer, fmt);
+} catch(e) {
+showToast('Comparison failed: ' + e.message, 'error');
+document.getElementById('ab-raw-output').textContent = e.message;
+} finally {
+btn.disabled = false; btn.innerHTML = '&#9878; Compare side-by-side';
+}
+}
+
+
+
+// ── Init ──
+async function init() {
+checkHealth();
+setInterval(checkHealth, 30000);
+wireKeyboardShortcuts();
+
+try {
+const cResp = await fetch('/api/categories');
+categories = await cResp.json();
+} catch(e) { showToast('Failed to load categories: ' + e.message, 'error'); return; }
+
+const cSel = document.getElementById('category-select');
+for (const [k, v] of Object.entries(categories)) {
+const opt = document.createElement('option');
+opt.value = k; opt.textContent = `${v.label} (${v.count})`;
+cSel.appendChild(opt);
+}
+
+const gFilter = document.getElementById('gallery-filter');
+for (const [k, v] of Object.entries(categories)) {
+const opt = document.createElement('option');
+opt.value = k; opt.textContent = v.label;
+gFilter.appendChild(opt);
+}
+
+// Auto-link category to output format: when a category is selected, set the
+// output format dropdown to match if all cases in that category use the same format.
+cSel.addEventListener('change', function() {
+const cat = this.value;
+if (!cat || !allCases[cat]) return;
+const formats = [...new Set(allCases[cat].map(c => c.output_format))];
+if (formats.length === 1) document.getElementById('output-format-select').value = formats[0];
+});
+
+await loadAllCases();
+}
+
+// ── Model health indicator ──
+async function checkHealth() {
+const el = document.getElementById('health-indicator');
+const lbl = document.getElementById('health-label');
+if (!el) return;
+el.className = 'health-indicator loading';
+lbl.textContent = 'Checking service…';
+updateRunButtons();
+try {
+const r = await fetch('/api/health');
+const d = await r.json();
+if (d.ok) {
+el.className = 'health-indicator ok';
+lbl.textContent = 'Online: ' + (d.model || 'juicer');
+el.title = 'Model service online · model: ' + (d.model || '?') + '\nendpoint: ' + (d.base_url || '');
+} else {
+el.className = 'health-indicator down';
+lbl.textContent = 'Offline';
+el.title = 'Cannot connect to model service' + (d.error ? ': ' + d.error : '') + '\nendpoint: ' + (d.base_url || '') + '\nRun functionality will be unavailable. Start the model service first.';
+}
+} catch(e) {
+el.className = 'health-indicator down';
+lbl.textContent = 'Offline';
+el.title = 'Health check request failed';
+}
+updateRunButtons();
+}
+
+// Enable/disable run buttons + inline hint based on model health state.
+function updateRunButtons() {
+const ind = document.getElementById('health-indicator');
+if (!ind) return;
+const isOk = ind.classList.contains('ok');
+const isLoading = ind.classList.contains('loading');
+const isDown = ind.classList.contains('down');
+// Optimistic: allow running while health is still loading (first check).
+const canRun = isOk || isLoading;
+const tryBtn = document.getElementById('run-btn');
+if (tryBtn) tryBtn.disabled = !canRun;
+const setHint = function(id) {
+const h = document.getElementById(id);
+if (!h) return;
+if (isDown) { h.textContent = '\u26A0 Model offline, run unavailable'; h.className = 'run-hint'; h.style.display = 'inline-flex'; }
+else if (isLoading) { h.textContent = 'Checking service…'; h.className = 'run-hint'; h.style.display = 'inline-flex'; }
+else if (isOk) { h.style.display = 'none'; }
+};
+setHint('run-hint');
+}
+
+// ── Global keyboard shortcuts ──
+function wireKeyboardShortcuts() {
+document.addEventListener('keydown', function(e) {
+// Ctrl/Cmd+Enter runs the active page's primary action
+if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+const active = document.querySelector('.page.active');
+if (!active) return;
+e.preventDefault();
+if (active.id === 'page-try') runJuicer();
+else if (active.id === 'page-ab') abRun();
+}
+// Escape closes the modal
+if (e.key === 'Escape') {
+const modal = document.getElementById('case-modal');
+if (modal.classList.contains('visible')) closeModal();
+}
+});
+}
+
+let casesLoaded = false;
+let casesError = null;
+
+async function loadAllCases() {
+casesLoaded = false; casesError = null;
+try {
+const resp = await fetch('/api/cases');
+if (!resp.ok) throw new Error('HTTP ' + resp.status);
+allCases = await resp.json();
+casesLoaded = true;
+// If gallery is currently visible, re-render now that data is ready.
+if (document.getElementById('page-gallery').classList.contains('active')) renderGallery();
+// If capability is currently visible, re-render.
+if (document.getElementById('page-capability').classList.contains('active')) renderCapability();
+} catch(e) { console.error(e); casesError = e.message; casesLoaded = true;
+if (document.getElementById('page-gallery').classList.contains('active')) renderGallery(); }
+}
+
+// ── Run Juicer ──
+async function runJuicer() {
+const text = document.getElementById('text-input').value.trim();
+const recipe = document.getElementById('recipe-input').value.trim();
+const outputFormat = document.getElementById('output-format-select').value;
+const reference = document.getElementById('reference-input').value.trim();
+if (!text) { showToast('Please enter text', 'error'); return; }
+if (!recipe) { showToast('Please enter a recipe', 'error'); return; }
+if (!isModelOnline()) { showToast('Model service is offline. Start the model service first.', 'error'); return; }
+
+const btn = document.getElementById('run-btn');
+btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Running...';
+document.getElementById('result-card').style.display = 'block';
+const badge = document.getElementById('status-badge');
+badge.style.display = 'inline-flex';
+badge.className = 'status-badge running';
+badge.innerHTML = '<span class="badge-dot"></span>Running';
+document.getElementById('before-output').textContent = text;
+const afterBox = document.getElementById('after-output');
+afterBox.className = 'output-box';
+afterBox.innerHTML = skeletonHtml('Waiting for model response');
+document.getElementById('raw-output').textContent = '';
+
+try {
+const resp = await fetch('/api/run', {
+method: 'POST', headers: {'Content-Type':'application/json'},
+body: JSON.stringify({
+  text, recipe, output_format: outputFormat, reference,
+  ...(currentCase ? {
+    case_id: currentCase.id,
+    capability: currentCase.capability,
+    expected_status: currentCase.expected_status,
+    expected_text: currentCase.expected_text,
+  } : {})
+})
+});
+const data = await resp.json();
+if (!resp.ok) throw new Error(data.detail || 'Request failed');
+
+if (outputFormat === 'json') {
+badge.className = 'status-badge ' + (data.parse_ok ? 'keep' : 'error');
+badge.innerHTML = '<span class="badge-dot"></span>' + (data.parse_ok ? 'JSON \u2713' : 'JSON \u2717');
+afterBox.className = 'output-box';
+afterBox.innerHTML = data.json ? '<pre class="json-view">' + escapeHtml(JSON.stringify(data.json, null, 2)) + '</pre>' : '<span style="color:var(--danger)">(parse failed)</span>';
+} else {
+const status = data.status || 'UNKNOWN';
+badge.className = 'status-badge ' + (status === 'KEEP' ? 'keep' : status === 'DROP' ? 'drop' : 'error');
+badge.innerHTML = '<span class="badge-dot"></span>Status: ' + status;
+const cleanText = data.clean_text || '';
+afterBox.className = 'output-box';
+const diff = wordDiff(text, cleanText);
+afterBox.innerHTML = diff.after || '(empty)';
+document.getElementById('before-output').innerHTML = diff.before;
+}
+document.getElementById('raw-output').textContent = data.raw_output || '';
+document.getElementById('model-info').textContent = 'model: ' + (data.model || '?');
+updateDiffLegend(outputFormat);
+} catch(e) {
+document.getElementById('status-badge').className = 'status-badge error';
+document.getElementById('status-badge').innerHTML = '<span class="badge-dot"></span>Error';
+afterBox.className = 'output-box error';
+afterBox.textContent = e.message;
+showToast('Run failed: ' + e.message, 'error');
+} finally {
+btn.innerHTML = '&#9654; Run';
+updateRunButtons();
+}
+}
+
+// ── Cases ──
+async function loadRandomCase() {
+const cat = document.getElementById('category-select').value;
+const url = cat ? `/api/cases/random?category=${encodeURIComponent(cat)}` : '/api/cases/random';
+try {
+const resp = await fetch(url);
+if (!resp.ok) throw new Error('Load failed');
+const c = await resp.json();
+currentCase = c;
+currentPair = null;
+fillCase(c);
+if (c.pair_id) {
+try {
+const pResp = await fetch(`/api/cases/${c.pair_id}/pair`);
+if (pResp.ok) currentPair = (await pResp.json()).items;
+} catch(e) {}
+}
+document.getElementById('variant-btn').style.display = currentPair && currentPair.length > 1 ? 'inline-block' : 'none';
+} catch(e) { showToast(e.message, 'error'); }
+}
+
+function fillCase(c) {
+document.getElementById('text-input').value = c.input_text || '';
+document.getElementById('recipe-input').value = c.recipe || '';
+document.getElementById('reference-input').value = c.reference || '';
+document.getElementById('reference-group').style.display = c.reference ? 'block' : 'none';
+document.getElementById('output-format-select').value = c.output_format || 'tagged_text';
+
+document.getElementById('result-card').style.display = 'block';
+const badge = document.getElementById('status-badge');
+badge.style.display = 'inline-flex';
+const expectedStatus = c.expected_status || '';
+badge.className = 'status-badge ' + (expectedStatus === 'KEEP' ? 'keep' : expectedStatus === 'DROP' ? 'drop' : 'error');
+badge.textContent = 'Expected: ' + (expectedStatus || '?');
+
+document.getElementById('before-output').textContent = c.input_text || '';
+document.getElementById('after-output').className = 'output-box';
+document.getElementById('after-output').textContent = '(click "Run" to get the model output)';
+document.getElementById('raw-output').textContent = '';
+const dlegend = document.getElementById('diff-legend');
+if (dlegend) dlegend.style.display = 'none';
+
+const expRow = document.getElementById('expected-row');
+const expOut = document.getElementById('expected-output');
+if (c.expected_text !== undefined && c.expected_text !== null) {
+expRow.style.display = 'block';
+expOut.textContent = c.expected_text || '(empty)';
+} else {
+expRow.style.display = 'none';
+}
+}
+
+function switchVariant() {
+if (!currentPair || currentPair.length < 2 || !currentCase) return;
+const idx = currentPair.findIndex(c => c.id === currentCase.id);
+const next = currentPair[(idx + 1) % currentPair.length];
+currentCase = next;
+fillCase(next);
+showToast(`Switched to variant ${next.variant}`, 'info');
+}
+
+function clearAll() {
+document.getElementById('text-input').value = '';
+document.getElementById('recipe-input').value = '';
+document.getElementById('reference-input').value = '';
+document.getElementById('reference-group').style.display = 'none';
+document.getElementById('output-format-select').value = 'tagged_text';
+document.getElementById('result-card').style.display = 'none';
+document.getElementById('variant-btn').style.display = 'none';
+const dlegend = document.getElementById('diff-legend');
+if (dlegend) dlegend.style.display = 'none';
+currentCase = null;
+currentPair = null;
+}
+
+// ── Gallery ──
+function renderGallery() {
+const filter = document.getElementById('gallery-filter').value;
+const listEl = document.getElementById('case-list');
+const countEl = document.getElementById('gallery-count');
+
+// Loading state: show a simple loading indicator while cases fetch in background.
+if (!casesLoaded) {
+countEl.textContent = '';
+listEl.innerHTML = '<div class="empty-state"><span class="spinner"></span><div class="empty-hint">Loading cases…</div></div>';
+return;
+}
+// Error state: show retry button.
+if (casesError) {
+countEl.textContent = '';
+listEl.innerHTML = '<div class="error-state"><span class="empty-icon">\u26A0</span><div class="empty-title">Failed to load cases</div><div class="empty-hint">' + escapeHtml(casesError) + '</div><button class="btn btn-primary" onclick="retryLoadCases()">Retry</button></div>';
+return;
+}
+
+let items = [];
+if (filter && allCases[filter]) {
+items = allCases[filter].map(c => ({...c, _cat: filter}));
+} else {
+for (const [cat, cases] of Object.entries(allCases)) {
+cases.forEach(c => items.push({...c, _cat: cat}));
+}
+}
+countEl.textContent = `${items.length} cases`;
+if (!items.length) { listEl.innerHTML = '<div class="empty-state"><span class="empty-icon">&#128269;</span><div class="empty-title">No cases in this category</div><div class="empty-hint">Try switching to "All categories" above, or <button onclick="document.getElementById(\'gallery-filter\').value=\'\';renderGallery();">clear the filter</button></div></div>'; return; }
+listEl.innerHTML = '';
+items.forEach((c, idx) => {
+const card = document.createElement('div');
+card.className = 'case-card';
+card.style.animationDelay = Math.min(idx * 0.03, 0.3) + 's';
+card.tabIndex = 0;
+card.setAttribute('role', 'button');
+card.dataset.caseId = c.id;
+card.dataset.cat = c._cat;
+card.addEventListener('click', () => openCaseDetail(c));
+card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCaseDetail(c); } });
+const catLabel = categories[c._cat]?.label || c._cat;
+const variantTag = c.pair_id ? ` · ${c.variant}` : '';
+const fmtTag = c.output_format === 'json' ? 'JSON' : 'tagged';
+card.innerHTML = `
+<div class="case-card-header">
+<span class="case-id">${c.id || ''}${variantTag}</span>
+<span class="case-title">${escapeHtml(c.title || '')}</span>
+<span class="case-category-badge">${catLabel} · ${fmtTag}</span>
+</div>
+<div class="case-why">${escapeHtml(c.why_good || c.description || '')}</div>
+`;
+listEl.appendChild(card);
+});
+}
+
+// Retry loading cases after a failure.
+async function retryLoadCases() {
+const listEl = document.getElementById('case-list');
+if (listEl) listEl.innerHTML = '<div class="empty-state"><span class="spinner"></span></div>';
+await loadAllCases();
+}
+
+function openCaseDetail(c) {
+currentCase = c;
+const modal = document.getElementById('case-modal');
+document.getElementById('modal-title').textContent = c.title || c.id || 'Case Details';
+const refBlock = c.reference ? `<div class="detail-section"><div class="detail-section-title">Reference</div><div class="detail-box">${escapeHtml(c.reference)}</div></div>` : '';
+const pairBlock = c.pair_id ? `<div class="detail-section"><div class="detail-section-title">Order pair</div><div class="detail-box">pair_id: ${escapeHtml(c.pair_id)} · variant: ${escapeHtml(c.variant)} (use "Switch A/B order" in Try Juicer to compare)</div></div>` : '';
+document.getElementById('modal-body').innerHTML = `
+<div class="detail-section"><div class="detail-section-title">Category / operator</div><div class="detail-box">${escapeHtml(categories[c._cat]?.label || c.capability || '')} · ${escapeHtml(c.operator || '')} · ${escapeHtml(c.operator_kind || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">Description</div><div class="detail-box">${escapeHtml(c.description || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">Input text</div><div class="detail-box">${escapeHtml(c.input_text || '')}</div></div>
+${refBlock}
+<div class="detail-section"><div class="detail-section-title">Recipe</div><div class="detail-box">${escapeHtml(c.recipe || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">Output format</div><div class="detail-box">${escapeHtml(c.output_format || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">Expected Status</div><div class="detail-box">${escapeHtml(c.expected_status || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">Expected Output</div><div class="detail-box">${escapeHtml(c.expected_text || '')}</div></div>
+${pairBlock}
+<div class="detail-section"><div class="detail-section-title">Why this case is shown</div><div class="detail-box">${escapeHtml(c.why_good || '')}</div></div>
+`;
+modal.classList.add('visible');
+}
+
+function loadCaseIntoTry() {
+if (!currentCase) return;
+fillCase(currentCase);
+document.getElementById('variant-btn').style.display = 'none';
+currentPair = null;
+if (currentCase.pair_id) {
+fetch(`/api/cases/${currentCase.pair_id}/pair`).then(r => r.json()).then(d => {
+currentPair = d.items;
+document.getElementById('variant-btn').style.display = currentPair && currentPair.length > 1 ? 'inline-block' : 'none';
+}).catch(() => {});
+}
+closeModal();
+switchPage('try');
+showToast('Loaded into Try Juicer. Click "Run" to execute.', 'info');
+}
+
+function closeModal() { document.getElementById('case-modal').classList.remove('visible'); }
+document.getElementById('case-modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+// ── Utils shared by Capability tab ──
+function findCaseById(id) {
+for (const cases of Object.values(allCases)) {
+for (const c of cases) { if (c.id === id) return c; }
+}
+return null;
+}
+
+// ── Capability Showcase tab ──
+const CAPABILITIES = [
+{
+key: 'order_sensitivity',
+title: 'Order-sensitive execution',
+tag: 'Core differentiator',
+icon: '\u21C4',
+caseId: 'os-001',
+capability: 'order_sensitive',
+explanation: 'Multi-operator chains execute in the numbered order from the recipe while tracking intermediate state. The same operations in a different order can produce different results. Switch to the "AB Comparison" tab to compare behavior directly.',
+},
+{
+key: 'pii_redaction',
+title: 'PII redaction',
+tag: 'Local deployment',
+icon: '\uD83D\uDD12',
+caseId: 'pii-001',
+capability: 'pii',
+explanation: 'Local deployment + structured recipes let you redact sensitive data without it ever leaving your machines. Juicer identifies names, contacts, addresses, ID numbers, birth dates, passwords, and other PII, replaces them with [LABEL_N] placeholders while preserving non-sensitive context, and only redacts the categories the recipe specifies (no over-redaction).',
+},
+{
+key: 'hallucination_grounding',
+title: 'Hallucination detection & correction',
+tag: 'JSON output',
+icon: '\uD83D\uDD0D',
+caseId: 'hall-001',
+capability: 'hallucination',
+explanation: 'Juicer detects hallucinated/fabricated content in the input text, provides type classification or a corrected version. Detection and classification tasks output strict JSON schema for evaluation pipelines; correction tasks output a tagged_text revised draft.',
+},
+{
+key: 'quality_rubric',
+title: 'Quality scoring (HelpSteer2)',
+tag: 'JSON output',
+icon: '\u2605',
+caseId: 'rub-001',
+capability: 'rubric',
+explanation: 'Multi-dimensional quality scoring for assistant responses: helpfulness / correctness / coherence / complexity / verbosity. Juicer supports single-dimension atomic scoring and multi-dimensional combined scoring, outputting strict JSON aligned to the HelpSteer2 0-4 / 0-3 scales. Stability on this category is moderate; the showcase reflects that honestly.',
+},
+{
+key: 'safety_classification',
+title: 'Safety classification (Aegis)',
+tag: 'JSON output',
+icon: '\uD83D\uDEE1',
+caseId: 'safe-001',
+capability: 'safety',
+explanation: 'Classifies prompt+response pairs against Aegis safety criteria: prompt_label / response_label / violated_categories. Juicer identifies actionable harmful instructions, phishing, weapons manufacturing, and other violation categories, returning safe/unsafe labels and violation category lists.',
+},
+];
+function renderCapability() {
+const body = document.getElementById('capability-body');
+if (!body) return;
+// Loading state: show a simple loading indicator.
+if (!casesLoaded) {
+body.innerHTML = '<div class="empty-state"><span class="spinner"></span><div class="empty-hint">Loading cases…</div></div>';
+return;
+}
+// Error state.
+if (casesError) {
+body.innerHTML = '<div class="error-state"><span class="empty-icon">\u26A0</span><div class="empty-title">Failed to load cases</div><div class="empty-hint">' + escapeHtml(casesError) + '</div><button class="btn btn-primary" onclick="retryLoadCases();renderCapability();">Retry</button></div>';
+return;
+}
+body.innerHTML = '';
+CAPABILITIES.forEach((cap, idx) => {
+let c = findCaseById(cap.caseId);
+if (!c && cap.capability && allCases[cap.capability] && allCases[cap.capability].length) {
+c = allCases[cap.capability][0];
+}
+const card = document.createElement('div');
+card.className = 'capability-card';
+card.style.animationDelay = Math.min(idx * 0.05, 0.3) + 's';
+const exampleHtml = c ? `
+<div class="cap-example">
+<div class="cap-example-title"><span class="ex-tag">Canonical example</span>${escapeHtml(c.title || c.id)}</div>
+<div class="cap-field"><span class="cap-field-label">Input</span><div class="cap-field-box">${escapeHtml(c.input_text || '')}</div></div>
+${c.reference ? `<div class="cap-field"><span class="cap-field-label">Reference</span><div class="cap-field-box">${escapeHtml(c.reference)}</div></div>` : ''}
+<div class="cap-field"><span class="cap-field-label">Recipe</span><div class="cap-field-box">${escapeHtml(c.recipe || '')}</div></div>
+<div class="cap-field"><span class="cap-field-label">Output format</span><div class="cap-field-box">${escapeHtml(c.output_format || '')}</div></div>
+<div class="cap-field"><span class="cap-field-label">Expected</span><div class="cap-field-box">${escapeHtml(c.expected_text !== undefined && c.expected_text !== null ? c.expected_text : (c.expected_status || ''))}</div></div>
+<button class="btn btn-primary" onclick="openCapabilityInTry('${c.id}')">&#9654; Open in Try Juicer</button>
+</div>` : '<div class="cap-example"><div class="empty-state"><span class="empty-icon">&#9203;</span><div class="empty-title">Case not found</div><div class="empty-hint">caseId ' + escapeHtml(cap.caseId) + ' is not in the case library.</div></div></div>';
+card.innerHTML = `
+<div class="cap-head">
+<span class="cap-icon" aria-hidden="true">${cap.icon || '\u2756'}</span>
+<span class="cap-title-row">
+<span class="cap-tag">${escapeHtml(cap.tag || ('Capability ' + (idx+1)))}</span>
+<span class="cap-title">${escapeHtml(cap.title)}</span>
+</span>
+</div>
+<p class="cap-explanation">${escapeHtml(cap.explanation)}</p>
+${exampleHtml}`;
+body.appendChild(card);
+});
+}
+function openCapabilityInTry(caseId) {
+const c = findCaseById(caseId);
+if (!c) { showToast('Case not loaded', 'error'); return; }
+currentCase = c;
+currentPair = null;
+fillCase(c);
+if (c.pair_id) {
+fetch(`/api/cases/${c.pair_id}/pair`).then(r => r.json()).then(d => {
+currentPair = d.items;
+document.getElementById('variant-btn').style.display = currentPair && currentPair.length > 1 ? 'inline-block' : 'none';
+}).catch(() => {});
+} else {
+document.getElementById('variant-btn').style.display = 'none';
+}
+switchPage('try');
+showToast('Loaded into Try Juicer. Click "Run" to execute.', 'info');
+}
+
+// ── Utils ──
+function escapeHtml(text) {
+if (text === null || text === undefined) return '';
+const div = document.createElement('div');
+div.textContent = String(text);
+return div.innerHTML;
+}
+
+// True if the header health indicator shows the model as online (or still loading optimistically).
+function isModelOnline() {
+const el = document.getElementById('health-indicator');
+return !!el && (el.classList.contains('ok') || el.classList.contains('loading'));
+}
+
+// Loading placeholder shown while waiting for /api/run.
+function skeletonHtml(label) {
+return '<div class="loading-inline"><span class="spinner"></span><span>' + escapeHtml(label || 'Loading') + '</span></div>';
+}
+
+// Show/hide the diff legend depending on output format (only meaningful for tagged_text word-diff).
+function updateDiffLegend(outputFormat) {
+const lg = document.getElementById('diff-legend');
+if (lg) lg.style.display = outputFormat === 'tagged_text' ? 'flex' : 'none';
+}
+
+// ── Word-level diff (LCS) for Before/After highlighting ──
+function tokenizeDiff(text) {
+// Split into words and whitespace runs, preserving everything.
+return text.match(/\s+|[\w]+|[^\s\w]+/g) || [];
+}
+function wordDiff(a, b) {
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// Guard against very long inputs (LCS is O(n*m)).
+if (a.length > 8000 || b.length > 8000) {
+return { before: esc(a), after: esc(b) };
+}
+const tokA = tokenizeDiff(a);
+const tokB = tokenizeDiff(b);
+const n = tokA.length, m = tokB.length;
+// Cap table size for safety.
+if (n * m > 1200000) return { before: esc(a), after: esc(b) };
+const lcsTable = [];
+for (let i = 0; i <= n; i++) lcsTable.push(new Int32Array(m + 1));
+for (let i = n - 1; i >= 0; i--) {
+for (let j = m - 1; j >= 0; j--) {
+lcsTable[i][j] = tokA[i] === tokB[j] ? lcsTable[i+1][j+1] + 1 : Math.max(lcsTable[i+1][j], lcsTable[i][j+1]);
+}
+}
+let beforeHtml = '', afterHtml = '';
+let i = 0, j = 0;
+while (i < n && j < m) {
+if (tokA[i] === tokB[j]) {
+beforeHtml += esc(tokA[i]);
+afterHtml += esc(tokB[j]);
+i++; j++;
+} else if (lcsTable[i+1][j] >= lcsTable[i][j+1]) {
+beforeHtml += '<span class="diff-del">' + esc(tokA[i]) + '</span>';
+i++;
+} else {
+afterHtml += '<span class="diff-add">' + esc(tokB[j]) + '</span>';
+j++;
+}
+}
+while (i < n) { beforeHtml += '<span class="diff-del">' + esc(tokA[i]) + '</span>'; i++; }
+while (j < m) { afterHtml += '<span class="diff-add">' + esc(tokB[j]) + '</span>'; j++; }
+return { before: beforeHtml || esc(a), after: afterHtml || esc(b) };
+}
+
+function showToast(msg, type) {
+const t = document.createElement('div');
+t.className = 'toast ' + (type || 'info');
+t.textContent = msg;
+document.body.appendChild(t);
+setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 3000);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
