@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+
+# vLLM runtime
+logs/
+vllm.log
+.vllm.pid
+.vllm_raw.pid
+.vllm_juicer.pid
+
+# Case verify failure archive (local runtime data, not for commit)
+reports/*.jsonl
+
+# Qoder CLI working directory
+.qoder/
+
+# Internal iteration harness (self-play, banks, design docs) — not for public
+loop/
+
+# Selfcheck / local test scripts
+test/
+
+# Historical transcripts and scratch files
+2026-*.txt
+*.tar.gz
+
+# OS
+.DS_Store
+eval/
+feedback/

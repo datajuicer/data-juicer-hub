@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juicer Playground</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<a href="#page-try" class="skip-link">跳到主内容</a>
+<header class="header">
+<h1><a href="#">Juicer Playground</a></h1>
+<div class="header-actions">
+<span class="health-indicator loading" id="health-indicator" title="检测模型服务状态中…">
+<span class="health-dot"></span>
+<span class="health-label" id="health-label">检测服务中…</span>
+</span>
+<button class="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换深色/浅色主题"><span id="theme-icon">&#9789;</span></button>
+</div>
+</header>
+
+<nav class="nav-bar" role="tablist" aria-label="Playground 标签页">
+<div class="nav-item active" data-page="try" role="tab" tabindex="0" aria-selected="true" onclick="switchPage('try')" onkeydown="navKeydown(event,'try')">&#9881; 试用 Juicer</div>
+<div class="nav-item" data-page="gallery" role="tab" tabindex="0" aria-selected="false" onclick="switchPage('gallery')" onkeydown="navKeydown(event,'gallery')">&#128218; 示例库</div>
+<div class="nav-item" data-page="capability" role="tab" tabindex="0" aria-selected="false" onclick="switchPage('capability')" onkeydown="navKeydown(event,'capability')">&#11088; 能力展示</div>
+<div class="nav-item" data-page="ab" role="tab" tabindex="0" aria-selected="false" onclick="switchPage('ab')" onkeydown="navKeydown(event,'ab')">&#9878; AB 对照</div>
+</nav>
+
+<!-- ============ Page 1: Try Juicer ============ -->
+<div class="page active" id="page-try">
+<main class="main" id="try-main">
+<p class="page-subtitle"><span class="ps-icon">&#9881;</span>手动试跑：随机载入 case 或粘贴自定义文本 + recipe，对比 Before/After 精炼结果（支持一键 A/B 顺序对照）。</p>
+<div class="card">
+<div class="card-header">&#9881; 配置</div>
+<div class="card-body">
+<div class="form-grid">
+<div class="form-group">
+<label>Case 分类（用于随机加载，可留空 = 全库随机）</label>
+<select id="category-select">
+<option value="">— 全部分类 —</option>
+</select>
+</div>
+<div class="form-group">
+<label>输出格式</label>
+<select id="output-format-select">
+<option value="tagged_text">tagged_text (&lt;status&gt;/&lt;clean_text&gt;)</option>
+<option value="json">json (结构化 JSON)</option>
+</select>
+</div>
+<div class="form-group full-width">
+<label>Recipe（自然语言指令，结构化格式效果更稳定）</label>
+<textarea id="recipe-input" rows="6" placeholder="随机加载 Case 会自动填充，或自行编辑..."></textarea>
+</div>
+<div class="form-group full-width" id="reference-group" style="display:none;">
+<label>Reference（参考文本，用于幻觉检测等对照任务）</label>
+<textarea id="reference-input" rows="3" placeholder="可选：参考文本"></textarea>
+</div>
+<div class="form-group full-width">
+<label>输入文本</label>
+<textarea id="text-input" rows="6" placeholder="在此输入待处理的文本..."></textarea>
+</div>
+</div>
+<div class="start-section">
+<button class="btn btn-success btn-large" id="run-btn" onclick="runJuicer()">&#9654; 执行</button>
+<span class="run-hint" id="run-hint"></span>
+<span class="kbd-hint">或按 <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span> 执行</span>
+<button class="btn btn-secondary" onclick="loadRandomCase()">&#127922; 随机加载一条 Case</button>
+<button class="btn btn-secondary" onclick="switchVariant()" id="variant-btn" style="display:none;">切换 A/B 顺序</button>
+<button class="btn btn-secondary" onclick="clearAll()">清空</button>
+</div>
+</div>
+</div>
+
+<div class="card" id="result-card" style="display:none;">
+<div class="card-header">
+<span>结果</span>
+<span class="status-badge" id="status-badge" style="display:none;"></span>
+<span class="header-meta" id="model-info"></span>
+</div>
+<div class="card-body">
+<div class="diff-grid" id="diff-grid">
+<div class="diff-col">
+<h4>输入（Before）<span class="col-tag">原始</span></h4>
+<div class="output-box" id="before-output"></div>
+</div>
+<div class="diff-col">
+<h4>输出（After）<span class="col-tag">精炼</span></h4>
+<div class="output-box" id="after-output"></div>
+</div>
+</div>
+<div class="diff-legend" id="diff-legend" style="display:none;">
+<span class="lg del"><span class="sw"></span>删除/修改</span>
+<span class="lg add"><span class="sw"></span>新增/保留变化</span>
+</div>
+<div id="expected-row" style="margin-top:12px;display:none;">
+<div class="section-label">Expected（参考答案）<span class="sl-tag">参考</span></div>
+<div class="output-box muted" id="expected-output"></div>
+</div>
+<div class="section-gap">
+<div class="section-label">Raw Output<span class="sl-tag">未解析原始响应</span></div>
+<div class="output-box muted raw-output-box" id="raw-output"></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- ============ Page 2: Showcase Gallery ============ -->
+<div class="page" id="page-gallery">
+<main class="main">
+<p class="page-subtitle"><span class="ps-icon">&#128218;</span>展示用例库：浏览 51 条 CDR-Bench 对齐用例，点卡片看详情，或载入到试用页。</p>
+<div class="card">
+<div class="card-header">&#128218; 展示用例（51 条，按 CDR-Bench 对齐分类）</div>
+<div class="card-body">
+<div class="filter-bar">
+<select id="gallery-filter" onchange="renderGallery()">
+<option value="">全部分类</option>
+</select>
+<span class="muted-sm" id="gallery-count"></span>
+</div>
+<div id="case-list" class="case-list"></div>
+</div>
+</div>
+</main>
+</div>
+
+
+<!-- ============ Page 3: Capability Showcase ============ -->
+<div class="page" id="page-capability">
+<main class="main">
+<p class="page-subtitle"><span class="ps-icon">&#11088;</span>能力导览：5 大核心能力逐项讲解，每项配一条典型用例，可一键载入试用页。</p>
+<div class="card">
+<div class="card-header">&#11088; 能力导览（5 大核心能力 + 典范用例）</div>
+<div class="card-body" id="capability-body">
+<div class="empty-state"><span class="spinner"></span><div class="empty-hint">用例加载中…</div></div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- ============ Page: AB 对照 ============ -->
+<div class="page" id="page-ab">
+<main class="main">
+<p class="page-subtitle"><span class="ps-icon">&#9878;</span>AB 对照（可选）：基础模型 Qwen3.6-35B-A3B 与 Juicer 并排对比，直观展示精炼效果。需额外启动基础模型服务。</p>
+<div id="ab-notice" style="display:none;margin-bottom:12px;padding:10px 14px;border-radius:6px;background:#fffdf3;border:1px solid #f0d860;font-size:13px;">
+<strong>AB 对照未启用。</strong>这是可选功能，不影响 Juicer 的正常使用。<br>
+启用方式：先跑 <code>bash serve_ab.sh --juicer &lt;Juicer路径&gt; --raw &lt;基础模型路径&gt;</code>，
+再设 <code>JUICER_RAW_BASE_URL=http://localhost:8001/v1</code> 后重启 <code>python app_zh.py</code>。
+</div>
+<div class="card">
+<div class="card-header">
+&#9878; 基础模型 vs Juicer
+<span id="ab-raw-status" style="float:right;font-size:12px;font-weight:normal;">基础模型：<span id="ab-raw-dot">检测中…</span></span>
+</div>
+<div class="card-body">
+<div class="form-grid">
+<div class="form-group">
+<label>Case 分类（随机加载用，留空 = 全部）</label>
+<select id="ab-category"><option value="">全部分类随机</option></select>
+</div>
+<div class="form-group">
+<label>输出格式</label>
+<select id="ab-format"><option value="tagged_text">tagged_text</option><option value="json">json</option></select>
+</div>
+<div class="form-group full-width">
+<label>Recipe</label>
+<textarea id="ab-recipe" rows="3" placeholder="结构化指令"></textarea>
+</div>
+<div class="form-group full-width">
+<label>输入文本</label>
+<textarea id="ab-input" rows="4" placeholder="待处理文本"></textarea>
+</div>
+<div class="form-group full-width" id="ab-expected-row" style="display:none;">
+<label>Expected（参考答案）</label>
+<div class="output-box muted" id="ab-expected"></div>
+</div>
+</div>
+<div class="start-section">
+<button class="btn btn-primary" id="ab-run-btn" onclick="abRun()">&#9878; 并排对比</button>
+<button class="btn btn-secondary" onclick="abLoadRandom()">&#127922; 随机加载对照 Case</button>
+<span class="kbd-hint">或按 <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span> 对比</span>
+</div>
+</div>
+</div>
+<div class="card" id="ab-result-card" style="display:none;">
+<div class="card-header">
+<span>对比结果</span>
+<span class="header-meta" id="ab-model-info"></span>
+</div>
+<div class="card-body">
+<div class="diff-grid" id="ab-diff-grid">
+<div class="diff-col">
+<h4>基础模型 (Qwen3.6-35B-A3B)<span class="col-tag">raw</span><span class="status-badge" id="ab-raw-badge" style="display:none;"></span></h4>
+<div class="output-box" id="ab-raw-output">—</div>
+</div>
+<div class="diff-col">
+<h4>Juicer<span class="col-tag">refined</span><span class="status-badge" id="ab-juicer-badge" style="display:none;"></span></h4>
+<div class="output-box" id="ab-juicer-output">—</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- Case Detail Modal -->
+<div class="modal-overlay" id="case-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+<div class="modal-content">
+<div class="modal-header">
+<h3 id="modal-title">Case 详情</h3>
+<button class="modal-close" onclick="closeModal()" aria-label="关闭详情">&times;</button>
+</div>
+<div class="modal-body" id="modal-body"></div>
+<div class="modal-actions">
+<button class="btn btn-primary" onclick="loadCaseIntoTry()">载入到试用页</button>
+<button class="btn btn-secondary" onclick="closeModal()">关闭</button>
+</div>
+</div>
+</div>
+<script>
+let categories = {};
+let allCases = {};
+let currentCase = null;
+let currentPair = null;
+
+// ── Theme ──
+function toggleTheme() {
+const html = document.documentElement;
+const isDark = html.getAttribute('data-theme') === 'dark';
+html.setAttribute('data-theme', isDark ? '' : 'dark');
+document.getElementById('theme-icon').textContent = isDark ? '\u263D' : '\u2600';
+localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+(function() {
+if (localStorage.getItem('theme') === 'dark') {
+document.documentElement.setAttribute('data-theme','dark');
+document.getElementById('theme-icon').textContent = '\u2600';
+}
+})();
+
+// ── Page switch ──
+function switchPage(page) {
+document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.nav-item').forEach(n => { n.classList.remove('active'); n.setAttribute('aria-selected','false'); });
+const pg = document.getElementById('page-' + page);
+pg.classList.add('active');
+// Force reflow so the fade-in animation replays on every switch.
+void pg.offsetWidth;
+const navEl = document.querySelector(`.nav-item[data-page="${page}"]`);
+navEl.classList.add('active');
+navEl.setAttribute('aria-selected','true');
+if (page === 'gallery') renderGallery();
+if (page === 'capability') renderCapability();
+if (page === 'ab') abInit();
+}
+
+// Keyboard navigation for the tab bar: Arrow Left/Right to move, Enter/Space to activate.
+function navKeydown(e, page) {
+if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchPage(page); return; }
+const tabs = Array.from(document.querySelectorAll('.nav-item[role="tab"]'));
+const idx = tabs.findIndex(t => t.dataset.page === page);
+if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); const n = tabs[(idx+1)%tabs.length]; n.focus(); switchPage(n.dataset.page); }
+else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); const n = tabs[(idx-1+tabs.length)%tabs.length]; n.focus(); switchPage(n.dataset.page); }
+else if (e.key === 'Home') { e.preventDefault(); tabs[0].focus(); switchPage(tabs[0].dataset.page); }
+else if (e.key === 'End') { e.preventDefault(); const last = tabs[tabs.length-1]; last.focus(); switchPage(last.dataset.page); }
+}
+
+// ── AB comparison ──
+let abReady = false;
+let abCurrentCase = null;
+async function abInit() {
+if (abReady) { abCheckRaw(); return; }
+abReady = true;
+const sel = document.getElementById('ab-category');
+for (const [k, v] of Object.entries(categories)) {
+const opt = document.createElement('option');
+opt.value = k; opt.textContent = `${v.label} (${v.count})`;
+sel.appendChild(opt);
+}
+sel.addEventListener('change', function() {
+const cat = this.value;
+if (!cat || !allCases[cat]) return;
+const formats = [...new Set(allCases[cat].map(c => c.output_format))];
+if (formats.length === 1) document.getElementById('ab-format').value = formats[0];
+});
+abCheckRaw();
+}
+async function abCheckRaw() {
+const dot = document.getElementById('ab-raw-dot');
+const notice = document.getElementById('ab-notice');
+try {
+const d = await (await fetch('/api/ab/health')).json();
+if (!d.configured) {
+dot.textContent = '未启用'; dot.style.color = 'var(--mut, #888)';
+if (notice) notice.style.display = 'block';
+return;
+}
+if (notice) notice.style.display = 'none';
+if (d.ok) { dot.textContent = '在线: ' + (d.raw_model || 'base'); dot.style.color = 'var(--success, #22a06b)'; }
+else { dot.textContent = '离线（服务未启动）'; dot.style.color = 'var(--danger, #d64545)'; }
+} catch(e) { dot.textContent = '检测失败'; dot.style.color = 'var(--danger, #d64545)'; }
+}
+async function abLoadRandom() {
+const cat = document.getElementById('ab-category').value;
+const url = cat ? `/api/cases/random?category=${encodeURIComponent(cat)}` : '/api/cases/random';
+try {
+const c = await (await fetch(url)).json();
+abCurrentCase = c;
+document.getElementById('ab-input').value = c.input_text || '';
+document.getElementById('ab-recipe').value = c.recipe || '';
+document.getElementById('ab-format').value = c.output_format || 'tagged_text';
+const er = document.getElementById('ab-expected-row');
+if (c.expected_text !== undefined && c.expected_text !== null) {
+er.style.display = 'block';
+document.getElementById('ab-expected').textContent = c.expected_text || '(空)';
+} else { er.style.display = 'none'; }
+} catch(e) { showToast('加载失败: ' + e.message, 'error'); }
+}
+function abBadge(el, verify) {
+el.style.display = 'inline-flex';
+if (!verify) { el.className = 'status-badge'; el.textContent = '—'; return; }
+el.className = 'status-badge ' + (verify.match ? 'keep' : 'error');
+el.textContent = verify.match ? '✓ 通过' : '✗ 未通过';
+}
+function abRender(boxId, badgeId, res, fmt) {
+const box = document.getElementById(boxId);
+const badge = document.getElementById(badgeId);
+if (res.error) { box.className = 'output-box error'; box.textContent = res.error; badge.style.display = 'none'; return; }
+box.className = 'output-box';
+if (fmt === 'json') box.innerHTML = res.json ? '<pre class="json-view">' + escapeHtml(JSON.stringify(res.json, null, 2)) + '</pre>' : '<span style="color:var(--danger)">(解析失败)</span>';
+else box.textContent = (res.status ? '[' + res.status + '] ' : '') + (res.clean_text || '(空)');
+abBadge(badge, res.verify);
+}
+async function abRun() {
+const btn = document.getElementById('ab-run-btn');
+const text = document.getElementById('ab-input').value.trim();
+const recipe = document.getElementById('ab-recipe').value.trim();
+const fmt = document.getElementById('ab-format').value;
+if (!text || !recipe) { showToast('请填写输入文本和 Recipe', 'error'); return; }
+let abEnabled = false;
+try { const h = await (await fetch('/api/ab/health')).json(); abEnabled = h.configured && h.ok; } catch(e) {}
+if (!abEnabled) { showToast('AB 对照未启用，请先配置基础模型服务（见上方提示）', 'error'); return; }
+btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 对比中...';
+document.getElementById('ab-result-card').style.display = 'block';
+document.getElementById('ab-raw-output').textContent = '运行中…';
+document.getElementById('ab-juicer-output').textContent = '运行中…';
+try {
+const body = { text, recipe, output_format: fmt };
+if (abCurrentCase) { body.expected_status = abCurrentCase.expected_status; body.expected_text = abCurrentCase.expected_text; body.reference = abCurrentCase.reference; }
+const d = await (await fetch('/api/ab/run', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) })).json();
+if (d.detail) throw new Error(d.detail);
+abRender('ab-raw-output', 'ab-raw-badge', d.raw, fmt);
+abRender('ab-juicer-output', 'ab-juicer-badge', d.juicer, fmt);
+} catch(e) {
+showToast('对比失败: ' + e.message, 'error');
+document.getElementById('ab-raw-output').textContent = e.message;
+} finally {
+btn.disabled = false; btn.innerHTML = '&#9878; 并排对比';
+}
+}
+
+
+// ── Init ──
+async function init() {
+checkHealth();
+setInterval(checkHealth, 30000);
+wireKeyboardShortcuts();
+
+try {
+const cResp = await fetch('/api/categories');
+categories = await cResp.json();
+} catch(e) { showToast('加载分类失败: ' + e.message, 'error'); return; }
+
+const cSel = document.getElementById('category-select');
+for (const [k, v] of Object.entries(categories)) {
+const opt = document.createElement('option');
+opt.value = k; opt.textContent = `${v.label} (${v.count})`;
+cSel.appendChild(opt);
+}
+cSel.addEventListener('change', function() {
+const cat = this.value;
+if (!cat || !allCases[cat]) return;
+const formats = [...new Set(allCases[cat].map(c => c.output_format))];
+if (formats.length === 1) document.getElementById('output-format-select').value = formats[0];
+});
+
+const gFilter = document.getElementById('gallery-filter');
+for (const [k, v] of Object.entries(categories)) {
+const opt = document.createElement('option');
+opt.value = k; opt.textContent = v.label;
+gFilter.appendChild(opt);
+}
+
+await loadAllCases();
+}
+
+// ── Model health indicator ──
+async function checkHealth() {
+const el = document.getElementById('health-indicator');
+const lbl = document.getElementById('health-label');
+if (!el) return;
+el.className = 'health-indicator loading';
+lbl.textContent = '检测服务中…';
+updateRunButtons();
+try {
+const r = await fetch('/api/health');
+const d = await r.json();
+if (d.ok) {
+el.className = 'health-indicator ok';
+lbl.textContent = '在线: ' + (d.model || 'juicer');
+el.title = '模型服务在线 · 模型: ' + (d.model || '?') + '\n端点: ' + (d.base_url || '');
+} else {
+el.className = 'health-indicator down';
+lbl.textContent = '离线';
+el.title = '无法连接模型服务' + (d.error ? '：' + d.error : '') + '\n端点: ' + (d.base_url || '') + '\n执行功能将不可用，请先启动模型服务。';
+}
+} catch(e) {
+el.className = 'health-indicator down';
+lbl.textContent = '离线';
+el.title = '健康检查请求失败';
+}
+updateRunButtons();
+}
+
+// Enable/disable run buttons + inline hint based on model health state.
+function updateRunButtons() {
+const ind = document.getElementById('health-indicator');
+if (!ind) return;
+const isOk = ind.classList.contains('ok');
+const isLoading = ind.classList.contains('loading');
+const isDown = ind.classList.contains('down');
+// Optimistic: allow running while health is still loading (first check).
+const canRun = isOk || isLoading;
+const tryBtn = document.getElementById('run-btn');
+if (tryBtn) tryBtn.disabled = !canRun;
+const setHint = function(id) {
+const h = document.getElementById(id);
+if (!h) return;
+if (isDown) { h.textContent = '⚠ 模型离线，执行不可用'; h.className = 'run-hint'; h.style.display = 'inline-flex'; }
+else if (isLoading) { h.textContent = '检测服务中…'; h.className = 'run-hint'; h.style.display = 'inline-flex'; }
+else if (isOk) { h.style.display = 'none'; }
+};
+setHint('run-hint');
+}
+
+// ── Global keyboard shortcuts ──
+function wireKeyboardShortcuts() {
+document.addEventListener('keydown', function(e) {
+// Ctrl/Cmd+Enter runs the active page's primary action
+if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+const active = document.querySelector('.page.active');
+if (!active) return;
+e.preventDefault();
+if (active.id === 'page-try') runJuicer();
+else if (active.id === 'page-ab') abRun();
+}
+// Escape closes the modal
+if (e.key === 'Escape') {
+const modal = document.getElementById('case-modal');
+if (modal.classList.contains('visible')) closeModal();
+}
+});
+}
+
+let casesLoaded = false;
+let casesError = null;
+
+async function loadAllCases() {
+casesLoaded = false; casesError = null;
+try {
+const resp = await fetch('/api/cases');
+if (!resp.ok) throw new Error('HTTP ' + resp.status);
+allCases = await resp.json();
+casesLoaded = true;
+// If gallery is currently visible, re-render now that data is ready.
+if (document.getElementById('page-gallery').classList.contains('active')) renderGallery();
+// If capability is currently visible, re-render.
+if (document.getElementById('page-capability').classList.contains('active')) renderCapability();
+} catch(e) { console.error(e); casesError = e.message; casesLoaded = true;
+if (document.getElementById('page-gallery').classList.contains('active')) renderGallery(); }
+}
+
+// ── Run Juicer ──
+async function runJuicer() {
+const text = document.getElementById('text-input').value.trim();
+const recipe = document.getElementById('recipe-input').value.trim();
+const outputFormat = document.getElementById('output-format-select').value;
+const reference = document.getElementById('reference-input').value.trim();
+if (!text) { showToast('请输入文本', 'error'); return; }
+if (!recipe) { showToast('请输入 recipe', 'error'); return; }
+if (!isModelOnline()) { showToast('模型服务离线，请先启动模型服务', 'error'); return; }
+
+const btn = document.getElementById('run-btn');
+btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 执行中...';
+document.getElementById('result-card').style.display = 'block';
+const badge = document.getElementById('status-badge');
+badge.style.display = 'inline-flex';
+badge.className = 'status-badge running';
+badge.innerHTML = '<span class="badge-dot"></span>运行中';
+document.getElementById('before-output').textContent = text;
+const afterBox = document.getElementById('after-output');
+afterBox.className = 'output-box';
+afterBox.innerHTML = skeletonHtml('正在等待模型响应');
+document.getElementById('raw-output').textContent = '';
+
+try {
+const resp = await fetch('/api/run', {
+method: 'POST', headers: {'Content-Type':'application/json'},
+body: JSON.stringify({
+  text, recipe, output_format: outputFormat, reference,
+  ...(currentCase ? {
+    case_id: currentCase.id,
+    capability: currentCase.capability,
+    expected_status: currentCase.expected_status,
+    expected_text: currentCase.expected_text,
+  } : {})
+})
+});
+const data = await resp.json();
+if (!resp.ok) throw new Error(data.detail || '请求失败');
+
+if (outputFormat === 'json') {
+badge.className = 'status-badge ' + (data.parse_ok ? 'keep' : 'error');
+badge.innerHTML = '<span class="badge-dot"></span>' + (data.parse_ok ? 'JSON ✓' : 'JSON ✗');
+afterBox.className = 'output-box';
+afterBox.innerHTML = data.json ? '<pre class="json-view">' + escapeHtml(JSON.stringify(data.json, null, 2)) + '</pre>' : '<span style="color:var(--danger)">(解析失败)</span>';
+} else {
+const status = data.status || 'UNKNOWN';
+badge.className = 'status-badge ' + (status === 'KEEP' ? 'keep' : status === 'DROP' ? 'drop' : 'error');
+badge.innerHTML = '<span class="badge-dot"></span>Status: ' + status;
+const cleanText = data.clean_text || '';
+afterBox.className = 'output-box';
+const diff = wordDiff(text, cleanText);
+afterBox.innerHTML = diff.after || '(空)';
+document.getElementById('before-output').innerHTML = diff.before;
+}
+document.getElementById('raw-output').textContent = data.raw_output || '';
+document.getElementById('model-info').textContent = 'model: ' + (data.model || '?');
+updateDiffLegend(outputFormat);
+} catch(e) {
+document.getElementById('status-badge').className = 'status-badge error';
+document.getElementById('status-badge').innerHTML = '<span class="badge-dot"></span>错误';
+afterBox.className = 'output-box error';
+afterBox.textContent = e.message;
+showToast('执行失败: ' + e.message, 'error');
+} finally {
+btn.innerHTML = '&#9654; 执行';
+updateRunButtons();
+}
+}
+
+// ── Cases ──
+async function loadRandomCase() {
+const cat = document.getElementById('category-select').value;
+const url = cat ? `/api/cases/random?category=${encodeURIComponent(cat)}` : '/api/cases/random';
+try {
+const resp = await fetch(url);
+if (!resp.ok) throw new Error('加载失败');
+const c = await resp.json();
+currentCase = c;
+currentPair = null;
+fillCase(c);
+if (c.pair_id) {
+try {
+const pResp = await fetch(`/api/cases/${c.pair_id}/pair`);
+if (pResp.ok) currentPair = (await pResp.json()).items;
+} catch(e) {}
+}
+document.getElementById('variant-btn').style.display = currentPair && currentPair.length > 1 ? 'inline-block' : 'none';
+} catch(e) { showToast(e.message, 'error'); }
+}
+
+function fillCase(c) {
+document.getElementById('text-input').value = c.input_text || '';
+document.getElementById('recipe-input').value = c.recipe || '';
+document.getElementById('reference-input').value = c.reference || '';
+document.getElementById('reference-group').style.display = c.reference ? 'block' : 'none';
+document.getElementById('output-format-select').value = c.output_format || 'tagged_text';
+
+document.getElementById('result-card').style.display = 'block';
+const badge = document.getElementById('status-badge');
+badge.style.display = 'inline-flex';
+const expectedStatus = c.expected_status || '';
+badge.className = 'status-badge ' + (expectedStatus === 'KEEP' ? 'keep' : expectedStatus === 'DROP' ? 'drop' : 'error');
+badge.textContent = 'Expected: ' + (expectedStatus || '?');
+
+document.getElementById('before-output').textContent = c.input_text || '';
+document.getElementById('after-output').className = 'output-box';
+document.getElementById('after-output').textContent = '(点击"执行"获取模型实际输出)';
+document.getElementById('raw-output').textContent = '';
+const dlegend = document.getElementById('diff-legend');
+if (dlegend) dlegend.style.display = 'none';
+
+const expRow = document.getElementById('expected-row');
+const expOut = document.getElementById('expected-output');
+if (c.expected_text !== undefined && c.expected_text !== null) {
+expRow.style.display = 'block';
+expOut.textContent = c.expected_text || '(空)';
+} else {
+expRow.style.display = 'none';
+}
+}
+
+function switchVariant() {
+if (!currentPair || currentPair.length < 2 || !currentCase) return;
+const idx = currentPair.findIndex(c => c.id === currentCase.id);
+const next = currentPair[(idx + 1) % currentPair.length];
+currentCase = next;
+fillCase(next);
+showToast(`已切换到变体 ${next.variant}`, 'info');
+}
+
+function clearAll() {
+document.getElementById('text-input').value = '';
+document.getElementById('recipe-input').value = '';
+document.getElementById('reference-input').value = '';
+document.getElementById('reference-group').style.display = 'none';
+document.getElementById('output-format-select').value = 'tagged_text';
+document.getElementById('result-card').style.display = 'none';
+document.getElementById('variant-btn').style.display = 'none';
+const dlegend = document.getElementById('diff-legend');
+if (dlegend) dlegend.style.display = 'none';
+currentCase = null;
+currentPair = null;
+}
+
+// ── Gallery ──
+function renderGallery() {
+const filter = document.getElementById('gallery-filter').value;
+const listEl = document.getElementById('case-list');
+const countEl = document.getElementById('gallery-count');
+
+// Loading state: show a simple loading indicator while cases fetch in background.
+if (!casesLoaded) {
+countEl.textContent = '';
+listEl.innerHTML = '<div class="empty-state"><span class="spinner"></span><div class="empty-hint">用例加载中…</div></div>';
+return;
+}
+// Error state: show retry button.
+if (casesError) {
+countEl.textContent = '';
+listEl.innerHTML = '<div class="error-state"><span class="empty-icon">⚠</span><div class="empty-title">用例加载失败</div><div class="empty-hint">' + escapeHtml(casesError) + '</div><button class="btn btn-primary" onclick="retryLoadCases()">重试</button></div>';
+return;
+}
+
+let items = [];
+if (filter && allCases[filter]) {
+items = allCases[filter].map(c => ({...c, _cat: filter}));
+} else {
+for (const [cat, cases] of Object.entries(allCases)) {
+cases.forEach(c => items.push({...c, _cat: cat}));
+}
+}
+countEl.textContent = `共 ${items.length} 条`;
+if (!items.length) { listEl.innerHTML = '<div class="empty-state"><span class="empty-icon">&#128269;</span><div class="empty-title">当前分类下无用例</div><div class="empty-hint">尝试在上方下拉切换为"全部分类"，或<button onclick="document.getElementById(\'gallery-filter\').value=\'\';renderGallery();">清除过滤条件</button></div></div>'; return; }
+listEl.innerHTML = '';
+items.forEach((c, idx) => {
+const card = document.createElement('div');
+card.className = 'case-card';
+card.style.animationDelay = Math.min(idx * 0.03, 0.3) + 's';
+card.tabIndex = 0;
+card.setAttribute('role', 'button');
+card.dataset.caseId = c.id;
+card.dataset.cat = c._cat;
+card.addEventListener('click', () => openCaseDetail(c));
+card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCaseDetail(c); } });
+const catLabel = categories[c._cat]?.label || c._cat;
+const variantTag = c.pair_id ? ` · ${c.variant}` : '';
+const fmtTag = c.output_format === 'json' ? 'JSON' : 'tagged';
+card.innerHTML = `
+<div class="case-card-header">
+<span class="case-id">${c.id || ''}${variantTag}</span>
+<span class="case-title">${escapeHtml(c.title || '')}</span>
+<span class="case-category-badge">${catLabel} · ${fmtTag}</span>
+</div>
+<div class="case-why">${escapeHtml(c.why_good || c.description || '')}</div>
+`;
+listEl.appendChild(card);
+});
+}
+
+// Retry loading cases after a failure.
+async function retryLoadCases() {
+const listEl = document.getElementById('case-list');
+if (listEl) listEl.innerHTML = '<div class="empty-state"><span class="spinner"></span></div>';
+await loadAllCases();
+}
+
+function openCaseDetail(c) {
+currentCase = c;
+const modal = document.getElementById('case-modal');
+document.getElementById('modal-title').textContent = c.title || c.id || 'Case 详情';
+const refBlock = c.reference ? `<div class="detail-section"><div class="detail-section-title">Reference（参考文本）</div><div class="detail-box">${escapeHtml(c.reference)}</div></div>` : '';
+const pairBlock = c.pair_id ? `<div class="detail-section"><div class="detail-section-title">顺序对</div><div class="detail-box">pair_id: ${escapeHtml(c.pair_id)} · variant: ${escapeHtml(c.variant)}（可在试用页点击"切换 A/B 顺序"对比）</div></div>` : '';
+document.getElementById('modal-body').innerHTML = `
+<div class="detail-section"><div class="detail-section-title">分类 / 算子</div><div class="detail-box">${escapeHtml(categories[c._cat]?.label || c.capability || '')} · ${escapeHtml(c.operator || '')} · ${escapeHtml(c.operator_kind || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">描述</div><div class="detail-box">${escapeHtml(c.description || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">输入文本</div><div class="detail-box">${escapeHtml(c.input_text || '')}</div></div>
+${refBlock}
+<div class="detail-section"><div class="detail-section-title">Recipe</div><div class="detail-box">${escapeHtml(c.recipe || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">输出格式</div><div class="detail-box">${escapeHtml(c.output_format || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">Expected Status</div><div class="detail-box">${escapeHtml(c.expected_status || '')}</div></div>
+<div class="detail-section"><div class="detail-section-title">Expected Output</div><div class="detail-box">${escapeHtml(c.expected_text || '')}</div></div>
+${pairBlock}
+<div class="detail-section"><div class="detail-section-title">为什么展示这条</div><div class="detail-box">${escapeHtml(c.why_good || '')}</div></div>
+`;
+modal.classList.add('visible');
+}
+
+function loadCaseIntoTry() {
+if (!currentCase) return;
+fillCase(currentCase);
+document.getElementById('variant-btn').style.display = 'none';
+currentPair = null;
+if (currentCase.pair_id) {
+fetch(`/api/cases/${currentCase.pair_id}/pair`).then(r => r.json()).then(d => {
+currentPair = d.items;
+document.getElementById('variant-btn').style.display = currentPair && currentPair.length > 1 ? 'inline-block' : 'none';
+}).catch(() => {});
+}
+closeModal();
+switchPage('try');
+showToast('已载入到试用页，点击"执行"运行', 'info');
+}
+
+function closeModal() { document.getElementById('case-modal').classList.remove('visible'); }
+document.getElementById('case-modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+// ── Utils shared by Capability tab ──
+function findCaseById(id) {
+for (const cases of Object.values(allCases)) {
+for (const c of cases) { if (c.id === id) return c; }
+}
+return null;
+}
+
+// ── Capability Showcase tab ──
+const CAPABILITIES = [
+{
+key: 'order_sensitivity',
+title: '顺序敏感执行',
+tag: '核心壁垒',
+icon: '\u21C4',
+caseId: 'os-001',
+capability: 'order_sensitive',
+explanation: '多步算子链按 recipe 中的编号顺序执行并追踪中间状态。同一组操作换序可能得到不同结果，可切到 "AB 对照" 标签页直观对比。',
+},
+{
+key: 'pii_redaction',
+title: 'PII 脱敏',
+tag: '本地部署',
+icon: '\uD83D\uDD12',
+caseId: 'pii-001',
+capability: 'pii',
+explanation: '本地部署 + 结构化 recipe 让敏感数据不出本地即可完成脱敏。Juicer 能识别姓名、联系方式、地址、证件号、出生日期、密码等多类 PII，按 [LABEL_N] 模式编号替换并保留非敏感上下文，且只脱敏 recipe 指定的类别、不过度脱敏。',
+},
+{
+key: 'hallucination_grounding',
+title: '幻觉检测与修正',
+tag: 'JSON 输出',
+icon: '\uD83D\uDD0D',
+caseId: 'hall-001',
+capability: 'hallucination',
+explanation: 'Juicer 能检测输入文本中的幻觉/虚构内容、给出类型分类或修正表述。检测与分类任务输出严格 JSON schema，适配评测流水线；修正任务输出 tagged_text 修正稿。',
+},
+{
+key: 'quality_rubric',
+title: '质量评分（HelpSteer2）',
+tag: 'JSON 输出',
+icon: '\u2605',
+caseId: 'rub-001',
+capability: 'rubric',
+explanation: '对助手回答做多维度质量评分：helpfulness / correctness / coherence / complexity / verbosity。Juicer 支持单维原子评分与多维组合评分，输出严格 JSON，分值贴合 HelpSteer2 0-4 / 0-3 量表。该类任务稳定性一般，展示集如实保留。',
+},
+{
+key: 'safety_classification',
+title: '安全分类（Aegis）',
+tag: 'JSON 输出',
+icon: '\uD83D\uDEE1',
+caseId: 'safe-001',
+capability: 'safety',
+explanation: '按 Aegis 安全标准对 prompt+response 分类：prompt_label / response_label / violated_categories。Juicer 能识别可执行的有害指令、钓鱼、武器制造等违规内容并给出 safe/unsafe 标签与违规类别列表。',
+},
+];
+function renderCapability() {
+const body = document.getElementById('capability-body');
+if (!body) return;
+// Loading state: show a simple loading indicator.
+if (!casesLoaded) {
+body.innerHTML = '<div class="empty-state"><span class="spinner"></span><div class="empty-hint">用例加载中…</div></div>';
+return;
+}
+// Error state.
+if (casesError) {
+body.innerHTML = '<div class="error-state"><span class="empty-icon">⚠</span><div class="empty-title">用例加载失败</div><div class="empty-hint">' + escapeHtml(casesError) + '</div><button class="btn btn-primary" onclick="retryLoadCases();renderCapability();">重试</button></div>';
+return;
+}
+body.innerHTML = '';
+CAPABILITIES.forEach((cap, idx) => {
+let c = findCaseById(cap.caseId);
+if (!c && cap.capability && allCases[cap.capability] && allCases[cap.capability].length) {
+c = allCases[cap.capability][0];
+}
+const card = document.createElement('div');
+card.className = 'capability-card';
+card.style.animationDelay = Math.min(idx * 0.05, 0.3) + 's';
+const exampleHtml = c ? `
+<div class="cap-example">
+<div class="cap-example-title"><span class="ex-tag">典范用例</span>${escapeHtml(c.title || c.id)}</div>
+<div class="cap-field"><span class="cap-field-label">输入</span><div class="cap-field-box">${escapeHtml(c.input_text || '')}</div></div>
+${c.reference ? `<div class="cap-field"><span class="cap-field-label">Reference</span><div class="cap-field-box">${escapeHtml(c.reference)}</div></div>` : ''}
+<div class="cap-field"><span class="cap-field-label">Recipe</span><div class="cap-field-box">${escapeHtml(c.recipe || '')}</div></div>
+<div class="cap-field"><span class="cap-field-label">输出格式</span><div class="cap-field-box">${escapeHtml(c.output_format || '')}</div></div>
+<div class="cap-field"><span class="cap-field-label">Expected</span><div class="cap-field-box">${escapeHtml(c.expected_text !== undefined && c.expected_text !== null ? c.expected_text : (c.expected_status || ''))}</div></div>
+<button class="btn btn-primary" onclick="openCapabilityInTry('${c.id}')">&#9654; 在试用页中打开</button>
+</div>` : '<div class="cap-example"><div class="empty-state"><span class="empty-icon">&#9203;</span><div class="empty-title">用例未找到</div><div class="empty-hint">caseId ' + escapeHtml(cap.caseId) + ' 不在用例库中。</div></div></div>';
+card.innerHTML = `
+<div class="cap-head">
+<span class="cap-icon" aria-hidden="true">${cap.icon || '\u2756'}</span>
+<span class="cap-title-row">
+<span class="cap-tag">${escapeHtml(cap.tag || ('能力 ' + (idx+1)))}</span>
+<span class="cap-title">${escapeHtml(cap.title)}</span>
+</span>
+</div>
+<p class="cap-explanation">${escapeHtml(cap.explanation)}</p>
+${exampleHtml}`;
+body.appendChild(card);
+});
+}
+function openCapabilityInTry(caseId) {
+const c = findCaseById(caseId);
+if (!c) { showToast('用例未加载', 'error'); return; }
+currentCase = c;
+currentPair = null;
+fillCase(c);
+if (c.pair_id) {
+fetch(`/api/cases/${c.pair_id}/pair`).then(r => r.json()).then(d => {
+currentPair = d.items;
+document.getElementById('variant-btn').style.display = currentPair && currentPair.length > 1 ? 'inline-block' : 'none';
+}).catch(() => {});
+} else {
+document.getElementById('variant-btn').style.display = 'none';
+}
+switchPage('try');
+showToast('已载入到试用页，点击"执行"运行', 'info');
+}
+
+// ── Utils ──
+function escapeHtml(text) {
+if (text === null || text === undefined) return '';
+const div = document.createElement('div');
+div.textContent = String(text);
+return div.innerHTML;
+}
+
+// True if the header health indicator shows the model as online (or still loading optimistically).
+function isModelOnline() {
+const el = document.getElementById('health-indicator');
+return !!el && (el.classList.contains('ok') || el.classList.contains('loading'));
+}
+
+// Loading placeholder shown while waiting for /api/run.
+function skeletonHtml(label) {
+return '<div class="loading-inline"><span class="spinner"></span><span>' + escapeHtml(label || '加载中') + '</span></div>';
+}
+
+// Show/hide the diff legend depending on output format (only meaningful for tagged_text word-diff).
+function updateDiffLegend(outputFormat) {
+const lg = document.getElementById('diff-legend');
+if (lg) lg.style.display = outputFormat === 'tagged_text' ? 'flex' : 'none';
+}
+
+// ── Word-level diff (LCS) for Before/After highlighting ──
+function tokenizeDiff(text) {
+// Split into words and whitespace runs, preserving everything.
+return text.match(/\s+|[\w]+|[^\s\w]+/g) || [];
+}
+function wordDiff(a, b) {
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// Guard against very long inputs (LCS is O(n*m)).
+if (a.length > 8000 || b.length > 8000) {
+return { before: esc(a), after: esc(b) };
+}
+const tokA = tokenizeDiff(a);
+const tokB = tokenizeDiff(b);
+const n = tokA.length, m = tokB.length;
+// Cap table size for safety.
+if (n * m > 1200000) return { before: esc(a), after: esc(b) };
+const lcsTable = [];
+for (let i = 0; i <= n; i++) lcsTable.push(new Int32Array(m + 1));
+for (let i = n - 1; i >= 0; i--) {
+for (let j = m - 1; j >= 0; j--) {
+lcsTable[i][j] = tokA[i] === tokB[j] ? lcsTable[i+1][j+1] + 1 : Math.max(lcsTable[i+1][j], lcsTable[i][j+1]);
+}
+}
+let beforeHtml = '', afterHtml = '';
+let i = 0, j = 0;
+while (i < n && j < m) {
+if (tokA[i] === tokB[j]) {
+beforeHtml += esc(tokA[i]);
+afterHtml += esc(tokB[j]);
+i++; j++;
+} else if (lcsTable[i+1][j] >= lcsTable[i][j+1]) {
+beforeHtml += '<span class="diff-del">' + esc(tokA[i]) + '</span>';
+i++;
+} else {
+afterHtml += '<span class="diff-add">' + esc(tokB[j]) + '</span>';
+j++;
+}
+}
+while (i < n) { beforeHtml += '<span class="diff-del">' + esc(tokA[i]) + '</span>'; i++; }
+while (j < m) { afterHtml += '<span class="diff-add">' + esc(tokB[j]) + '</span>'; j++; }
+return { before: beforeHtml || esc(a), after: afterHtml || esc(b) };
+}
+
+function showToast(msg, type) {
+const t = document.createElement('div');
+t.className = 'toast ' + (type || 'info');
+t.textContent = msg;
+document.body.appendChild(t);
+setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 3000);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
