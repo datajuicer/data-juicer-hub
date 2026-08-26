@@ -81,6 +81,8 @@ print(tokenizer.decode(outputs[0, prompt_length:], skip_special_tokens=True))
 
 ### 2. 打开 Playground
 
+![Juicer Playground 主页](assets/juicer-playground-home-page.png)
+
 Playground 可连接任意 OpenAI 兼容的模型服务：
 
 ```bash
@@ -100,6 +102,8 @@ Playground 为无构建步骤的单页应用，包含 4 个标签页：
 | **AB 对照** | （可选）并排对比基础模型与 Juicer |
 
 ### AB 对照（可选）
+
+https://github.com/user-attachments/assets/d5abe057-5535-4629-a3dc-a9ccd4328c1d
 
 如果有多张 GPU，可以同时启动 Juicer 和基础模型，实际体验两者在同一 recipe 上的差异。GPU 分配可根据机器情况通过脚本参数调整。
 
@@ -133,6 +137,8 @@ CDR-Bench 和展示用例聚焦以下核心算子：
 - **语义算子：** 幻觉检测/修正、rubric 评分和分类打标
 
 ## 展示用例
+
+https://github.com/user-attachments/assets/fab770dc-318a-4f63-90aa-edbbfb4c23e0
 
 `cases/` 目录包含 51 条展示 case，按 CDR-Bench 能力分类：
 
