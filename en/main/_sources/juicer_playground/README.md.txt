@@ -81,6 +81,8 @@ print(tokenizer.decode(outputs[0, prompt_length:], skip_special_tokens=True))
 
 ### 2. Open the Playground
 
+![Juicer Playground homepage](assets/juicer-playground-home-page.png)
+
 The Playground can connect to any OpenAI-compatible model service:
 
 ```bash
@@ -100,6 +102,8 @@ The Playground is a single-page app with no build step and four tabs:
 | **AB Comparison** | *(Optional)* Compare the base model and Juicer side by side |
 
 ### AB Comparison (optional)
+
+https://github.com/user-attachments/assets/3c181ef2-5c9f-4782-8d2a-97d75c89cdfa
 
 If multiple GPUs are available, you can run Juicer and the base model at the same time to experience their behavior on the same recipe. Adjust GPU allocation through the launcher options to suit the machine.
 
@@ -133,6 +137,8 @@ CDR-Bench and the showcase cases focus on these core operators:
 - **semantic operators:** hallucination detection/correction, rubric scoring, and classification tagging
 
 ## Showcase Cases
+
+https://github.com/user-attachments/assets/fab770dc-318a-4f63-90aa-edbbfb4c23e0
 
 The `cases/` directory contains 51 showcase cases grouped by CDR-Bench capability:
 

@@ -18,7 +18,11 @@ var AskAIWidget = (function () {
       collapseTitle: 'Collapse',
       minimizeTitle: 'Minimize',
       sendTitle: 'Send message',
+      closeTitle: 'Close panel',
       inputPlaceholder: 'Type your question here...',
+      barPlaceholder: 'Ask Juicer anything about this project...',
+      askSelection: 'Ask AI',
+      disclaimer: 'Results are AI-generated and for reference only.',
       welcomeMessage: '👋 Hi! I\'m Juicer. Ask me anything about Data-Juicer!<br><br><small style="color: #888;">Powered by <a href="https://github.com/datajuicer/data-juicer-agents" target="_blank" style="color: #667eea; text-decoration: none;">data-juicer-agents</a> · Results are AI-generated and for reference only.</small>',
       welcomeConnected: '👋 Hi! I\'m Juicer. <span style="color: #28a745;">🟢 Connected</span><br>Ask me anything about Data-Juicer!<br><br><small style="color: #888;">Powered by <a href="https://github.com/datajuicer/data-juicer-agents" target="_blank" style="color: #667eea; text-decoration: none;">data-juicer-agents</a> · Results are AI-generated and for reference only.</small>',
       welcomeOffline: '👋 Hi! I\'m Juicer. <span style="color: #dc3545;">🔴 Offline Mode</span><br>Please ensure the API service is running.<br><br><small style="color: #888;">Powered by <a href="https://github.com/datajuicer/data-juicer-agents" target="_blank" style="color: #667eea; text-decoration: none;">data-juicer-agents</a> · Results are AI-generated and for reference only.</small>',
@@ -52,7 +56,11 @@ var AskAIWidget = (function () {
       collapseTitle: '收起',
       minimizeTitle: '最小化',
       sendTitle: '发送消息',
+      closeTitle: '关闭面板',
       inputPlaceholder: '在此输入您的问题...',
+      barPlaceholder: '关于本项目有任何问题，问问 Juicer...',
+      askSelection: '问问 AI',
+      disclaimer: '结果由 AI 生成，仅供参考。',
       welcomeMessage: '👋 你好！我是 Juicer。问我任何关于 Data-Juicer 的问题！<br><br><small style="color: #888;">技术支持：<a href="https://github.com/datajuicer/data-juicer-agents" target="_blank" style="color: #667eea; text-decoration: none;">data-juicer-agents</a> · 结果由 AI 生成，仅供参考。</small>',
       welcomeConnected: '👋 你好！我是 Juicer。<span style="color: #28a745;">🟢 已连接</span><br>问我任何关于 Data-Juicer 的问题！<br><br><small style="color: #888;">技术支持：<a href="https://github.com/datajuicer/data-juicer-agents" target="_blank" style="color: #667eea; text-decoration: none;">data-juicer-agents</a> · 结果由 AI 生成，仅供参考。</small>',
       welcomeOffline: '👋 你好！我是 Juicer。<span style="color: #dc3545;">🔴 离线模式</span><br>请确保 API 服务正在运行。<br><br><small style="color: #888;">技术支持：<a href="https://github.com/datajuicer/data-juicer-agents" target="_blank" style="color: #667eea; text-decoration: none;">data-juicer-agents</a> · 结果由 AI 生成，仅供参考。</small>',
@@ -620,7 +628,25 @@ var AskAIWidget = (function () {
 
   /**
    * Ask AI Widget - UI Management Module
+   *
+   * UI: bottom floating AI bar, selection tooltip and a
+   * drag-to-resize side panel, integrated with the real Q&A capabilities
+   * (streaming responses, thinking mode, tool calls, feedback).
    */
+
+  const SPARKLE_ICON = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5 2.5L3.5 2L3 0.5 2.5 2 1 2.5l1.5.5L3 4.5 3.5 3 5 2.5z" fill="currentColor"/><path d="M8 2l1.5 3.5L13 7l-3.5 1.5L8 12l-1.5-3.5L3 7l3.5-1.5L8 2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const SEND_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8l12-6-4 6 4 6L2 8z" fill="currentColor"/></svg>';
+  const TRASH_ICON = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5h11M5.5 4.5V3a1 1 0 011-1h3a1 1 0 011 1v1.5M6.5 7v4.5M9.5 7v4.5"/><path d="M3.5 4.5l.5 8.5a1 1 0 001 1h6a1 1 0 001-1l.5-8.5"/></svg>';
+  const CLOSE_ICON = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>';
+  const BRAIN_ICON = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.5c-1 0-1.8.6-2.1 1.4C4.6 4 3.5 5 3.5 6.4c0 .8.3 1.4.8 1.9-.3.4-.5 1-.5 1.6 0 1.5 1.2 2.6 2.7 2.6.6 0 1.1-.2 1.5-.5.4.3.9.5 1.5.5 1.5 0 2.7-1.1 2.7-2.6 0-.6-.2-1.2-.5-1.6.5-.5.8-1.1.8-1.9 0-1.4-1.1-2.4-2.4-2.5C9.8 3.1 9 2.5 8 2.5z"/><path d="M8 2.5V13"/></svg>';
+  const LIKE_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7v6.5H3a1 1 0 01-1-1V8a1 1 0 011-1h2zm0 0l2.2-4.2a1.5 1.5 0 012.8.7V6h3.2a1.5 1.5 0 011.5 1.8l-1 4.5a1.5 1.5 0 01-1.5 1.2H5"/></svg>';
+  const DISLIKE_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 9V2.5H13a1 1 0 011 1V8a1 1 0 01-1 1h-2zm0 0l-2.2 4.2a1.5 1.5 0 01-2.8-.7V10H2.8a1.5 1.5 0 01-1.5-1.8l1-4.5A1.5 1.5 0 013.8 2.5H11"/></svg>';
+  const COPY_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M3 10.5V3.5a1 1 0 011-1h7"/></svg>';
+
+  const PANEL_WIDTH_KEY = 'ask-ai-panel-width';
+  const PANEL_MIN_WIDTH = 320;
+  const PANEL_MAX_WIDTH = 720;
+  const PANEL_DEFAULT_WIDTH = 420;
 
   class AskAIUI {
     constructor(i18n) {
@@ -630,85 +656,162 @@ var AskAIWidget = (function () {
       this.isTyping = false;
       this.enableThinking = false;
       this.messages = [];
-      
+      this.contextChips = [];
+
       // DOM references (will be set after createWidget)
-      this.button = null;
-      this.modal = null;
+      this.root = null;
+      this.bar = null;
+      this.barInput = null;
+      this.barSendBtn = null;
+      this.panel = null;
       this.closeBtn = null;
       this.clearBtn = null;
-      this.expandBtn = null;
       this.thinkingBtn = null;
       this.messagesContainer = null;
       this.input = null;
       this.sendBtn = null;
+      this.chipsRow = null;
+      this.selectionTooltip = null;
     }
 
     /**
      * Create the widget HTML structure
      */
     createWidget() {
-      const widget = document.createElement('div');
-      widget.className = 'ask-ai-widget';
-      widget.innerHTML = `
-      <!-- Ask AI Button -->
-      <button class="ask-ai-button" id="askAiButton" title="${this.i18n.buttonTitle}">
-        <span class="ask-ai-button-text">Ask AI</span>
-      </button>
+      const root = document.createElement('div');
+      root.className = 'ask-ai-widget';
+      root.innerHTML = `
+      <!-- Bottom floating AI bar -->
+      <div class="ai-assistant-bar" id="askAiBar">
+        <div class="ai-input-wrapper">
+          <span class="ai-input-icon">${SPARKLE_ICON}</span>
+          <input type="text" class="ai-input" id="askAiBarInput"
+            placeholder="${this.i18n.barPlaceholder}" autocomplete="off" />
+          <button class="ai-send-btn" id="askAiBarSend" aria-label="${this.i18n.sendTitle}" title="${this.i18n.sendTitle}">
+            ${SEND_ICON}
+          </button>
+        </div>
+      </div>
 
-      <!-- Chat Modal -->
-      <div class="ask-ai-modal" id="askAiModal">
-        <!-- Header -->
-        <div class="ask-ai-header">
-          <h3 class="ask-ai-title">${this.i18n.title}</h3>
-          <div class="ask-ai-header-buttons">
-            <button class="ask-ai-clear" id="askAiClear" title="${this.i18n.clearTitle}"><i class="fa-solid fa-arrows-rotate"></i></button>
-            <button class="ask-ai-expand" id="askAiExpand" title="${this.i18n.expandTitle}"><i class="fa-solid fa-expand"></i></button>
-            <button class="ask-ai-close" id="askAiClose" title="${this.i18n.minimizeTitle}"><i class="fa-solid fa-minus"></i></button>
+      <!-- Selection tooltip -->
+      <div class="ai-selection-tooltip" id="askAiSelectionTooltip">
+        ${SPARKLE_ICON}
+        ${this.i18n.askSelection}
+      </div>
+
+      <!-- Side panel -->
+      <div class="ai-panel" id="askAiPanel">
+        <div class="ai-panel-drag" id="askAiPanelDrag"></div>
+        <div class="ai-panel-header">
+          <div class="ai-panel-header-left">
+            <span class="ai-panel-icon">${SPARKLE_ICON}</span>
+            <span class="ai-panel-title">${this.i18n.title}</span>
+          </div>
+          <div class="ai-panel-header-actions">
+            <button class="ask-ai-thinking-toggle" id="askAiThinkingToggle" title="${this.i18n.thinkingTitle}">
+              ${BRAIN_ICON}
+              <span class="ask-ai-thinking-label">${this.i18n.thinking}</span>
+            </button>
+            <button class="ai-panel-action-btn" id="askAiClear" aria-label="${this.i18n.clearTitle}" title="${this.i18n.clearTitle}">
+              ${TRASH_ICON}
+            </button>
+            <button class="ai-panel-action-btn" id="askAiClose" aria-label="${this.i18n.closeTitle}" title="${this.i18n.closeTitle}">
+              ${CLOSE_ICON}
+            </button>
           </div>
         </div>
 
-        <!-- Messages Area -->
-        <div class="ask-ai-messages" id="askAiMessages">
+        <div class="ai-panel-messages ask-ai-messages" id="askAiMessages">
           <div class="ask-ai-welcome">
             ${this.i18n.welcomeMessage}
           </div>
         </div>
 
-        <!-- Input Area -->
-        <div class="ask-ai-input-area">
-          <div class="ask-ai-input-row">
-            <textarea 
-              class="ask-ai-input" 
-              id="askAiInput" 
+        <div class="ai-panel-input">
+          <div class="ai-panel-chips-row" id="askAiChips"></div>
+          <div class="ai-panel-input-wrapper">
+            <textarea
+              class="ask-ai-panel-input"
+              id="askAiInput"
               placeholder="${this.i18n.inputPlaceholder}"
               rows="1"
             ></textarea>
-            <button class="ask-ai-send" id="askAiSend" title="${this.i18n.sendTitle}">
-              ➤
-            </button>
-          </div>
-          <div class="ask-ai-input-options">
-            <button class="ask-ai-thinking-toggle" id="askAiThinkingToggle" title="${this.i18n.thinkingTitle}">
-              <i class="fa-solid fa-brain"></i>
-              <span class="ask-ai-thinking-label">${this.i18n.thinking}</span>
+            <button class="ai-send-btn active" id="askAiSend" aria-label="${this.i18n.sendTitle}" title="${this.i18n.sendTitle}">
+              ${SEND_ICON}
             </button>
           </div>
         </div>
+        <div class="ai-panel-disclaimer">${this.i18n.disclaimer}</div>
       </div>
     `;
 
-      document.body.appendChild(widget);
+      document.body.appendChild(root);
 
       // Store references
-      this.button = document.getElementById('askAiButton');
-      this.modal = document.getElementById('askAiModal');
+      this.root = root;
+      this.bar = document.getElementById('askAiBar');
+      this.barInput = document.getElementById('askAiBarInput');
+      this.barSendBtn = document.getElementById('askAiBarSend');
+      this.panel = document.getElementById('askAiPanel');
       this.closeBtn = document.getElementById('askAiClose');
       this.clearBtn = document.getElementById('askAiClear');
-      this.expandBtn = document.getElementById('askAiExpand');
       this.thinkingBtn = document.getElementById('askAiThinkingToggle');
       this.messagesContainer = document.getElementById('askAiMessages');
       this.input = document.getElementById('askAiInput');
       this.sendBtn = document.getElementById('askAiSend');
+      this.chipsRow = document.getElementById('askAiChips');
+      this.selectionTooltip = document.getElementById('askAiSelectionTooltip');
+
+      // Restore persisted panel width
+      const savedWidth = parseInt(localStorage.getItem(PANEL_WIDTH_KEY) || '', 10);
+      if (savedWidth && !Number.isNaN(savedWidth)) {
+        document.body.style.setProperty('--ai-panel-width', `${savedWidth}px`);
+      }
+    }
+
+    /**
+     * Attach an Enter-to-send handler with IME composition guards.
+     *
+     * IME composition guard: On macOS, when a user confirms an English
+     * candidate (e.g. "json") by pressing Enter under a Chinese IME,
+     * some browsers fire `compositionend` BEFORE `keydown(Enter)`,
+     * causing all standard guards (e.isComposing, keyCode 229) to fail.
+     *
+     * Solution: record the timestamp of the last `compositionend` and
+     * suppress any Enter keydown that arrives within a short window
+     * after it — that Enter was used to confirm the IME candidate,
+     * not to send the message.
+     * @param {HTMLElement} inputEl - Input element
+     * @param {Function} handler - Send handler
+     */
+    _attachEnterToSend(inputEl, handler) {
+      let lastCompositionEndTime = 0;
+      inputEl.addEventListener('compositionstart', () => {
+        lastCompositionEndTime = 0;
+      });
+      inputEl.addEventListener('compositionend', () => {
+        lastCompositionEndTime = Date.now();
+      });
+
+      inputEl.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' || e.shiftKey) return;
+
+        // Standard IME guards
+        if (e.isComposing || e.keyCode === 229) {
+          e.preventDefault();
+          return;
+        }
+
+        // Timestamp-based guard: if compositionend just fired (within
+        // 100ms), this Enter is from IME confirmation, not a real send.
+        if (Date.now() - lastCompositionEndTime < 100) {
+          e.preventDefault();
+          return;
+        }
+
+        e.preventDefault();
+        handler();
+      });
     }
 
     /**
@@ -717,21 +820,57 @@ var AskAIWidget = (function () {
      */
     bindEvents(callbacks) {
       const {
-        onToggle,
         onClose,
         onClear,
-        onExpand,
         onSend,
         onInputChange,
         onThinkingToggle
       } = callbacks;
 
-      // Toggle modal
-      if (onToggle) {
-        this.button.addEventListener('click', onToggle);
+      // Bottom bar: typing/sending opens the panel and forwards the text
+      const sendFromBar = () => {
+        const text = this.barInput.value.trim();
+        if (!text || this.isTyping) return;
+        this.input.value = text;
+        this.barInput.value = '';
+        this._updateBarSendState();
+        if (!this.isOpen) {
+          this.openModal();
+        }
+        if (onSend) onSend();
+      };
+
+      this._attachEnterToSend(this.barInput, sendFromBar);
+      this.barSendBtn.addEventListener('click', sendFromBar);
+      this.barInput.addEventListener('input', () => this._updateBarSendState());
+      this.barInput.addEventListener('focus', () => {
+        if (!this.isOpen) this.openModal();
+      });
+
+      // Panel input: sends with context chips prepended
+      const sendFromPanel = () => {
+        const text = this.getInputValue().trim();
+        if (!text || this.isTyping) return;
+        if (this.contextChips.length > 0) {
+          const contextBlock = this.contextChips
+            .map((c) => '> ' + c.replace(/\n+/g, '\n> '))
+            .join('\n');
+          this.input.value = contextBlock + '\n\n' + text;
+          this.clearChips();
+        }
+        if (onSend) onSend();
+      };
+
+      this._attachEnterToSend(this.input, sendFromPanel);
+      this.sendBtn.addEventListener('click', sendFromPanel);
+
+      // Auto-resize textarea
+      this.input.addEventListener('input', () => this.autoResizeInput());
+      if (onInputChange) {
+        this.input.addEventListener('input', onInputChange);
       }
 
-      // Close modal
+      // Close panel
       if (onClose) {
         this.closeBtn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -747,57 +886,6 @@ var AskAIWidget = (function () {
         });
       }
 
-      // Expand/collapse
-      if (onExpand) {
-        this.expandBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          onExpand();
-        });
-      }
-
-      // Send message
-      if (onSend) {
-        this.sendBtn.addEventListener('click', onSend);
-
-        // Handle Enter key to send message.
-        // IME composition guard: On macOS, when a user confirms an English
-        // candidate (e.g. "json") by pressing Enter under a Chinese IME,
-        // some browsers fire `compositionend` BEFORE `keydown(Enter)`,
-        // causing all standard guards (e.isComposing, keyCode 229) to fail.
-        //
-        // Solution: record the timestamp of the last `compositionend` and
-        // suppress any Enter keydown that arrives within a short window
-        // after it — that Enter was used to confirm the IME candidate,
-        // not to send the message.
-        let lastCompositionEndTime = 0;
-        this.input.addEventListener('compositionstart', () => {
-          lastCompositionEndTime = 0;
-        });
-        this.input.addEventListener('compositionend', () => {
-          lastCompositionEndTime = Date.now();
-        });
-
-        this.input.addEventListener('keydown', (e) => {
-          if (e.key !== 'Enter' || e.shiftKey) return;
-
-          // Standard IME guards
-          if (e.isComposing || e.keyCode === 229) {
-            e.preventDefault();
-            return;
-          }
-
-          // Timestamp-based guard: if compositionend just fired (within
-          // 100ms), this Enter is from IME confirmation, not a real send.
-          if (Date.now() - lastCompositionEndTime < 100) {
-            e.preventDefault();
-            return;
-          }
-
-          e.preventDefault();
-          onSend();
-        });
-      }
-
       // Toggle thinking mode
       if (onThinkingToggle) {
         this.thinkingBtn.addEventListener('click', (e) => {
@@ -806,21 +894,11 @@ var AskAIWidget = (function () {
         });
       }
 
-      // Auto-resize textarea
-      this.input.addEventListener('input', () => this.autoResizeInput());
-      if (onInputChange) {
-        this.input.addEventListener('input', onInputChange);
-      }
+      // Drag to resize panel
+      this._initDragResize();
 
-      // Close modal when clicking outside
-      // Note: expandBtn, closeBtn, and clearBtn checks are redundant since they are children of this.modal
-      document.addEventListener('click', (e) => {
-        if (this.isOpen &&
-          !this.modal.contains(e.target) &&
-          !this.button.contains(e.target)) {
-          if (onClose) onClose();
-        }
-      });
+      // Text selection -> tooltip -> add context chip
+      this._initSelectionTooltip();
 
       // Handle escape key
       document.addEventListener('keydown', (e) => {
@@ -831,57 +909,185 @@ var AskAIWidget = (function () {
     }
 
     /**
-     * Open the modal
+     * Update the bar send button active state
+     */
+    _updateBarSendState() {
+      this.barSendBtn.classList.toggle('active', this.barInput.value.trim().length > 0);
+    }
+
+    /**
+     * Initialize drag-to-resize for the side panel
+     */
+    _initDragResize() {
+      const dragHandle = document.getElementById('askAiPanelDrag');
+      if (!dragHandle) return;
+
+      let dragging = false;
+      let startX = 0;
+      let startWidth = PANEL_DEFAULT_WIDTH;
+
+      dragHandle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        dragging = true;
+        startX = e.clientX;
+        startWidth = this.panel.offsetWidth;
+        this.panel.classList.add('resizing');
+        document.body.classList.add('ai-panel-resizing');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        const diff = startX - e.clientX;
+        const maxWidth = Math.min(PANEL_MAX_WIDTH, window.innerWidth - 300);
+        const newWidth = Math.min(Math.max(startWidth + diff, PANEL_MIN_WIDTH), maxWidth);
+        document.body.style.setProperty('--ai-panel-width', newWidth + 'px');
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        dragging = false;
+        this.panel.classList.remove('resizing');
+        document.body.classList.remove('ai-panel-resizing');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        // Persist width
+        const width = parseInt(getComputedStyle(document.body).getPropertyValue('--ai-panel-width'), 10);
+        if (width && !Number.isNaN(width)) {
+          try {
+            localStorage.setItem(PANEL_WIDTH_KEY, String(width));
+          } catch (err) {
+            // Ignore storage errors (private mode, etc.)
+          }
+        }
+      });
+    }
+
+    /**
+     * Initialize the text selection tooltip
+     */
+    _initSelectionTooltip() {
+      const tooltip = this.selectionTooltip;
+      if (!tooltip) return;
+
+      const handleSelection = () => {
+        const selection = window.getSelection();
+        const text = selection.toString().trim();
+
+        if (text.length > 5 && text.length < 2000 && !this.root.contains(selection.anchorNode)) {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+
+          tooltip.style.top = (rect.top + window.scrollY - 40) + 'px';
+          tooltip.style.left = (rect.left + window.scrollX + rect.width / 2) + 'px';
+          tooltip.style.transform = 'translateX(-50%)';
+          tooltip.classList.add('visible');
+
+          tooltip.onclick = () => {
+            tooltip.classList.remove('visible');
+            selection.removeAllRanges();
+            this.openModal();
+            this.addChip(text);
+            this.input.focus();
+          };
+        } else {
+          tooltip.classList.remove('visible');
+        }
+      };
+
+      document.addEventListener('mouseup', () => {
+        setTimeout(handleSelection, 10);
+      });
+
+      document.addEventListener('mousedown', (e) => {
+        if (!tooltip.contains(e.target)) {
+          tooltip.classList.remove('visible');
+        }
+      });
+    }
+
+    /**
+     * Add a context chip to the panel input area
+     * @param {string} text - Context text
+     */
+    addChip(text) {
+      this.contextChips.push(text);
+      this.renderChips();
+    }
+
+    /**
+     * Remove a context chip by index
+     * @param {number} index - Chip index
+     */
+    removeChip(index) {
+      this.contextChips.splice(index, 1);
+      this.renderChips();
+    }
+
+    /**
+     * Render context chips
+     */
+    renderChips() {
+      if (!this.chipsRow) return;
+      this.chipsRow.innerHTML = '';
+      this.contextChips.forEach((text, i) => {
+        const chip = document.createElement('span');
+        chip.className = 'ai-panel-chip-item';
+        const display = text.length > 30 ? text.substring(0, 30) + '...' : text;
+        chip.innerHTML = `<span class="ai-panel-chip-item-text">${this.escapeHtml(display)}</span><span class="ai-panel-chip-item-close">&times;</span>`;
+        chip.querySelector('.ai-panel-chip-item-close').addEventListener('click', () => {
+          this.removeChip(i);
+        });
+        this.chipsRow.appendChild(chip);
+      });
+    }
+
+    /**
+     * Clear all context chips
+     */
+    clearChips() {
+      this.contextChips = [];
+      this.renderChips();
+    }
+
+    /**
+     * Open the side panel
      */
     openModal() {
       this.isOpen = true;
-      this.modal.classList.add('show');
-      this.input.focus();
+      this.panel.classList.add('open');
+      document.body.classList.add('ai-panel-open');
       this.scrollToBottom();
     }
 
     /**
-     * Close the modal
+     * Close the side panel
      */
     closeModal() {
       this.isOpen = false;
-      this.modal.classList.remove('show');
+      this.panel.classList.remove('open');
+      document.body.classList.remove('ai-panel-open');
     }
 
     /**
-     * Toggle modal open/close
+     * Toggle panel open/close
      */
     toggleModal() {
       if (this.isOpen) {
         this.closeModal();
       } else {
         this.openModal();
+        this.input.focus();
       }
     }
 
     /**
-     * Toggle expand/collapse state
+     * Toggle expand/collapse state (wider panel)
      */
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
-
-      if (this.isExpanded) {
-        this.modal.classList.add('expanded');
-        const icon = this.expandBtn.querySelector('i, svg');
-        if (icon) {
-          icon.classList.remove('fa-expand');
-          icon.classList.add('fa-compress');
-        }
-        this.expandBtn.title = this.i18n.collapseTitle;
-      } else {
-        this.modal.classList.remove('expanded');
-        const icon = this.expandBtn.querySelector('i, svg');
-        if (icon) {
-          icon.classList.remove('fa-compress');
-          icon.classList.add('fa-expand');
-        }
-        this.expandBtn.title = this.i18n.expandTitle;
-      }
+      this.panel.classList.toggle('expanded', this.isExpanded);
     }
 
     /**
@@ -971,13 +1177,13 @@ var AskAIWidget = (function () {
         feedbackDiv.className = 'ask-ai-feedback-actions';
         feedbackDiv.innerHTML = `
         <button class="ask-ai-feedback-btn like" data-feedback="like" title="${this.i18n.like}">
-          <i class="fa-regular fa-thumbs-up"></i>
+          ${LIKE_ICON}
         </button>
         <button class="ask-ai-feedback-btn dislike" data-feedback="dislike" title="${this.i18n.dislike}">
-          <i class="fa-regular fa-thumbs-down"></i>
+          ${DISLIKE_ICON}
         </button>
         <button class="ask-ai-feedback-btn copy" title="${this.i18n.copyMarkdown}">
-          <i class="fa-regular fa-copy"></i>
+          ${COPY_ICON}
         </button>
       `;
 
@@ -1388,7 +1594,7 @@ var AskAIWidget = (function () {
         toolItem.classList.remove('running');
         const statusSpan = toolItem.querySelector('.tool-status-inline');
         if (statusSpan) {
-          statusSpan.textContent = 'Done';
+          statusSpan.textContent = this.i18n.done;
           statusSpan.classList.remove('running');
         }
       }
@@ -1437,6 +1643,7 @@ var AskAIWidget = (function () {
       this.messages = [];
       const existingMessages = this.messagesContainer.querySelectorAll('.ask-ai-message, .ask-ai-message-wrapper');
       existingMessages.forEach(msg => msg.remove());
+      this.clearChips();
       // Note: Welcome message is intentionally kept - it will be updated by addWelcomeMessage()
     }
 
@@ -1508,50 +1715,13 @@ var AskAIWidget = (function () {
     }
 
     /**
-     * Observe theme changes from the Sphinx theme
+     * Observe theme changes from the Sphinx theme.
+     * The widget adapts through CSS variables bound to
+     * html[data-theme], so no class juggling is required; this method is
+     * kept for API compatibility.
      */
     observeThemeChanges() {
-      // Apply initial theme
-      this.updateWidgetTheme();
-
-      // Watch for theme changes on html or body element
-      const targetNode = document.documentElement || document.body;
-
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.type === 'attributes' &&
-            (mutation.attributeName === 'class' ||
-              mutation.attributeName === 'data-theme' ||
-              mutation.attributeName === 'data-bs-theme')) {
-            this.updateWidgetTheme();
-          }
-        });
-      });
-
-      observer.observe(targetNode, {
-        attributes: true,
-        attributeFilter: ['class', 'data-theme', 'data-bs-theme']
-      });
-    }
-
-    /**
-     * Update widget theme based on page theme
-     */
-    updateWidgetTheme() {
-      const html = document.documentElement;
-
-      // Check various theme indicators to match the observer's scope
-      const isDark = html.getAttribute('data-theme') === 'dark' ||
-                     html.getAttribute('data-bs-theme') === 'dark' ||
-                     document.body.classList.contains('theme-dark');
-
-      if (isDark) {
-        this.modal.classList.add('theme-dark');
-        this.button.classList.add('theme-dark');
-      } else {
-        this.modal.classList.remove('theme-dark');
-        this.button.classList.remove('theme-dark');
-      }
+      // No-op: styles follow html[data-theme] via CSS variables.
     }
 
     /**
@@ -1637,10 +1807,8 @@ var AskAIWidget = (function () {
       
       // Bind events
       this.ui.bindEvents({
-        onToggle: () => this.ui.toggleModal(),
         onClose: () => this.ui.closeModal(),
         onClear: () => this.clearConversation(),
-        onExpand: () => this.ui.toggleExpand(),
         onSend: () => this.sendMessage(),
         onThinkingToggle: () => this.ui.toggleThinking(),
       });
@@ -2036,16 +2204,8 @@ var AskAIWidget = (function () {
   }
 
   // Initialize the widget when DOM is loaded
-  document.addEventListener('DOMContentLoaded', async () => {
-    // Check if we're in a Sphinx documentation page
-    if (document.body.classList.contains('furo') || document.querySelector('.furo')) {
-      new AskAIWidget();
-    } else {
-      // Fallback for other themes
-      setTimeout(() => {
-        new AskAIWidget();
-      }, 1000);
-    }
+  document.addEventListener('DOMContentLoaded', () => {
+    new AskAIWidget();
   });
 
   // Export for potential external usage

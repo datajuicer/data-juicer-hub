@@ -67,10 +67,8 @@ class AskAIWidget {
     
     // Bind events
     this.ui.bindEvents({
-      onToggle: () => this.ui.toggleModal(),
       onClose: () => this.ui.closeModal(),
       onClear: () => this.clearConversation(),
-      onExpand: () => this.ui.toggleExpand(),
       onSend: () => this.sendMessage(),
       onThinkingToggle: () => this.ui.toggleThinking(),
     });
@@ -466,16 +464,8 @@ class AskAIWidget {
 }
 
 // Initialize the widget when DOM is loaded
-document.addEventListener('DOMContentLoaded', async () => {
-  // Check if we're in a Sphinx documentation page
-  if (document.body.classList.contains('furo') || document.querySelector('.furo')) {
-    new AskAIWidget();
-  } else {
-    // Fallback for other themes
-    setTimeout(() => {
-      new AskAIWidget();
-    }, 1000);
-  }
+document.addEventListener('DOMContentLoaded', () => {
+  new AskAIWidget();
 });
 
 // Export for potential external usage
