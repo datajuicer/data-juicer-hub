@@ -103,7 +103,7 @@ The Playground is a single-page app with no build step and four tabs:
 
 ### AB Comparison (optional)
 
-https://github.com/user-attachments/assets/d5abe057-5535-4629-a3dc-a9ccd4328c1d
+https://github.com/user-attachments/assets/3c181ef2-5c9f-4782-8d2a-97d75c89cdfa
 
 If multiple GPUs are available, you can run Juicer and the base model at the same time to experience their behavior on the same recipe. Adjust GPU allocation through the launcher options to suit the machine.
 

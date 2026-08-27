@@ -103,7 +103,7 @@ Playground 为无构建步骤的单页应用，包含 4 个标签页：
 
 ### AB 对照（可选）
 
-https://github.com/user-attachments/assets/d5abe057-5535-4629-a3dc-a9ccd4328c1d
+https://github.com/user-attachments/assets/3c181ef2-5c9f-4782-8d2a-97d75c89cdfa
 
 如果有多张 GPU，可以同时启动 Juicer 和基础模型，实际体验两者在同一 recipe 上的差异。GPU 分配可根据机器情况通过脚本参数调整。
 
