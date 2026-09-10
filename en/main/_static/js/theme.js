@@ -5,6 +5,13 @@
 (function() {
   'use strict';
 
+  function findHashTarget(hash) {
+    if (!hash || hash === '#') return null;
+    var id = hash.slice(1);
+    try { id = decodeURIComponent(id); } catch (err) { /* Keep literal malformed fragments. */ }
+    return document.getElementById(id);
+  }
+
   // ==================== Dark Mode ====================
   function syncPygmentsDark(theme) {
     var link = document.getElementById('pygments-dark-css');
@@ -118,7 +125,7 @@
     tocLinks.forEach(function(link) {
       var id = link.getAttribute('href');
       if (id && id.startsWith('#')) {
-        var heading = document.getElementById(id.slice(1));
+        var heading = findHashTarget(id);
         if (heading) headings.push({ el: heading, link: link });
       }
     });
@@ -147,8 +154,10 @@
   // ==================== Sidebar Collapsible ====================
   function getSidebarKey(li) {
     var link = li.querySelector(':scope > a');
-    if (link) return link.getAttribute('href') || link.textContent.trim();
-    return null;
+    if (!link) return null;
+    var href = link.getAttribute('href');
+    if (href && href !== '#') return link.pathname;
+    return link.textContent.trim();
   }
 
   function saveSidebarState(nav) {
@@ -194,32 +203,48 @@
       }
     });
 
-    // Restore previously expanded sections
+    // Restore user-toggled expanded sections
     restoreSidebarState(nav);
 
-    // Expand current page's ancestor path
-    var current = window.location.pathname;
-    var matched = false;
-    nav.querySelectorAll('a').forEach(function(link) {
-      var href = link.getAttribute('href');
-      if (!href) return;
-      var hrefPath = href.replace('.html', '').replace(/\/index$/, '/');
-      if (current.endsWith(href) || current.includes(hrefPath)) {
-        var li = link.closest('li');
-        if (li && !matched) {
-          li.classList.add('current');
-          matched = true;
-        }
-        // Expand all ancestors
-        var parent = li;
-        while (parent) {
-          if (parent.tagName === 'LI') {
-            parent.classList.add('expanded');
-          }
-          parent = parent.parentElement;
+    // Find the current page item:
+    // 1. Use Sphinx-generated "current" class on <a> (most reliable)
+    // 2. Fallback: match resolved pathname
+    var currentLi = null;
+    var currentLink = nav.querySelector('a.current');
+    if (currentLink) {
+      currentLi = currentLink.closest('li');
+    }
+
+    if (!currentLi) {
+      var currentPath = window.location.pathname;
+      var links = nav.querySelectorAll('a');
+      for (var i = 0; i < links.length; i++) {
+        var href = links[i].getAttribute('href');
+        if (!href || href === '#') continue;
+        if (links[i].pathname === currentPath) {
+          currentLi = links[i].closest('li');
+          break;
         }
       }
-    });
+    }
+
+    // Also check the sidebar-home entry
+    if (!currentLi) {
+      var homeCurrent = nav.querySelector('.sidebar-home li.current');
+      if (homeCurrent) currentLi = homeCurrent;
+    }
+
+    // Mark current and expand all ancestors
+    if (currentLi) {
+      currentLi.classList.add('current');
+      var parent = currentLi.parentElement;
+      while (parent && parent !== nav) {
+        if (parent.tagName === 'LI') {
+          parent.classList.add('expanded');
+        }
+        parent = parent.parentElement;
+      }
+    }
 
     // Toggle on click — persist state
     nav.addEventListener('click', function(e) {
@@ -321,9 +346,10 @@
       }).join('');
     }
 
+    var cacheKey = 'dj-versions:' + new URL(url, window.location.href).href;
     var cached = null;
     try {
-      cached = sessionStorage.getItem('dj-versions');
+      cached = sessionStorage.getItem(cacheKey);
     } catch (e) { /* sessionStorage unavailable */ }
     if (cached) {
       try { render(JSON.parse(cached)); return; } catch (e) { /* refetch below */ }
@@ -334,7 +360,7 @@
       return resp.json();
     }).then(function(data) {
       if (data && Array.isArray(data.versions) && data.versions.length) {
-        try { sessionStorage.setItem('dj-versions', JSON.stringify(data.versions)); } catch (e) {}
+        try { sessionStorage.setItem(cacheKey, JSON.stringify(data.versions)); } catch (e) {}
         render(data.versions);
       }
     }).catch(function() {});
@@ -441,6 +467,23 @@
           }
         }
 
+        // Section links are relative to the current page, just like the sidebar.
+        var sections = document.querySelector('.navbar-sections');
+        var newSections = newDoc.querySelector('.navbar-sections');
+        if (sections && newSections) sections.innerHTML = newSections.innerHTML;
+
+        // Keep version destinations in sync after navigating to a nested page.
+        var versionDropdown = document.querySelector('#version-dropdown');
+        var newVersionDropdown = newDoc.querySelector('#version-dropdown');
+        if (versionDropdown && newVersionDropdown) {
+          ['data-versions-url', 'data-link-prefix', 'data-page', 'data-current'].forEach(function(name) {
+            versionDropdown.setAttribute(name, newVersionDropdown.getAttribute(name) || '');
+          });
+          versionDropdown.querySelector('.dropdown-panel').innerHTML =
+            newVersionDropdown.querySelector('.dropdown-panel').innerHTML;
+          initVersionSwitcher();
+        }
+
         document.title = newDoc.title;
 
         if (aiPanelOpen) document.body.classList.add('ai-panel-open');
@@ -456,7 +499,7 @@
         // Handle hash scrolling
         var hashTarget = window.location.hash;
         if (hashTarget) {
-          var el = document.querySelector(hashTarget);
+          var el = findHashTarget(hashTarget);
           if (el) {
             el.scrollIntoView({ behavior: 'smooth' });
           }
@@ -498,7 +541,7 @@
       // Same-page hash link
       if (anchor.pathname === window.location.pathname && anchor.hash) {
         e.preventDefault();
-        var target = document.querySelector(anchor.hash);
+        var target = findHashTarget(anchor.hash);
         if (target) {
           target.scrollIntoView({ behavior: 'smooth' });
           history.pushState(null, '', anchor.hash);
