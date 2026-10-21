@@ -1,0 +1,51 @@
+# Process config example for embodied VQA construction
+
+# global parameters
+project_name: 'embodied-vqa-droid'
+dataset_path: './inputs/embodied_vqa/droid.jsonl'
+np: 1
+export_path: './outputs/embodied-vqa-droid/episodes.jsonl'
+
+custom_operator_paths:
+  - './demo/embodied_vqa'
+use_cache: false
+skip_op_error: false
+auto_op_parallelism: false
+
+# process schedule
+# a list of several process operators with their arguments
+process:
+  - robot_gripper_anchor_mapper:
+      output_dir: './outputs/embodied-vqa-droid/episodes'
+      num_proc: 1
+      skip_op_error: false
+  - robot_object_tracking_mapper:
+      output_dir: './outputs/embodied-vqa-droid/episodes'
+      num_proc: 1
+      skip_op_error: false
+      num_gpus: 1
+  # Optional DA3 depth: install the DA3 SDK and uncomment this mapper.
+  # - robot_depth_estimation_mapper:
+  #     output_dir: './outputs/embodied-vqa-droid/episodes'
+  #     num_proc: 1
+  #     skip_op_error: false
+  #     num_gpus: 1
+  #     inference_batch_size: 8
+  #     process_res: 504
+  - robot_gripper_tracking_mapper:
+      output_dir: './outputs/embodied-vqa-droid/episodes'
+      num_proc: 1
+      skip_op_error: false
+      num_gpus: 1
+  - robot_destination_grounding_mapper:
+      output_dir: './outputs/embodied-vqa-droid/episodes'
+      num_proc: 1
+      skip_op_error: false
+  - robot_interaction_geometry_mapper:
+      output_dir: './outputs/embodied-vqa-droid/episodes'
+      num_proc: 1
+      skip_op_error: false
+  - generate_vqa_from_ir_mapper:
+      output_dir: './outputs/embodied-vqa-droid/episodes'
+      num_proc: 1
+      skip_op_error: false

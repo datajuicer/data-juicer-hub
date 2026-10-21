@@ -16,6 +16,8 @@
   - [8. 合成以人为中心的视频评测集](#8-合成以人为中心的视频评测集)
   - [9. 改良现有开源视频数据集](#9-改良现有开源视频数据集)
     - [9.1. 评测验证](#91-评测验证)
+  - [10. 具身 VQA 构建](#10-具身-vqa-构建)
+
 
 ## 1. Data-Juicer最小示例菜谱
 [Data-Juicer-Hub](https://github.com/datajuicer/data-juicer-hub/tree/main/demo)中放置了一些基础配置文件，用于帮助用户快速熟悉 Data-Juicer 的基本功能，请参阅以获取详细说明。
@@ -110,3 +112,12 @@ Data-Juicer还可以支持视频评测集合成，如[HumanVBench](https://arxiv
 | T2V-Turbo               | **72.49** | 93.96 | 54.65 | 95.20 | 89.90 | 38.67 | 55.58 | 24.42 | 25.51 | 28.16 |
 | Data-Juicer (T2V, 147k) | 70.42 | 95.85 | 61.63 | **95.60** | 94.06 | 46.95 | **57.57** | 24.42 | 26.34 | 28.90 |
 | Data-Juicer (DJ, 228k)  | 70.41 | **96.44** | **64.51** | 95.40 | **95.51** | **47.17** | 57.30 | **25.55** | **26.82** | **29.25** |
+
+## 10. 具身 VQA 构建
+
+将 DROID 录制数据和 RoboCasa 仿真 episode 转换为 IR 和 VQA。依赖安装和输入准备见[使用说明](../demo/embodied_vqa/README.md)。
+
+| 数据来源 | 配方 |
+| --- | --- |
+| DROID（可选 DA3 深度） | [embodied-vqa-droid.yaml](../demo/embodied-vqa-droid.yaml) |
+| RoboCasa | [embodied-vqa-robocasa.yaml](../demo/embodied-vqa-robocasa.yaml) |

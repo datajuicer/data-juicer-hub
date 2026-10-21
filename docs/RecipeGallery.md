@@ -16,6 +16,7 @@ Table of Contents
   - [8. Synthesize Human-centric Video Benchmarks](#8-synthesize-human-centric-video-benchmarks)
   - [9. Improve Existing Open Source Video Datasets](#9-improve-existing-open-source-video-datasets)
     - [9.1. Evaluation and Verification](#91-evaluation-and-verification)
+  - [10. Embodied VQA Construction](#10-embodied-vqa-construction)
 
 
 ## 1. Data-Juicer Minimal Example Recipe
@@ -110,3 +111,12 @@ Data-Juicer can also support video benchmark synthesis, such as [HumanVBench](ht
 | T2V-Turbo               | **72.49** | 93.96 | 54.65 | 95.20 | 89.90 | 38.67 | 55.58 | 24.42 | 25.51 | 28.16 |
 | Data-Juicer (T2V, 147k) | 70.42 | 95.85 | 61.63 | **95.60** | 94.06 | 46.95 | **57.57** | 24.42 | 26.34 | 28.90 |
 | Data-Juicer (DJ, 228k)  | 70.41 | **96.44** | **64.51** | 95.40 | **95.51** | **47.17** | 57.30 | **25.55** | **26.82** | **29.25** |
+
+## 10. Embodied VQA Construction
+
+Convert DROID recordings and RoboCasa simulator episodes into IR and VQA records. See the [usage guide](../demo/embodied_vqa/README.md) for dependencies and input preparation.
+
+| Source | Recipe |
+| --- | --- |
+| DROID (optional DA3 depth) | [embodied-vqa-droid.yaml](../demo/embodied-vqa-droid.yaml) |
+| RoboCasa | [embodied-vqa-robocasa.yaml](../demo/embodied-vqa-robocasa.yaml) |

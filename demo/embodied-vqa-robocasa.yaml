@@ -1,0 +1,25 @@
+# Process config example for embodied VQA construction
+
+# global parameters
+project_name: 'embodied-vqa-robocasa'
+dataset_path: './inputs/embodied_vqa/robocasa.jsonl'
+np: 1
+export_path: './outputs/embodied-vqa-robocasa/episodes.jsonl'
+
+custom_operator_paths:
+  - './demo/embodied_vqa'
+use_cache: false
+skip_op_error: false
+auto_op_parallelism: false
+
+# process schedule
+# a list of several process operators with their arguments
+process:
+  - robocasa_scene_extraction_mapper:
+      output_dir: './outputs/embodied-vqa-robocasa/episodes'
+      num_proc: 1
+      skip_op_error: false
+  - generate_vqa_from_ir_mapper:
+      output_dir: './outputs/embodied-vqa-robocasa/episodes'
+      num_proc: 1
+      skip_op_error: false
